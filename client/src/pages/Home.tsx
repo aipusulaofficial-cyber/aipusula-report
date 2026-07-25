@@ -97,79 +97,85 @@ export default function Home() {
       {isDark && <CyberBackground />}
 
       {/* ── Hero Section ── */}
-      <section className="relative overflow-hidden py-8 intel-grid-bg intel-scanline">
+      <section className="relative overflow-hidden py-4 intel-grid-bg intel-scanline">
         {/* Background accent */}
         <div className="absolute inset-0 pointer-events-none" style={{
           background: "radial-gradient(ellipse at 20% 50%, rgba(0,229,160,0.06) 0%, transparent 60%), radial-gradient(ellipse at 80% 30%, rgba(56,189,248,0.04) 0%, transparent 50%)",
         }} />
 
         <div className="relative z-10">
-          {/* Breadcrumb-style label */}
-          <div className="flex items-center gap-2 mb-3">
-            <div className="h-px w-8" style={{ background: "#00E5A0" }} />
-            <span className="mono text-xs uppercase tracking-[0.25em]" style={{ color: "#00E5A0" }}>
-              // YAPAY ZEKÂ & DİJİTAL DÜNYA
-            </span>
-          </div>
-
-          {/* Main Title */}
-          <h1 className="font-black leading-none" style={{
-            fontFamily: "Space Grotesk, sans-serif",
-            fontSize: "clamp(2.5rem, 6vw, 4rem)",
-            letterSpacing: "-0.04em",
-            color: "#FFFFFF",
-          }}>
-            <span>AI</span><span style={{ color: "#00E5A0", textShadow: "0 0 60px rgba(0,229,160,0.5), 0 0 120px rgba(0,229,160,0.2)" }}>PUSULA</span>
-          </h1>
-
-          <div className="mono text-[0.85rem] mt-3" style={{
-            color: "#38BDF8",
-            letterSpacing: "0.2em",
-            textShadow: "0 0 20px rgba(56,189,248,0.3)",
-          }}>
-            YAPAY ZEKÂ & DİJİTAL DÜNYA'NIN PUSULASI
-          </div>
-
-          <p className="text-sm mt-3 max-w-xl leading-relaxed" style={{ color: "#64748B" }}>
-            Yapay zekâ, dijital araçlar ve siber güvenliği birleştiren premium platform.
-            Her kategori kendi uzmanlığıyla öne çıkan bağımsız bir içerik merkezi olarak tasarlandı.
-          </p>
-
-          {/* Intel Data Strip */}
-          <div className="flex flex-wrap gap-3 mt-6">
-            <div className="data-strip">
-              KATEGORİ: 5 AKTİF
-            </div>
-            <div className="data-strip">
-              İÇERİK: 1,247 PARÇA
-            </div>
-            <div className="data-strip">
-              GÜNCELLEME: {currentTime.toLocaleTimeString('tr-TR')}
-            </div>
-          </div>
-
-          {/* Stats Row */}
-          <div className="flex flex-wrap gap-6 mt-5">
-            {[
-              { value: "5", label: "Kategori", color: "#00E5A0" },
-              { value: "512", label: "AI Araç", color: "#38BDF8" },
-              { value: "247", label: "Makale", color: "#A78BFA" },
-              { value: "24/7", label: "Tehdit İzleme", color: "#F97316" },
-            ].map((s, i) => (
-              <div key={i} className="flex flex-col">
-                <span className="font-bold" style={{ fontFamily: "Space Grotesk, sans-serif", fontSize: "1.25rem", color: s.color }}>
-                  {s.value}
+          <div className="flex items-start justify-between gap-6">
+            <div className="flex-1">
+              {/* Breadcrumb-style label */}
+              <div className="flex items-center gap-2 mb-2">
+                <div className="h-px w-6" style={{ background: "#00E5A0" }} />
+                <span className="mono text-[0.65rem] uppercase tracking-[0.25em]" style={{ color: "#00E5A0" }}>
+                  // YAPAY ZEKÂ & DİJİTAL DÜNYA
                 </span>
-                <span className="mono text-xs" style={{ color: "#475569" }}>{s.label}</span>
               </div>
-            ))}
+
+              {/* Main Title */}
+              <h1 className="font-black leading-[0.9]" style={{
+                fontFamily: "Space Grotesk, sans-serif",
+                fontSize: "clamp(2rem, 5vw, 3.2rem)",
+                letterSpacing: "-0.04em",
+                color: "#FFFFFF",
+              }}>
+                <span>AI</span><span style={{ color: "#00E5A0", textShadow: "0 0 60px rgba(0,229,160,0.5), 0 0 120px rgba(0,229,160,0.2)" }}>PUSULA</span>
+              </h1>
+
+              <div className="mono text-[0.72rem] mt-1.5" style={{
+                color: "#38BDF8",
+                letterSpacing: "0.2em",
+                textShadow: "0 0 20px rgba(56,189,248,0.3)",
+              }}>
+                YAPAY ZEKÂ & DİJİTAL DÜNYA'NIN PUSULASI
+              </div>
+
+              <p className="text-[0.8rem] mt-2 max-w-lg leading-relaxed" style={{ color: "#64748B" }}>
+                Yapay zekâ, dijital araçlar ve siber güvenliği birleştiren premium platform.
+                Her kategori kendi uzmanlığıyla öne çıkan bağımsız bir içerik merkezi olarak tasarlandı.
+              </p>
+            </div>
+
+            {/* Stats — Compact inline block on the right */}
+            <div className="flex flex-col items-end gap-2 pt-1">
+              <div className="flex items-center gap-4">
+                {[
+                  { value: "5", label: "Kategori", color: "#00E5A0" },
+                  { value: "512", label: "AI Araç", color: "#38BDF8" },
+                  { value: "247", label: "Makale", color: "#A78BFA" },
+                  { value: "24/7", label: "Tehdit İzleme", color: "#F97316" },
+                ].map((s, i) => (
+                  <div key={i} className="flex flex-col items-center">
+                    <span className="font-bold" style={{ fontFamily: "Space Grotesk, sans-serif", fontSize: "1.1rem", color: s.color }}>
+                      {s.value}
+                    </span>
+                    <span className="mono text-[0.6rem]" style={{ color: "#475569" }}>{s.label}</span>
+                  </div>
+                ))}
+              </div>
+
+              {/* Intel Data Strip — compact */}
+              <div className="flex items-center gap-2 mt-1">
+                <div className="data-strip" style={{ fontSize: "0.6rem", padding: "2px 8px" }}>
+                  KATEGORİ: 5 AKTİF
+                </div>
+                <div className="data-strip" style={{ fontSize: "0.6rem", padding: "2px 8px" }}>
+                  İÇERİK: 1,247 PARÇA
+                </div>
+                <div className="data-strip" style={{ fontSize: "0.6rem", padding: "2px 8px" }}>
+                  {currentTime.toLocaleTimeString('tr-TR')}
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
       {/* ── Category Hub Grid ── */}
-      <section className="mt-8">
-        <div className="flex items-center gap-3 mb-5">
+      <section className="mt-5">
+        <div className="flex items-center gap-3 mb-3">
           <div className="h-px flex-1" style={{ background: "linear-gradient(90deg, rgba(0,229,160,0.3), rgba(0,229,160,0.1), transparent)" }} />
           <span className="mono text-xs uppercase tracking-widest" style={{ color: "#00E5A0" }}>İçerik Merkezleri</span>
           <div className="h-px flex-1" style={{ background: "linear-gradient(270deg, rgba(0,229,160,0.3), rgba(0,229,160,0.1), transparent)" }} />
