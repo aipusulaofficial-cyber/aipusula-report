@@ -89,6 +89,60 @@
   --sidebar-ring: oklch(0.82 0.18 160);
 }
 
+/* Light Theme - Polished Professional */
+.light {
+  --primary: oklch(0.45 0.18 160);
+  --primary-foreground: oklch(0.98 0 0);
+  --background: oklch(0.98 0.002 220);
+  --foreground: oklch(0.15 0.02 220);
+  --card: oklch(0.99 0.001 220);
+  --card-foreground: oklch(0.15 0.02 220);
+  --popover: oklch(0.99 0.001 220);
+  --popover-foreground: oklch(0.15 0.02 220);
+  --secondary: oklch(0.95 0.005 220);
+  --secondary-foreground: oklch(0.3 0.02 220);
+  --muted: oklch(0.94 0.005 220);
+  --muted-foreground: oklch(0.5 0.02 220);
+  --accent: oklch(0.45 0.18 160);
+  --accent-foreground: oklch(0.98 0 0);
+  --destructive: oklch(0.65 0.22 25);
+  --destructive-foreground: oklch(0.98 0 0);
+  --border: oklch(0.9 0.005 220);
+  --input: oklch(0.92 0.005 220);
+  --ring: oklch(0.45 0.18 160);
+  --chart-1: oklch(0.45 0.18 160);
+  --chart-2: oklch(0.55 0.18 210);
+  --chart-3: oklch(0.55 0.18 55);
+  --chart-4: oklch(0.65 0.22 25);
+  --chart-5: oklch(0.55 0.15 280);
+  --sidebar: oklch(0.97 0.002 220);
+  --sidebar-foreground: oklch(0.15 0.02 220);
+  --sidebar-primary: oklch(0.45 0.18 160);
+  --sidebar-primary-foreground: oklch(0.98 0 0);
+  --sidebar-accent: oklch(0.94 0.005 220);
+  --sidebar-accent-foreground: oklch(0.15 0.02 220);
+  --sidebar-border: oklch(0.9 0.005 220);
+  --sidebar-ring: oklch(0.45 0.18 160);
+}
+
+.light .glass {
+  background: rgba(255, 255, 255, 0.7);
+  border: 1px solid rgba(0, 229, 160, 0.15);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.08);
+}
+.light .glass:hover {
+  border-color: rgba(0, 229, 160, 0.3);
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.12);
+}
+
+.light .noise-overlay { opacity: 0; }
+.light .grid-bg {
+  background-image:
+    linear-gradient(rgba(0, 229, 160, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 229, 160, 0.04) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
 /* No separate .dark class needed — this IS the dark theme */
 
 @layer base {

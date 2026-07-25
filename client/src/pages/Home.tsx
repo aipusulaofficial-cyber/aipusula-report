@@ -275,6 +275,7 @@ export default function Home() {
   const [activeCompetitor, setActiveCompetitor] = useState<string | null>(null);
   const isMobile = useIsMobile();
   const { theme } = useTheme();
+  const isDark = theme === "dark";
 
   const toggleCheck = (id: number) => {
     setCheckedItems(prev => prev.includes(id) ? prev.filter(i => i !== id) : [...prev, id]);
@@ -294,20 +295,20 @@ export default function Home() {
   ];
 
   return (
-    <div className="min-h-screen grid-bg" style={{ background: "#050B14", fontFamily: "Inter, sans-serif" }}>
+    <div className="min-h-screen grid-bg" style={{ background: isDark ? "#050B14" : "#F8FAFC", fontFamily: "Inter, sans-serif" }}>
       {/* ── Cyber Background ── */}
-      {!isMobile && <CyberBackground />}
+      {!isMobile && isDark && <CyberBackground />}
       {/* ── Noise Texture ── */}
-      <div className="noise-overlay" />
+      {isDark && <div className="noise-overlay" />}
       {/* ── Top Navigation ── */}
-      <header className="sticky top-0 z-50 border-b glass" style={{ borderColor: "rgba(0,229,160,0.2)" }}>
+      <header className="sticky top-0 z-50 border-b glass" style={{ borderColor: isDark ? "rgba(0,229,160,0.2)" : "rgba(0,229,160,0.15)" }}>
         <div className="container flex items-center justify-between py-3">
           <div className="flex items-center gap-3">
             <div className="w-8 h-8 rounded-lg flex items-center justify-center pulse-dot" style={{ background: "linear-gradient(135deg, #00E5A0, #38BDF8)", color: "#00E5A0" }}>
               <Shield className="w-4 h-4 text-black" />
             </div>
             <div>
-              <span className="font-bold text-white" style={{ fontFamily: "Space Grotesk, sans-serif", fontSize: "1.1rem" }}>AIPUSULA</span>
+              <span className="font-bold" style={{ fontFamily: "Space Grotesk, sans-serif", fontSize: "1.1rem", color: isDark ? "#FFFFFF" : "#0F172A" }}>AIPUSULA</span>
               <span className="ml-2 text-xs px-2 py-0.5 rounded-full mono" style={{ background: "rgba(0,229,160,0.15)", color: "#00E5A0" }}>MVP Raporu</span>
             </div>
           </div>
@@ -321,7 +322,7 @@ export default function Home() {
                 }}
                 className="flex items-center gap-1.5 px-3 py-1.5 rounded-md text-sm transition-all duration-200"
                 style={{
-                  color: activeTab === item.id ? "#00E5A0" : "#94A3B8",
+                  color: activeTab === item.id ? "#00E5A0" : (isDark ? "#94A3B8" : "#64748B"),
                   background: activeTab === item.id ? "rgba(0,229,160,0.1)" : "transparent",
                 }}
               >
@@ -458,7 +459,7 @@ export default function Home() {
                       }}
                       className="w-full flex items-center gap-2.5 px-3 py-2 rounded text-sm transition-all duration-200 text-left"
                       style={{
-                        color: activeTab === item.id ? "#00E5A0" : "#64748B",
+                        color: activeTab === item.id ? "#00E5A0" : (isDark ? "#64748B" : "#475569"),
                         background: activeTab === item.id ? "rgba(0,229,160,0.08)" : "transparent",
                         borderLeft: activeTab === item.id ? "2px solid #00E5A0" : "2px solid transparent",
                         fontFamily: activeTab === item.id ? "JetBrains Mono, monospace" : "inherit",
