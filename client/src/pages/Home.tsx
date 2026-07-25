@@ -8,7 +8,8 @@ import { useState, useEffect } from "react";
 import { Link } from "wouter";
 import {
   Brain, Cpu, DollarSign, Globe, Shield,
-  ChevronRight, Clock, ArrowRight
+  ChevronRight, Clock, ArrowRight,
+  BookOpen, TrendingUp, Star
 } from "lucide-react";
 import { CyberBackground } from "@/components/CyberBackground";
 import { AppShell } from "@/components/AppShell";
@@ -70,6 +71,39 @@ const categoryCards = [
     icon: <Shield className="w-5 h-5" />,
     stat: "12 Canlı",
     statLabel: "Tehdit uyarısı",
+  },
+  {
+    id: "rehberler",
+    path: "/yapay-zeka",
+    label: "Rehberler & Eğitim",
+    subtitle: "Başlangıç, Prompt & Yol Haritaları",
+    description: "Başlangıç rehberleri, prompt mühendisliği, öğrenme yol haritaları ve eğitim içerikleri",
+    color: "#00E5A0",
+    icon: <BookOpen className="w-5 h-5" />,
+    stat: "64+ Rehber",
+    statLabel: "Güncel",
+  },
+  {
+    id: "trendler",
+    path: "/yapay-zeka",
+    label: "Trendler & Analizler",
+    subtitle: "Haftanın Trendleri & Raporlar",
+    description: "Haftalık trendler, AI raporları, pazar analizleri ve gelecek öngörüleri",
+    color: "#EC4899",
+    icon: <TrendingUp className="w-5 h-5" />,
+    stat: "15 Trend",
+    statLabel: "Aktif",
+  },
+  {
+    id: "editor-secimi",
+    path: "/ai-araclari",
+    label: "Editörün Seçimi",
+    subtitle: "En İyi Makaleler & Keşifler",
+    description: "En iyi makaleler, öne çıkan AI araçları, haftanın keşifleri ve özel dosyalar",
+    color: "#F59E0B",
+    icon: <Star className="w-5 h-5" />,
+    stat: "24 Seçim",
+    statLabel: "Haftalık",
   },
 ];
 
@@ -211,33 +245,33 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── Category Hub Grid ── */}
-      <section className="mt-3">
-        <div className="flex items-center gap-3 mb-3">
+      {/* ── Category Hub Grid (8 Discovery Centers) ── */}
+      <section className="mt-2">
+        <div className="flex items-center gap-3 mb-2">
           <div className="h-px flex-1" style={{ background: "linear-gradient(90deg, rgba(0,229,160,0.3), rgba(0,229,160,0.1), transparent)" }} />
           <span className="mono text-xs uppercase tracking-widest" style={{ color: "#00E5A0" }}>İçerik Merkezleri</span>
           <div className="h-px flex-1" style={{ background: "linear-gradient(270deg, rgba(0,229,160,0.3), rgba(0,229,160,0.1), transparent)" }} />
         </div>
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-3">
           {categoryCards.map((cat) => (
             <Link key={cat.id} href={cat.path}>
-              <div className="glass rounded-xl p-4 h-full cursor-pointer group transition-all duration-300 hover:scale-[1.02]"
+              <div className="glass rounded-lg p-3 cursor-pointer group transition-all duration-300 hover:scale-[1.02]"
                 style={{ borderLeft: `3px solid ${cat.color}` }}>
-                <div className="flex items-start justify-between mb-2">
-                  <div className="p-1.5 rounded-lg" style={{ background: `${cat.color}10` }}>
+                <div className="flex items-start justify-between mb-1.5">
+                  <div className="p-1 rounded-md" style={{ background: `${cat.color}10` }}>
                     <div style={{ color: cat.color }}>{cat.icon}</div>
                   </div>
-                  <span className="mono text-[10px] px-2 py-0.5 rounded-full" style={{ background: `${cat.color}10`, color: cat.color }}>
+                  <span className="mono text-[9px] px-1.5 py-0.5 rounded-full" style={{ background: `${cat.color}10`, color: cat.color }}>
                     {cat.stat}
                   </span>
                 </div>
-                <h3 className="font-semibold text-white mb-0.5" style={{ fontFamily: "Space Grotesk, sans-serif" }}>
+                <h3 className="font-semibold text-white text-sm mb-0.5" style={{ fontFamily: "Space Grotesk, sans-serif" }}>
                   {cat.label}
                 </h3>
-                <p className="text-xs mb-1" style={{ color: cat.color }}>{cat.subtitle}</p>
-                <p className="text-xs leading-relaxed" style={{ color: "#64748B" }}>{cat.description}</p>
-                <div className="flex items-center gap-1 mt-2 text-xs" style={{ color: cat.color, opacity: 0.7 }}>
+                <p className="text-[11px] mb-0.5" style={{ color: cat.color }}>{cat.subtitle}</p>
+                <p className="text-[11px] leading-relaxed line-clamp-2" style={{ color: "#64748B" }}>{cat.description}</p>
+                <div className="flex items-center gap-1 mt-1.5 text-[11px]" style={{ color: cat.color, opacity: 0.7 }}>
                   <span>Keşfet</span>
                   <ChevronRight className="w-3 h-3 group-hover:translate-x-1 transition-transform" />
                 </div>
@@ -248,15 +282,15 @@ export default function Home() {
       </section>
 
       {/* ── Recent Activity Feed ── */}
-      <section className="mt-6">
-        <div className="flex items-center gap-3 mb-3">
+      <section className="mt-3">
+        <div className="flex items-center gap-3 mb-2">
           <Clock className="w-4 h-4" style={{ color: "#38BDF8" }} />
           <span className="mono text-xs uppercase tracking-widest" style={{ color: "#38BDF8" }}>Son Aktivite</span>
         </div>
 
-        <div className="glass rounded-xl overflow-hidden">
+        <div className="glass rounded-lg overflow-hidden">
           {recentActivity.map((item, i) => (
-            <div key={i} className="flex items-center gap-4 px-4 py-2.5 border-b last:border-b-0 transition-colors hover:bg-white/[0.02]"
+            <div key={i} className="flex items-center gap-3 px-3 py-2 border-b last:border-b-0 transition-colors hover:bg-white/[0.02]"
               style={{ borderColor: "rgba(255,255,255,0.04)" }}>
               <div className="w-2 h-2 rounded-full flex-shrink-0" style={{ background: item.color, boxShadow: `0 0 6px ${item.color}40` }} />
               <div className="flex-1 min-w-0">
@@ -265,7 +299,7 @@ export default function Home() {
               <span className="text-xs flex-shrink-0 px-2 py-0.5 rounded-full" style={{ background: `${item.color}10`, color: item.color }}>
                 {item.category}
               </span>
-              <span className="text-xs flex-shrink-0" style={{ color: "#475569" }}>{item.time}</span>
+              <span className="text-xs flex-shrink-0 whitespace-nowrap" style={{ color: "#475569" }}>{item.time}</span>
             </div>
           ))}
         </div>
@@ -274,17 +308,17 @@ export default function Home() {
       {/* ── Platform Metrics — REMOVED ── */}
 
       {/* ── Quick Access ── */}
-      <section className="mt-10">
-        <div className="grid sm:grid-cols-3 gap-4">
+      <section className="mt-3">
+        <div className="grid sm:grid-cols-3 gap-3">
           {[
             { label: "AI Araçlarını Keşfet", path: "/ai-araclari", color: "#38BDF8", icon: <Cpu className="w-4 h-4" /> },
             { label: "Son Güvenlik Uyarıları", path: "/siber-guvenlik", color: "#F97316", icon: <Shield className="w-4 h-4" /> },
             { label: "AI ile Kazanmaya Başla", path: "/ai-ile-kazanc", color: "#FCD34D", icon: <DollarSign className="w-4 h-4" /> },
           ].map((cta, i) => (
             <Link key={i} href={cta.path}>
-              <button className="w-full flex items-center gap-3 px-5 py-4 rounded-xl glass text-left transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] group"
+              <button className="w-full flex items-center gap-3 px-4 py-3 rounded-lg glass text-left transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] group"
                 style={{ border: `1px solid ${cta.color}20` }}>
-                <div className="p-2 rounded-lg" style={{ background: `${cta.color}10`, color: cta.color }}>
+                <div className="p-1.5 rounded-md" style={{ background: `${cta.color}10`, color: cta.color }}>
                   {cta.icon}
                 </div>
                 <span className="text-sm font-medium text-white flex-1">{cta.label}</span>
