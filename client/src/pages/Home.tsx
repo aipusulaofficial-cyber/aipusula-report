@@ -245,10 +245,10 @@ function SectionHeader({ icon, title, subtitle, accent = "#00E5A0" }: { icon: Re
 // ─── System Status Bar ───────────────────────────────────────────────────────
 function SystemStatusBar() {
   const statuses = [
-    { label: "THREAT LEVEL", value: "ELEVATED", color: "#F97316" },
+    { label: "PLATFORM", value: "OPERATIONAL", color: "#00E5A0" },
     { label: "AI ENGINE", value: "ONLINE", color: "#00E5A0" },
-    { label: "SCANNER", value: "ACTIVE", color: "#00E5A0" },
-    { label: "CVE FEED", value: "LIVE", color: "#38BDF8" },
+    { label: "THREAT MONITOR", value: "ACTIVE", color: "#F97316" },
+    { label: "CONTENT FEED", value: "LIVE", color: "#38BDF8" },
   ];
   return (
     <div className="flex flex-wrap items-center gap-3 py-1.5 px-2 border-b" style={{ borderColor: "rgba(0,229,160,0.08)", background: "rgba(0,229,160,0.02)" }}>
@@ -282,16 +282,13 @@ export default function Home() {
   };
 
   const navItems = [
-    { id: "dashboard", label: "Güvenlik Merkezi", icon: <Shield className="w-4 h-4" /> },
-    { id: "overview", label: "Genel Bakış", icon: <Eye className="w-4 h-4" /> },
-    { id: "market", label: "Pazar Analizi", icon: <TrendingUp className="w-4 h-4" /> },
-    { id: "architecture", label: "Mimari", icon: <Layers className="w-4 h-4" /> },
-    { id: "security", label: "Güvenlik", icon: <Shield className="w-4 h-4" /> },
-    { id: "ux", label: "UI/UX Tasarım", icon: <Cpu className="w-4 h-4" /> },
+    { id: "ai-world", label: "AI Dünyası", icon: <Brain className="w-4 h-4" /> },
+    { id: "ai-tools", label: "AI Araçları", icon: <Cpu className="w-4 h-4" /> },
+    { id: "ai-monetize", label: "AI ile Kazanç", icon: <DollarSign className="w-4 h-4" /> },
+    { id: "digital-world", label: "Dijital Dünya", icon: <Globe className="w-4 h-4" /> },
+    { id: "cybersecurity", label: "Siber Güvenlik", icon: <Shield className="w-4 h-4" /> },
     { id: "competitors", label: "Rakip Analizi", icon: <Target className="w-4 h-4" /> },
     { id: "roadmap", label: "Yol Haritası", icon: <GitBranch className="w-4 h-4" /> },
-    { id: "revenue", label: "Gelir Modeli", icon: <DollarSign className="w-4 h-4" /> },
-    { id: "checklist", label: "Kontrol Listesi", icon: <CheckSquare className="w-4 h-4" /> },
   ];
 
   return (
@@ -311,7 +308,7 @@ export default function Home() {
             </div>
           </div>
           <div className="hidden xl:flex items-center gap-0.5">
-            {navItems.slice(0, 5).map(item => (
+            {navItems.slice(0, 7).map(item => (
               <button
                 key={item.id}
                 onClick={() => {
@@ -481,16 +478,16 @@ export default function Home() {
             <div className="flex-1 max-w-[55%] relative z-10">
               <div className="flex items-center gap-2 mb-1">
                 <div className="h-px w-6" style={{ background: "#00E5A0" }} />
-                <span className="mono text-xs uppercase tracking-widest" style={{ color: "#00E5A0" }}>// YAPAY ZEKÂ & SİBER GÜVENLİK PLATFORMU</span>
+                <span className="mono text-xs uppercase tracking-widest" style={{ color: "#00E5A0" }}>// ARTIFICIAL INTELLIGENCE & DIGITAL WORLD</span>
               </div>
               <h1 className="font-black leading-none" style={{ fontFamily: "Space Grotesk, sans-serif", fontSize: "clamp(2rem, 5vw, 3rem)", letterSpacing: "-0.02em" }}>
                 <span className="text-white">AI</span><span style={{ color: "#00E5A0", textShadow: "0 0 40px rgba(0,229,160,0.4)" }}>PUSULA</span>
               </h1>
               <div className="mono text-xs mt-1" style={{ color: "#38BDF8", letterSpacing: "0.15em" }}>
-                GÜVENLİĞİN YAPAY ZEKÂ PUSULASI
+                THE COMPASS OF AI & THE DIGITAL WORLD
               </div>
               <p className="text-sm mt-1.5 leading-relaxed max-w-md" style={{ color: "#64748B", fontFamily: "Inter, sans-serif" }}>
-                Otonom tehdit algılama, zafiyet taraması ve gerçek zamanlı istihbarat ile kurumsal siber güvenlik operasyonlarını yeniden tanımlayan platform.
+                A premium platform that bridges artificial intelligence, digital tools, and cybersecurity for the modern professional. Discover AI tools, learn to monetize with AI, and stay protected in the digital world.
               </p>
             </div>
 
@@ -520,52 +517,52 @@ export default function Home() {
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-2">
           {[
             {
-              title: "AI Security Assistant",
+              title: "AI Assistant",
               desc: "Autonomous threat detection and response powered by advanced machine learning models.",
               icon: <Brain className="w-5 h-5" stroke="1.5" />,
               color: "#00E5A0"
             },
             {
-              title: "Natural Language Search",
-              desc: "Query security data using natural language with AI-powered semantic understanding.",
-              icon: <Search className="w-5 h-5" stroke="1.5" />,
+              title: "AI Tools Catalog",
+              desc: "Curated library of 500+ AI tools for writing, coding, design, marketing, and productivity.",
+              icon: <Cpu className="w-5 h-5" stroke="1.5" />,
               color: "#38BDF8"
             },
             {
-              title: "Vulnerability Scanner",
-              desc: "Automated scanning engine that identifies and classifies vulnerabilities in real-time.",
-              icon: <Shield className="w-5 h-5" stroke="1.5" />,
+              title: "Digital Content Studio",
+              desc: "AI-powered content creation for social media, blogs, presentations, and video scripts.",
+              icon: <FileCode className="w-5 h-5" stroke="1.5" />,
               color: "#A78BFA"
+            },
+            {
+              title: "AI Monetization Hub",
+              desc: "Business ideas, revenue strategies, and AI-driven income generation frameworks.",
+              icon: <DollarSign className="w-5 h-5" stroke="1.5" />,
+              color: "#F97316"
+            },
+            {
+              title: "Cybersecurity Scanner",
+              desc: "Automated vulnerability scanning engine that identifies and classifies threats in real-time.",
+              icon: <Shield className="w-5 h-5" stroke="1.5" />,
+              color: "#FCD34D"
             },
             {
               title: "Threat Intelligence",
               desc: "Real-time threat feeds aggregated from global cybersecurity intelligence networks.",
               icon: <Globe className="w-5 h-5" stroke="1.5" />,
-              color: "#F97316"
-            },
-            {
-              title: "AI Report Generator",
-              desc: "Generate comprehensive security reports automatically with actionable recommendations.",
-              icon: <FileCode className="w-5 h-5" stroke="1.5" />,
-              color: "#FCD34D"
+              color: "#FB7185"
             },
             {
               title: "Workflow Automation",
-              desc: "Streamline security operations with AI-driven workflow orchestration and scheduling.",
+              desc: "Streamline operations with AI-driven workflow orchestration and scheduling.",
               icon: <Zap className="w-5 h-5" stroke="1.5" />,
               color: "#00E5A0"
             },
             {
-              title: "Asset Management",
-              desc: "Centralized asset inventory with continuous monitoring and compliance tracking.",
-              icon: <Database className="w-5 h-5" stroke="1.5" />,
-              color: "#38BDF8"
-            },
-            {
               title: "API & Integrations",
-              desc: "Extensible platform architecture with REST APIs and third-party security tool connectors.",
+              desc: "Extensible platform architecture with REST APIs and third-party connectors.",
               icon: <Code2 className="w-5 h-5" stroke="1.5" />,
-              color: "#A78BFA"
+              color: "#38BDF8"
             },
           ].map((cap, i) => (
             <div key={i} className="glass card-glow p-3 rounded-xl cursor-pointer transition-all duration-200 ease-out hover:translate-y-[-2px] hover:shadow-lg active:scale-[0.98] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#00E5A0]/30" style={{ willChange: "transform" }}>
@@ -640,13 +637,13 @@ export default function Home() {
           {/* Main Content */}
           <main className="flex-1 min-w-0 space-y-6">
 
-            {/* ── Enterprise Dashboard (New) ── */}
-            <section id="dashboard">
+            {/* ── Sütun 1: AI Dünyası ── */}
+            <section id="ai-world">
               <SectionHeader
-                icon={<Shield className="w-5 h-5" />}
-                title="Enterprise Güvenlik Merkezi"
-                subtitle="00 — Canlı Güvenlik Operasyon Merkezi"
-                accent="#38BDF8"
+                icon={<Brain className="w-5 h-5" />}
+                title="AI Dünyası"
+                subtitle="01 — Yapay Zekâ Rehberi & Eğitim"
+                accent="#00E5A0"
               />
               <div className="grid lg:grid-cols-3 gap-4">
                 <div className="lg:col-span-2">
@@ -663,78 +660,63 @@ export default function Home() {
               <div className="mt-4">
                 <SecurityNews />
               </div>
-            </section>
-
-            {/* ── 1. Genel Bakış ── */}
-            <section id="overview">
-              <SectionHeader
-                icon={<Eye className="w-5 h-5" />}
-                title="Yönetici Özeti"
-                subtitle="01 — Genel Bakış"
-              />
-              <div className="grid md:grid-cols-2 gap-6 mb-8">
-                <div className="glass rounded-xl p-6">
-                  <h3 className="font-semibold text-white mb-3" style={{ fontFamily: "Space Grotesk, sans-serif" }}>Platform Vizyonu</h3>
-                  <p className="text-sm leading-relaxed" style={{ color: "#94A3B8" }}>
-                    AIPUSULA, yapay zekâ yeteneklerini siber güvenlik uzmanlığıyla birleştiren çok katmanlı bir platform olarak tasarlanmıştır. Bireysel kullanıcılar ve kurumsal müşteriler için AI destekli güvenlik tarama, tehdit analizi ve akıllı asistan hizmetleri sunar.
-                  </p>
-                  <div className="mt-4 flex items-center gap-2">
-                    <div className="w-2 h-2 rounded-full pulse-dot" style={{ background: "#00E5A0", color: "#00E5A0" }} />
-                    <span className="text-xs mono" style={{ color: "#00E5A0" }}>Güvenliğin Yapay Zekâ Pusulası</span>
-                  </div>
-                </div>
-                <div className="glass rounded-xl p-6">
-                  <h3 className="font-semibold text-white mb-3" style={{ fontFamily: "Space Grotesk, sans-serif" }}>Temel Farklılaşma</h3>
-                  <div className="space-y-3">
-                    {[
-                      "AI + Siber Güvenlik entegrasyonu (piyasada tek)",
-                      "Gerçek zamanlı tehdit tarama ve analizi",
-                      "Mobil öncelikli tasarım ve Play Store desteği",
-                      "Kurumsal API erişimi ve özel izleme",
-                    ].map((item, i) => (
-                      <div key={i} className="flex items-start gap-2">
-                        <ChevronRight className="w-4 h-4 mt-0.5 flex-shrink-0" style={{ color: "#00E5A0" }} />
-                        <span className="text-sm" style={{ color: "#94A3B8" }}>{item}</span>
-                      </div>
-                    ))}
-                  </div>
+              <div className="grid md:grid-cols-2 gap-6 mb-8 mt-6">
+              <div className="glass rounded-xl p-6">
+                <h3 className="font-semibold text-white mb-3" style={{ fontFamily: "Space Grotesk, sans-serif" }}>Platform Vizyonu</h3>
+                <p className="text-sm leading-relaxed" style={{ color: "#94A3B8" }}>
+                  AIPUSULA, yapay zekâ dünyasını siber güvenlikle birleştiren çok katmanlı bir platform olarak tasarlanmıştır. AI araçlarını keşfedin, dijital becerilerinizi geliştirin, AI ile kazanç yollarını öğrenin ve dijital dünyada güvende kalın.
+                </p>
+                <div className="mt-4 flex items-center gap-2">
+                  <div className="w-2 h-2 rounded-full pulse-dot" style={{ background: "#00E5A0", color: "#00E5A0" }} />
+                  <span className="text-xs mono" style={{ color: "#00E5A0" }}>The Compass of AI & the Digital World</span>
                 </div>
               </div>
-
-              {/* Sayfa Planlaması */}
-              <h3 className="text-xl font-semibold text-white mb-5" style={{ fontFamily: "Space Grotesk, sans-serif" }}>Sayfa Planlaması</h3>
-              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                {[
-                  { name: "Dashboard", icon: <BarChart2 className="w-5 h-5" />, desc: "Güvenlik skor kartı, AI kullanım istatistikleri, canlı tehdit haritası, son 24 saat aktivitesi", color: "#00E5A0" },
-                  { name: "AI Tools", icon: <Brain className="w-5 h-5" />, desc: "Zafiyet analizörü, kod güvenlik tarayıcısı, phishing metin analizörü, zararlı yazılım tarayıcısı", color: "#38BDF8" },
-                  { name: "Chat", icon: <Cpu className="w-5 h-5" />, desc: "Multi-modal AI asistan, geçmiş konuşmalar, dosya yükleme, güvenlik kaynaklı yanıtlar", color: "#A78BFA" },
-                  { name: "News", icon: <Globe className="w-5 h-5" />, desc: "CVE duyuruları, güvenlik haberleri, tehdit seviyesi filtreleme, sektör analizleri", color: "#F97316" },
-                  { name: "Security Scanner", icon: <Search className="w-5 h-5" />, desc: "URL/IP/Domain tarama, gerçek zamanlı ilerleme, zafiyet puanı, PDF rapor indirme", color: "#FB7185" },
-                  { name: "Profile", icon: <Users className="w-5 h-5" />, desc: "Kullanıcı profili, abonelik yönetimi, MFA ayarları, API anahtarı yönetimi", color: "#FCD34D" },
-                ].map((page, i) => (
-                  <div key={i} className="glass rounded-xl p-5 hover:scale-[1.02] transition-all duration-300 card-glow cursor-pointer">
-                    <div className="flex items-center gap-3 mb-3">
-                      <div className="p-2.5 rounded-lg" style={{ background: `${page.color}15`, color: page.color, boxShadow: `0 0 15px ${page.color}20` }}>
-                        {page.icon}
-                      </div>
-                      <span className="font-semibold text-white" style={{ fontFamily: "Space Grotesk, sans-serif" }}>{page.name}</span>
-                      <span className="ml-auto mono text-xs" style={{ color: page.color }}>0{i + 1}</span>
+              <div className="glass rounded-xl p-6">
+                <h3 className="font-semibold text-white mb-3" style={{ fontFamily: "Space Grotesk, sans-serif" }}>Temel Farklılaşma</h3>
+                <div className="space-y-3">
+                  {[
+                    "AI araçları + Siber Güvenlik tek platformda (piyasada tek)",
+                    "AI ile kazanç yolları ve dijital beceri geliştirme",
+                    "Mobil öncelikli tasarım ve Play Store desteği",
+                    "Kurumsal API erişimi ve özel izleme",
+                  ].map((item, i) => (
+                    <div key={i} className="flex items-start gap-2">
+                      <ChevronRight className="w-4 h-4 mt-0.5 flex-shrink-0" style={{ color: "#00E5A0" }} />
+                      <span className="text-sm" style={{ color: "#94A3B8" }}>{item}</span>
                     </div>
-                    <p className="text-xs leading-relaxed" style={{ color: "#64748B" }}>{page.desc}</p>
-                    <div className="mt-3 h-px" style={{ background: `linear-gradient(90deg, ${page.color}40, transparent)` }} />
-                  </div>
-                ))}
+                  ))}
+                </div>
               </div>
-            </section>
+            </div>
 
-            {/* ── 2. Pazar Analizi ── */}
-            <section id="market">
-              <SectionHeader
-                icon={<TrendingUp className="w-5 h-5" />}
-                title="Pazar Analizi"
-                subtitle="02 — Büyüme ve Fırsatlar"
-                accent="#38BDF8"
-              />
+            {/* Sayfa Planlaması */}
+            <h3 className="text-xl font-semibold text-white mb-5" style={{ fontFamily: "Space Grotesk, sans-serif" }}>Sayfa Planlaması</h3>
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              {[
+                { name: "AI World", icon: <Brain className="w-5 h-5" />, desc: "AI eğitim içerikleri, rehberler, yeni teknoloji analizleri ve yapay zekâ trendleri", color: "#00E5A0" },
+                { name: "AI Tools", icon: <Cpu className="w-5 h-5" />, desc: "500+ AI araç kataloğu, karşılaştırma, puanlama ve kullanım rehberleri", color: "#38BDF8" },
+                { name: "AI Monetize", icon: <DollarSign className="w-5 h-5" />, desc: "AI ile kazanç yolları, iş fikirleri, gelir modelleri ve pasif gelir stratejileri", color: "#F97316" },
+                { name: "Digital World", icon: <Globe className="w-5 h-5" />, desc: "Teknoloji haberleri, yazılım dünyası, dijital dönüşüm ve yenilikçi projeler", color: "#A78BFA" },
+                { name: "Cybersecurity", icon: <Shield className="w-5 h-5" />, desc: "Tehdit analizi, zafiyet tarama, güvenlik tavsiyeleri ve kurumsal koruma", color: "#FB7185" },
+                { name: "Profile", icon: <Users className="w-5 h-5" />, desc: "Kullanıcı profili, abonelik yönetimi, MFA ayarları, API anahtarı yönetimi", color: "#FCD34D" },
+              ].map((page, i) => (
+                <div key={i} className="glass rounded-xl p-5 hover:scale-[1.02] transition-all duration-300 card-glow cursor-pointer">
+                  <div className="flex items-center gap-3 mb-3">
+                    <div className="p-2.5 rounded-lg" style={{ background: `${page.color}15`, color: page.color, boxShadow: `0 0 15px ${page.color}20` }}>
+                      {page.icon}
+                    </div>
+                    <span className="font-semibold text-white" style={{ fontFamily: "Space Grotesk, sans-serif" }}>{page.name}</span>
+                    <span className="ml-auto mono text-xs" style={{ color: page.color }}>0{i + 1}</span>
+                  </div>
+                  <p className="text-xs leading-relaxed" style={{ color: "#64748B" }}>{page.desc}</p>
+                  <div className="mt-3 h-px" style={{ background: `linear-gradient(90deg, ${page.color}40, transparent)` }} />
+                </div>
+              ))}
+            </div>
+
+            {/* Pazar Analizi - AI Dünyası altında */}
+            <div className="mt-8">
+              <h3 className="text-xl font-semibold text-white mb-5" style={{ fontFamily: "Space Grotesk, sans-serif" }}>Pazar Analizi</h3>
               <div className="grid md:grid-cols-3 gap-4 mb-8">
                 {[
                   { label: "AI Siber Güvenlik Pazarı (2026)", value: "$39.2B", change: "+27.8%", color: "#00E5A0" },
@@ -778,14 +760,15 @@ export default function Home() {
                   </AreaChart>
                 </ResponsiveContainer>
               </div>
+            </div>
             </section>
 
-            {/* ── 3. Mimari ── */}
-            <section id="architecture">
+            {/* ── Sütun 2: Dijital Dünya ── */}
+            <section id="digital-world">
               <SectionHeader
-                icon={<Layers className="w-5 h-5" />}
-                title="Proje Mimarisi"
-                subtitle="03 — Teknoloji Yığını"
+                icon={<Globe className="w-5 h-5" />}
+                title="Dijital Dünya"
+                subtitle="02 — Teknoloji & Yazılım Dünyası"
                 accent="#A78BFA"
               />
               <div className="space-y-3 mb-8">
@@ -841,64 +824,106 @@ export default function Home() {
               </div>
             </section>
 
-            {/* ── 4. Güvenlik ── */}
-            <section id="security">
+            {/* ── Sütun 2: AI Araçları ── */}
+            <section id="ai-tools">
               <SectionHeader
-                icon={<Shield className="w-5 h-5" />}
-                title="Güvenlik Mimarisi"
-                subtitle="04 — Zero-Trust Güvenlik"
-                accent="#FB7185"
+                icon={<Cpu className="w-5 h-5" />}
+                title="AI Araçları"
+                subtitle="02 — AI Tools Kataloğu & Karşılaştırma"
+                accent="#38BDF8"
               />
-              <div className="glass rounded-xl p-6 mb-6">
-                <div className="flex items-center gap-3 mb-6">
-                  <AlertTriangle className="w-5 h-5" style={{ color: "#F97316" }} />
-                  <p className="text-sm" style={{ color: "#94A3B8" }}>
-                    AIPUSULA'nın güvenlik mimarisi <strong style={{ color: "#F97316" }}>Zero-Trust prensibi</strong> üzerine inşa edilmiştir. Hiçbir bileşen varsayılan olarak güvenilir kabul edilmez; her istek doğrulanır.
-                  </p>
-                </div>
-                <div className="space-y-4">
-                  {securityLayers.map((layer, i) => (
-                    <div key={i}>
-                      <div className="flex items-center justify-between mb-1.5">
-                        <div>
-                          <span className="text-sm font-medium text-white">{layer.layer}</span>
-                          <span className="ml-2 text-xs mono" style={{ color: "#475569" }}>{layer.tech}</span>
-                        </div>
-                        <span className="mono text-sm font-bold" style={{ color: layer.color }}>{layer.level}%</span>
+              <div className="glass rounded-xl p-6">
+                <h3 className="font-semibold text-white mb-4" style={{ fontFamily: "Space Grotesk, sans-serif" }}>AI Araç Kategorileri</h3>
+                <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                  {[
+                    { title: "Yazı & İçerik", desc: "AI writing assistants, blog generators, content optimizers", color: "#00E5A0", icon: <FileCode className="w-4 h-4" /> },
+                    { title: "Kod & Geliştirme", desc: "AI code assistants, debuggers, automated testing tools", color: "#38BDF8", icon: <Code2 className="w-4 h-4" /> },
+                    { title: "Tasarım & Görsel", desc: "AI image generators, design tools, logo makers", color: "#A78BFA", icon: <Cpu className="w-4 h-4" /> },
+                    { title: "Video & Ses", desc: "AI video editors, voice synthesis, podcast generators", color: "#F97316", icon: <Zap className="w-4 h-4" /> },
+                    { title: "Veri & Analiz", desc: "AI data analysts, chart generators, insight tools", color: "#FCD34D", icon: <BarChart2 className="w-4 h-4" /> },
+                    { title: "Otomasyon", desc: "Workflow automation, scheduling, task management AI", color: "#FB7185", icon: <Database className="w-4 h-4" /> },
+                  ].map((cat, i) => (
+                    <div key={i} className="glass rounded-xl p-4 hover:scale-[1.02] transition-all duration-300 card-glow cursor-pointer">
+                      <div className="flex items-center gap-2 mb-2">
+                        <div className="p-1.5 rounded-lg" style={{ background: `${cat.color}15`, color: cat.color }}>{cat.icon}</div>
+                        <span className="text-sm font-semibold text-white" style={{ fontFamily: "Space Grotesk, sans-serif" }}>{cat.title}</span>
                       </div>
-                      <div className="h-2 rounded-full" style={{ background: "rgba(255,255,255,0.05)" }}>
-                        <div
-                          className="h-2 rounded-full transition-all duration-1000"
-                          style={{ width: `${layer.level}%`, background: `linear-gradient(90deg, ${layer.color}, ${layer.color}80)`, boxShadow: `0 0 8px ${layer.color}60` }}
-                        />
-                      </div>
+                      <p className="text-xs" style={{ color: "#64748B" }}>{cat.desc}</p>
                     </div>
                   ))}
                 </div>
               </div>
+            </section>
 
-              <div className="grid sm:grid-cols-2 gap-4">
+            {/* ── Sütun 3: AI ile Kazanç ── */}
+            <section id="ai-monetize">
+              <SectionHeader
+                icon={<DollarSign className="w-5 h-5" />}
+                title="AI ile Kazanç"
+                subtitle="03 — Monetizasyon Stratejisi & Gelir Modelleri"
+                accent="#F97316"
+              />
+              <div className="grid md:grid-cols-3 gap-4 mb-8">
                 {[
-                  { title: "Veri Şifreleme", items: ["AES-256 (at-rest)", "TLS 1.3 (in-transit)", "End-to-end şifreleme", "Key rotation politikası"], color: "#00E5A0", icon: <Lock className="w-4 h-4" /> },
-                  { title: "AI Güvenliği (LLM)", items: ["Prompt injection koruması", "Output guardrails", "Hassas veri filtreleme", "Model davranış izleme"], color: "#38BDF8", icon: <Brain className="w-4 h-4" /> },
-                  { title: "Erişim Kontrolü", items: ["RBAC + ABAC modeli", "MFA zorunluluğu", "Session yönetimi", "API rate limiting"], color: "#A78BFA", icon: <Shield className="w-4 h-4" /> },
-                  { title: "İzleme & Yanıt", items: ["IDS/IPS entegrasyonu", "SIEM bağlantısı", "Otomatik tehdit yanıtı", "Penetrasyon testi"], color: "#F97316", icon: <Eye className="w-4 h-4" /> },
-                ].map((sec, i) => (
-                  <div key={i} className="glass rounded-xl p-5 card-glow">
-                    <div className="flex items-center gap-2 mb-3">
-                      <div className="p-1.5 rounded-lg" style={{ background: `${sec.color}15`, color: sec.color }}>{sec.icon}</div>
-                      <span className="font-semibold text-white text-sm" style={{ fontFamily: "Space Grotesk, sans-serif" }}>{sec.title}</span>
+                  { plan: "Free", price: "$0", period: "Sonsuza dek", features: ["Temel AI sohbet", "Günde 5 tarama", "Sınırlı haber akışı", "Topluluk desteği"], color: "#94A3B8", highlight: false },
+                  { plan: "Pro", price: "$19.99", period: "/ay", features: ["Sınırsız AI araçları", "Günde 50 tarama", "CVE öncelikli bildirim", "Öncelikli destek", "API erişimi (1000 req/gün)"], color: "#F97316", highlight: true },
+                  { plan: "Enterprise", price: "Özel", period: "Fiyat", features: ["Sınırsız her şey", "Özel güvenlik izleme", "SLA garantisi", "Dedicated destek", "Custom entegrasyonlar"], color: "#38BDF8", highlight: false },
+                ].map((plan, i) => (
+                  <div key={i} className="glass rounded-xl p-6 relative card-glow" style={{ borderColor: plan.highlight ? "rgba(249,115,22,0.4)" : undefined, boxShadow: plan.highlight ? "0 0 30px rgba(249,115,22,0.1)" : undefined }}>
+                    {plan.highlight && (
+                      <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full text-xs font-semibold" style={{ background: "#F97316", color: "#050B14" }}>
+                        En Popüler
+                      </div>
+                    )}
+                    <div className="mb-4">
+                      <div className="text-sm mb-2" style={{ color: plan.color }}>{plan.plan}</div>
+                      <div className="flex items-end gap-1">
+                        <span className="text-3xl font-bold text-white" style={{ fontFamily: "Space Grotesk, sans-serif" }}>{plan.price}</span>
+                        <span className="text-sm mb-1" style={{ color: "#475569" }}>{plan.period}</span>
+                      </div>
                     </div>
-                    <div className="space-y-1.5">
-                      {sec.items.map((item, j) => (
+                    <div className="space-y-2">
+                      {plan.features.map((f, j) => (
                         <div key={j} className="flex items-center gap-2">
-                          <div className="w-1 h-1 rounded-full" style={{ background: sec.color }} />
-                          <span className="text-xs" style={{ color: "#64748B" }}>{item}</span>
+                          <div className="w-1.5 h-1.5 rounded-full" style={{ background: plan.color }} />
+                          <span className="text-xs" style={{ color: "#94A3B8" }}>{f}</span>
                         </div>
                       ))}
                     </div>
                   </div>
                 ))}
+              </div>
+
+              <div className="grid md:grid-cols-2 gap-6">
+                <div className="glass rounded-xl p-6">
+                  <h3 className="font-semibold text-white mb-4" style={{ fontFamily: "Space Grotesk, sans-serif" }}>Tahmini Gelir Büyümesi ($)</h3>
+                  <ResponsiveContainer width="100%" height={220}>
+                    <BarChart data={revenueData}>
+                      <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" />
+                      <XAxis dataKey="month" stroke="#475569" tick={{ fill: "#64748B", fontSize: 11 }} />
+                      <YAxis stroke="#475569" tick={{ fill: "#64748B", fontSize: 11 }} />
+                      <Tooltip contentStyle={{ background: "#0D1B2A", border: "1px solid rgba(249,115,22,0.2)", borderRadius: "8px", color: "#E2E8F0" }} />
+                      <Legend wrapperStyle={{ color: "#94A3B8", fontSize: "11px" }} />
+                      <Bar dataKey="free" name="Free" fill="#334155" radius={[2, 2, 0, 0]} />
+                      <Bar dataKey="pro" name="Pro" fill="#F97316" radius={[2, 2, 0, 0]} />
+                      <Bar dataKey="enterprise" name="Enterprise" fill="#38BDF8" radius={[2, 2, 0, 0]} />
+                    </BarChart>
+                  </ResponsiveContainer>
+                </div>
+                <div className="glass rounded-xl p-6">
+                  <h3 className="font-semibold text-white mb-4" style={{ fontFamily: "Space Grotesk, sans-serif" }}>Gelir Dağılımı (12. Ay)</h3>
+                  <ResponsiveContainer width="100%" height={220}>
+                    <PieChart>
+                      <Pie data={revenueShareData} cx="50%" cy="50%" innerRadius={55} outerRadius={85} paddingAngle={3} dataKey="value">
+                        {revenueShareData.map((entry, index) => (
+                          <Cell key={index} fill={entry.color} />
+                        ))}
+                      </Pie>
+                      <Tooltip contentStyle={{ background: "#0D1B2A", border: "1px solid rgba(249,115,22,0.2)", borderRadius: "8px", color: "#E2E8F0" }} formatter={(v) => [`${v}%`, ""]} />
+                      <Legend wrapperStyle={{ color: "#94A3B8", fontSize: "12px" }} />
+                    </PieChart>
+                  </ResponsiveContainer>
+                </div>
               </div>
             </section>
 
@@ -907,7 +932,7 @@ export default function Home() {
               <SectionHeader
                 icon={<Cpu className="w-5 h-5" />}
                 title="UI/UX Tasarım Sistemi"
-                subtitle="05 — Renk, Tipografi ve Bileşenler"
+                subtitle="06 — Renk, Tipografi ve Bileşenler"
                 accent="#FCD34D"
               />
               <div className="grid md:grid-cols-2 gap-6 mb-6">
@@ -1102,84 +1127,73 @@ export default function Home() {
               </div>
             </section>
 
-            {/* ── 8. Gelir Modeli ── */}
-            <section id="revenue">
+            {/* ── Sütun 5: Siber Güvenlik ── */}
+            <section id="cybersecurity">
               <SectionHeader
-                icon={<DollarSign className="w-5 h-5" />}
-                title="Gelir Modeli"
-                subtitle="08 — Monetizasyon Stratejisi"
-                accent="#00E5A0"
+                icon={<Shield className="w-5 h-5" />}
+                title="Siber Güvenlik"
+                subtitle="05 — Kurumsal Güvenlik Mimarisi"
+                accent="#FB7185"
               />
-              <div className="grid md:grid-cols-3 gap-4 mb-8">
-                {[
-                  { plan: "Free", price: "$0", period: "Sonsuza dek", features: ["Temel AI sohbet", "Günde 5 tarama", "Sınırlı haber akışı", "Topluluk desteği"], color: "#94A3B8", highlight: false },
-                  { plan: "Pro", price: "$19.99", period: "/ay", features: ["Sınırsız AI araçları", "Günde 50 tarama", "CVE öncelikli bildirim", "Öncelikli destek", "API erişimi (1000 req/gün)"], color: "#00E5A0", highlight: true },
-                  { plan: "Enterprise", price: "Özel", period: "Fiyat", features: ["Sınırsız her şey", "Özel güvenlik izleme", "SLA garantisi", "Dedicated destek", "Custom entegrasyonlar"], color: "#38BDF8", highlight: false },
-                ].map((plan, i) => (
-                  <div key={i} className="glass rounded-xl p-6 relative card-glow" style={{ borderColor: plan.highlight ? "rgba(0,229,160,0.4)" : undefined, boxShadow: plan.highlight ? "0 0 30px rgba(0,229,160,0.1)" : undefined }}>
-                    {plan.highlight && (
-                      <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full text-xs font-semibold" style={{ background: "#00E5A0", color: "#050B14" }}>
-                        En Popüler
+              <div className="glass rounded-xl p-6 mb-6">
+                <div className="flex items-center gap-3 mb-6">
+                  <AlertTriangle className="w-5 h-5" style={{ color: "#FB7185" }} />
+                  <p className="text-sm" style={{ color: "#94A3B8" }}>
+                    AIPUSULA'nın güvenlik mimarisi <strong style={{ color: "#FB7185" }}>Zero-Trust prensibi</strong> üzerine inşa edilmiştir. Hiçbir bileşen varsayılan olarak güvenilir kabul edilmez; her istek doğrulanır.
+                  </p>
+                </div>
+                <div className="space-y-4">
+                  {securityLayers.map((layer, i) => (
+                    <div key={i}>
+                      <div className="flex items-center justify-between mb-1.5">
+                        <div>
+                          <span className="text-sm font-medium text-white">{layer.layer}</span>
+                          <span className="ml-2 text-xs mono" style={{ color: "#475569" }}>{layer.tech}</span>
+                        </div>
+                        <span className="mono text-sm font-bold" style={{ color: layer.color }}>{layer.level}%</span>
                       </div>
-                    )}
-                    <div className="mb-4">
-                      <div className="text-sm mb-2" style={{ color: plan.color }}>{plan.plan}</div>
-                      <div className="flex items-end gap-1">
-                        <span className="text-3xl font-bold text-white" style={{ fontFamily: "Space Grotesk, sans-serif" }}>{plan.price}</span>
-                        <span className="text-sm mb-1" style={{ color: "#475569" }}>{plan.period}</span>
+                      <div className="h-2 rounded-full" style={{ background: "rgba(255,255,255,0.05)" }}>
+                        <div
+                          className="h-2 rounded-full transition-all duration-1000"
+                          style={{ width: `${layer.level}%`, background: `linear-gradient(90deg, ${layer.color}, ${layer.color}80)`, boxShadow: `0 0 8px ${layer.color}60` }}
+                        />
                       </div>
                     </div>
-                    <div className="space-y-2">
-                      {plan.features.map((f, j) => (
+                  ))}
+                </div>
+              </div>
+
+              <div className="grid sm:grid-cols-2 gap-4">
+                {[
+                  { title: "Veri Şifreleme", items: ["AES-256 (at-rest)", "TLS 1.3 (in-transit)", "End-to-end şifreleme", "Key rotation politikası"], color: "#00E5A0", icon: <Lock className="w-4 h-4" /> },
+                  { title: "AI Güvenliği (LLM)", items: ["Prompt injection koruması", "Output guardrails", "Hassas veri filtreleme", "Model davranış izleme"], color: "#38BDF8", icon: <Brain className="w-4 h-4" /> },
+                  { title: "Erişim Kontrolü", items: ["RBAC + ABAC modeli", "MFA zorunluluğu", "Session yönetimi", "API rate limiting"], color: "#A78BFA", icon: <Shield className="w-4 h-4" /> },
+                  { title: "İzleme & Yanıt", items: ["IDS/IPS entegrasyonu", "SIEM bağlantısı", "Otomatik tehdit yanıtı", "Penetrasyon testi"], color: "#F97316", icon: <Eye className="w-4 h-4" /> },
+                ].map((sec, i) => (
+                  <div key={i} className="glass rounded-xl p-5 card-glow">
+                    <div className="flex items-center gap-2 mb-3">
+                      <div className="p-1.5 rounded-lg" style={{ background: `${sec.color}15`, color: sec.color }}>{sec.icon}</div>
+                      <span className="font-semibold text-white text-sm" style={{ fontFamily: "Space Grotesk, sans-serif" }}>{sec.title}</span>
+                    </div>
+                    <div className="space-y-1.5">
+                      {sec.items.map((item, j) => (
                         <div key={j} className="flex items-center gap-2">
-                          <div className="w-1.5 h-1.5 rounded-full" style={{ background: plan.color }} />
-                          <span className="text-xs" style={{ color: "#94A3B8" }}>{f}</span>
+                          <div className="w-1 h-1 rounded-full" style={{ background: sec.color }} />
+                          <span className="text-xs" style={{ color: "#64748B" }}>{item}</span>
                         </div>
                       ))}
                     </div>
                   </div>
                 ))}
               </div>
-
-              <div className="grid md:grid-cols-2 gap-6">
-                <div className="glass rounded-xl p-6">
-                  <h3 className="font-semibold text-white mb-4" style={{ fontFamily: "Space Grotesk, sans-serif" }}>Tahmini Gelir Büyümesi ($)</h3>
-                  <ResponsiveContainer width="100%" height={220}>
-                    <BarChart data={revenueData}>
-                      <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" />
-                      <XAxis dataKey="month" stroke="#475569" tick={{ fill: "#64748B", fontSize: 11 }} />
-                      <YAxis stroke="#475569" tick={{ fill: "#64748B", fontSize: 11 }} />
-                      <Tooltip contentStyle={{ background: "#0D1B2A", border: "1px solid rgba(0,229,160,0.2)", borderRadius: "8px", color: "#E2E8F0" }} />
-                      <Legend wrapperStyle={{ color: "#94A3B8", fontSize: "11px" }} />
-                      <Bar dataKey="free" name="Free" fill="#334155" radius={[2, 2, 0, 0]} />
-                      <Bar dataKey="pro" name="Pro" fill="#00E5A0" radius={[2, 2, 0, 0]} />
-                      <Bar dataKey="enterprise" name="Enterprise" fill="#38BDF8" radius={[2, 2, 0, 0]} />
-                    </BarChart>
-                  </ResponsiveContainer>
-                </div>
-                <div className="glass rounded-xl p-6">
-                  <h3 className="font-semibold text-white mb-4" style={{ fontFamily: "Space Grotesk, sans-serif" }}>Gelir Dağılımı (12. Ay)</h3>
-                  <ResponsiveContainer width="100%" height={220}>
-                    <PieChart>
-                      <Pie data={revenueShareData} cx="50%" cy="50%" innerRadius={55} outerRadius={85} paddingAngle={3} dataKey="value">
-                        {revenueShareData.map((entry, index) => (
-                          <Cell key={index} fill={entry.color} />
-                        ))}
-                      </Pie>
-                      <Tooltip contentStyle={{ background: "#0D1B2A", border: "1px solid rgba(0,229,160,0.2)", borderRadius: "8px", color: "#E2E8F0" }} formatter={(v) => [`${v}%`, ""]} />
-                      <Legend wrapperStyle={{ color: "#94A3B8", fontSize: "12px" }} />
-                    </PieChart>
-                  </ResponsiveContainer>
-                </div>
-              </div>
             </section>
 
-            {/* ── 9. Kontrol Listesi ── */}
+            {/* ── MVP Kontrol Listesi ── */}
             <section id="checklist">
               <SectionHeader
                 icon={<CheckSquare className="w-5 h-5" />}
                 title="MVP Kontrol Listesi"
-                subtitle="09 — Lansman Öncesi Doğrulama"
+                subtitle="08 — Lansman Öncesi Doğrulama"
                 accent="#FCD34D"
               />
               <div className="glass rounded-xl p-6 mb-4">
