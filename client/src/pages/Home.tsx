@@ -270,7 +270,7 @@ function SystemStatusBar() {
 
 // ─── Main Component ───────────────────────────────────────────────────────────
 export default function Home() {
-  const [activeTab, setActiveTab] = useState("overview");
+  const [activeTab, setActiveTab] = useState("ai-world");
   const [checkedItems, setCheckedItems] = useState<number[]>([]);
   const [activeCompetitor, setActiveCompetitor] = useState<string | null>(null);
   const isMobile = useIsMobile();
@@ -642,52 +642,122 @@ export default function Home() {
               <SectionHeader
                 icon={<Brain className="w-5 h-5" />}
                 title="AI Dünyası"
-                subtitle="01 — Yapay Zekâ Rehberi & Eğitim"
+                subtitle="01 — Yapay Zekâ Haberleri, Modeller & Trendler"
                 accent="#00E5A0"
               />
-              <div className="grid lg:grid-cols-3 gap-4">
-                <div className="lg:col-span-2">
-                  <AttackMap />
+              {/* Son AI Haberleri */}
+              <div className="grid lg:grid-cols-3 gap-4 mb-6">
+                <div className="lg:col-span-2 glass rounded-xl p-6">
+                  <h3 className="font-semibold text-white mb-4 flex items-center gap-2" style={{ fontFamily: "Space Grotesk, sans-serif" }}>
+                    <span className="w-2 h-2 rounded-full" style={{ background: "#00E5A0", boxShadow: "0 0 8px #00E5A0" }} />
+                    Son AI Haberleri
+                  </h3>
+                  <div className="space-y-3">
+                    {[
+                      { title: "OpenAI GPT-5: Multimodal Reasoning & Agentic AI", tag: "Yeni Model", date: "2 saat önce", color: "#00E5A0" },
+                      { title: "Anthropic Claude 4: Uzun Bağlam Penceresi ve Tool Use", tag: "Güncelleme", date: "6 saat önce", color: "#38BDF8" },
+                      { title: "Google DeepMind: AlphaFold 3 Protein Yapı Tahmini", tag: "Araştırma", date: "12 saat önce", color: "#A78BFA" },
+                      { title: "Meta Llama 4: Açık Kaynak LLM Geliştirmeleri", tag: "Açık Kaynak", date: "1 gün önce", color: "#F97316" },
+                      { title: "AI Agent Ecosystem: Autonomous Task Execution", tag: "Trend", date: "1 gün önce", color: "#FB7185" },
+                    ].map((news, i) => (
+                      <div key={i} className="flex items-start gap-3 p-3 rounded-lg hover:bg-white/[0.03] transition-colors duration-200 cursor-pointer focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#00E5A0]/30">
+                        <div className="w-1.5 h-1.5 rounded-full mt-2 flex-shrink-0" style={{ background: news.color }} />
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center gap-2 mb-1">
+                            <span className="font-medium text-white text-sm" style={{ fontFamily: "Space Grotesk, sans-serif" }}>{news.title}</span>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <span className="mono text-xs px-1.5 py-0.5 rounded" style={{ background: `${news.color}15`, color: news.color }}>{news.tag}</span>
+                            <span className="text-xs" style={{ color: "#475569" }}>{news.date}</span>
+                          </div>
+                        </div>
+                        <ChevronRight className="w-4 h-4 flex-shrink-0 mt-2" style={{ color: "#334155" }} />
+                      </div>
+                    ))}
+                  </div>
                 </div>
                 <div className="space-y-4">
-                  <LiveThreatCounter />
-                </div>
-              </div>
-              <div className="grid lg:grid-cols-2 gap-4 mt-4">
-                <AIRiskScore />
-                <CVEFeed />
-              </div>
-              <div className="mt-4">
-                <SecurityNews />
-              </div>
-              <div className="grid md:grid-cols-2 gap-6 mb-8 mt-6">
-              <div className="glass rounded-xl p-6">
-                <h3 className="font-semibold text-white mb-3" style={{ fontFamily: "Space Grotesk, sans-serif" }}>Platform Vizyonu</h3>
-                <p className="text-sm leading-relaxed" style={{ color: "#94A3B8" }}>
-                  AIPUSULA, yapay zekâ dünyasını siber güvenlikle birleştiren çok katmanlı bir platform olarak tasarlanmıştır. AI araçlarını keşfedin, dijital becerilerinizi geliştirin, AI ile kazanç yollarını öğrenin ve dijital dünyada güvende kalın.
-                </p>
-                <div className="mt-4 flex items-center gap-2">
-                  <div className="w-2 h-2 rounded-full pulse-dot" style={{ background: "#00E5A0", color: "#00E5A0" }} />
-                  <span className="text-xs mono" style={{ color: "#00E5A0" }}>The Compass of AI & the Digital World</span>
-                </div>
-              </div>
-              <div className="glass rounded-xl p-6">
-                <h3 className="font-semibold text-white mb-3" style={{ fontFamily: "Space Grotesk, sans-serif" }}>Temel Farklılaşma</h3>
-                <div className="space-y-3">
-                  {[
-                    "AI araçları + Siber Güvenlik tek platformda (piyasada tek)",
-                    "AI ile kazanç yolları ve dijital beceri geliştirme",
-                    "Mobil öncelikli tasarım ve Play Store desteği",
-                    "Kurumsal API erişimi ve özel izleme",
-                  ].map((item, i) => (
-                    <div key={i} className="flex items-start gap-2">
-                      <ChevronRight className="w-4 h-4 mt-0.5 flex-shrink-0" style={{ color: "#00E5A0" }} />
-                      <span className="text-sm" style={{ color: "#94A3B8" }}>{item}</span>
+                  {/* Yeni AI Modelleri */}
+                  <div className="glass rounded-xl p-5">
+                    <h4 className="font-semibold text-white mb-3 flex items-center gap-2 text-sm" style={{ fontFamily: "Space Grotesk, sans-serif" }}>
+                      <Cpu className="w-4 h-4" style={{ color: "#38BDF8" }} />
+                      Yeni AI Modelleri
+                    </h4>
+                    <div className="space-y-2.5">
+                      {[
+                        { name: "GPT-5", provider: "OpenAI", desc: "Agentic AI, Multimodal", color: "#00E5A0" },
+                        { name: "Claude 4", provider: "Anthropic", desc: "200K context, Tool use", color: "#38BDF8" },
+                        { name: "Gemini 2.0", provider: "Google", desc: "Multimodal, Long context", color: "#A78BFA" },
+                        { name: "Llama 4", provider: "Meta", desc: "Open source, 405B params", color: "#F97316" },
+                      ].map((m, i) => (
+                        <div key={i} className="flex items-center gap-3 p-2 rounded-lg hover:bg-white/[0.03] transition-colors cursor-pointer">
+                          <div className="w-8 h-8 rounded-lg flex items-center justify-center text-xs font-bold" style={{ background: `${m.color}15`, color: m.color }}>{m.name[0]}</div>
+                          <div>
+                            <div className="text-sm font-medium text-white">{m.name}</div>
+                            <div className="text-xs" style={{ color: "#64748B" }}>{m.provider} · {m.desc}</div>
+                          </div>
+                        </div>
+                      ))}
                     </div>
-                  ))}
+                  </div>
+                  {/* AI Trendleri */}
+                  <div className="glass rounded-xl p-5">
+                    <h4 className="font-semibold text-white mb-3 flex items-center gap-2 text-sm" style={{ fontFamily: "Space Grotesk, sans-serif" }}>
+                      <TrendingUp className="w-4 h-4" style={{ color: "#FB7185" }} />
+                      AI Trendleri
+                    </h4>
+                    <div className="space-y-2">
+                      {["AI Agents & Autonomous Systems", "Multimodal AI", "Edge AI & On-Device ML", "AI-Powered Coding Assistants", "RAG & Knowledge Graphs"].map((trend, i) => (
+                        <div key={i} className="flex items-center gap-2">
+                          <span className="mono text-xs" style={{ color: "#334155" }}>{String(i + 1).padStart(2, "0")}</span>
+                          <span className="text-xs" style={{ color: "#94A3B8" }}>{trend}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
                 </div>
               </div>
-            </div>
+              {/* Editör Seçimi & Öne Çıkan */}
+              <div className="grid md:grid-cols-2 gap-4 mb-8">
+                <div className="glass rounded-xl p-5">
+                  <h3 className="font-semibold text-white mb-3 flex items-center gap-2" style={{ fontFamily: "Space Grotesk, sans-serif" }}>
+                    <Star className="w-4 h-4" style={{ color: "#FCD34D" }} />
+                    Editör Seçimi
+                  </h3>
+                  <div className="space-y-2">
+                    {[
+                      { title: "AI ile Üretkenlik: 2026 Rehberi", category: "Rehber" },
+                      { title: "OpenAI vs Anthropic vs Google: Karşılaştırma", category: "Analiz" },
+                      { title: "Kendi AI Agent'ınızı Oluşturma", category: "Eğitim" },
+                    ].map((item, i) => (
+                      <div key={i} className="flex items-center gap-2 p-2 rounded-lg hover:bg-white/[0.03] transition-colors cursor-pointer">
+                        <div className="w-1.5 h-1.5 rounded-full" style={{ background: "#FCD34D" }} />
+                        <span className="text-sm text-white">{item.title}</span>
+                        <span className="ml-auto mono text-xs" style={{ color: "#FCD34D" }}>{item.category}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+                <div className="glass rounded-xl p-5">
+                  <h3 className="font-semibold text-white mb-3 flex items-center gap-2" style={{ fontFamily: "Space Grotesk, sans-serif" }}>
+                    <Award className="w-4 h-4" style={{ color: "#A78BFA" }} />
+                    Öne Çıkan Makaleler
+                  </h3>
+                  <div className="space-y-2">
+                    {[
+                      { title: "RAG Mimarisi: Enterprise AI için Derinlemesine İnceleme", views: "12.4K" },
+                      { title: "AI Kod Asistanları: Cursor, Copilot, Windsurf Karşılaştırması", views: "8.7K" },
+                      { title: "Multimodal AI: Metin, Görüntü ve Ses Birleştirme", views: "6.2K" },
+                    ].map((article, i) => (
+                      <div key={i} className="flex items-center gap-2 p-2 rounded-lg hover:bg-white/[0.03] transition-colors cursor-pointer">
+                        <span className="mono text-xs" style={{ color: "#A78BFA" }}>#{i + 1}</span>
+                        <span className="text-sm text-white flex-1">{article.title}</span>
+                        <span className="text-xs" style={{ color: "#475569" }}>{article.views}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
 
             {/* Sayfa Planlaması */}
             <h3 className="text-xl font-semibold text-white mb-5" style={{ fontFamily: "Space Grotesk, sans-serif" }}>Sayfa Planlaması</h3>
@@ -832,6 +902,43 @@ export default function Home() {
                 subtitle="02 — AI Tools Kataloğu & Karşılaştırma"
                 accent="#38BDF8"
               />
+              {/* Öne Çıkan AI Araçları */}
+              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3 mb-6">
+                {[
+                  { name: "ChatGPT", provider: "OpenAI", category: "Sohbet & İçerik", desc: "GPT-4o ile multimodal AI asistanı. Yazı, kod, analiz ve görsel üretme.", rating: 4.8, color: "#74AA9C" },
+                  { name: "Claude", provider: "Anthropic", category: "Sohbet & Analiz", desc: "Uzun bağlam penceresi ve güvenli AI asistanı. Araştırma ve kodlama.", rating: 4.7, color: "#CC785C" },
+                  { name: "Gemini", provider: "Google", desc: "Google'ın multimodal AI modeli. Arama entegrasyonu ve gerçek zamanlı bilgi.", category: "Sohbet & Arama", rating: 4.5, color: "#4285F4" },
+                  { name: "Cursor", provider: "Cursor Inc.", category: "Kod Geliştirme", desc: "AI-powered code editor. Autocomplete, refactor ve code review.", rating: 4.9, color: "#38BDF8" },
+                  { name: "Perplexity", provider: "Perplexity AI", category: "Araştırma & Arama", desc: "AI-powered search engine. Gerçek zamanlı yanıtlar ve kaynaklar.", rating: 4.6, color: "#1FB8CD" },
+                  { name: "Runway", provider: "Runway ML", category: "Video & Görsel", desc: "AI video generation, editing ve VFX. Gen-3 Alpha modeli.", rating: 4.4, color: "#A78BFA" },
+                  { name: "Midjourney", provider: "Midjourney", category: "Görsel Üretim", desc: "AI image generation. Sanatsal ve fotogerçekçi görseller.", rating: 4.7, color: "#FB7185" },
+                  { name: "ElevenLabs", provider: "ElevenLabs", category: "Ses & Konuşma", desc: "AI voice cloning, text-to-speech ve ses üretimi.", rating: 4.5, color: "#F97316" },
+                  { name: "Manus", provider: "Manus AI", category: "Otonom AI Agent", desc: "Tam otonom AI ajandalar. Araştırma, kodlama ve otomasyon.", rating: 4.6, color: "#FCD34D" },
+                ].map((tool, i) => (
+                  <div key={i} className="glass rounded-xl p-4 hover:scale-[1.02] transition-all duration-300 card-glow cursor-pointer focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#38BDF8]/30">
+                    <div className="flex items-center gap-3 mb-2">
+                      <div className="w-9 h-9 rounded-lg flex items-center justify-center text-xs font-bold" style={{ background: `${tool.color}15`, color: tool.color }}>{tool.name[0]}</div>
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center gap-2">
+                          <span className="font-semibold text-white text-sm" style={{ fontFamily: "Space Grotesk, sans-serif" }}>{tool.name}</span>
+                          <span className="mono text-xs" style={{ color: "#475569" }}>#{i + 1}</span>
+                        </div>
+                        <div className="text-xs" style={{ color: "#64748B" }}>{tool.provider}</div>
+                      </div>
+                    </div>
+                    <span className="mono text-xs px-1.5 py-0.5 rounded mb-2 inline-block" style={{ background: `${tool.color}10`, color: tool.color }}>{tool.category}</span>
+                    <p className="text-xs leading-relaxed" style={{ color: "#94A3B8" }}>{tool.desc}</p>
+                    <div className="mt-2 flex items-center gap-1">
+                      {Array.from({ length: 5 }).map((_, j) => (
+                        <Star key={j} className="w-3 h-3" style={{ color: j < Math.floor(tool.rating) ? "#FCD34D" : "#334155", fill: j < Math.floor(tool.rating) ? "#FCD34D" : "none" }} />
+                      ))}
+                      <span className="ml-1 text-xs" style={{ color: "#64748B" }}>{tool.rating}</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {/* AI Araç Kategorileri */}
               <div className="glass rounded-xl p-6">
                 <h3 className="font-semibold text-white mb-4" style={{ fontFamily: "Space Grotesk, sans-serif" }}>AI Araç Kategorileri</h3>
                 <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -860,33 +967,30 @@ export default function Home() {
               <SectionHeader
                 icon={<DollarSign className="w-5 h-5" />}
                 title="AI ile Kazanç"
-                subtitle="03 — Monetizasyon Stratejisi & Gelir Modelleri"
+                subtitle="03 — AI ile Gelir Üretme Yolları & Eğitimi"
                 accent="#F97316"
               />
-              <div className="grid md:grid-cols-3 gap-4 mb-8">
+              {/* Kazanç Yolları */}
+              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
                 {[
-                  { plan: "Free", price: "$0", period: "Sonsuza dek", features: ["Temel AI sohbet", "Günde 5 tarama", "Sınırlı haber akışı", "Topluluk desteği"], color: "#94A3B8", highlight: false },
-                  { plan: "Pro", price: "$19.99", period: "/ay", features: ["Sınırsız AI araçları", "Günde 50 tarama", "CVE öncelikli bildirim", "Öncelikli destek", "API erişimi (1000 req/gün)"], color: "#F97316", highlight: true },
-                  { plan: "Enterprise", price: "Özel", period: "Fiyat", features: ["Sınırsız her şey", "Özel güvenlik izleme", "SLA garantisi", "Dedicated destek", "Custom entegrasyonlar"], color: "#38BDF8", highlight: false },
-                ].map((plan, i) => (
-                  <div key={i} className="glass rounded-xl p-6 relative card-glow" style={{ borderColor: plan.highlight ? "rgba(249,115,22,0.4)" : undefined, boxShadow: plan.highlight ? "0 0 30px rgba(249,115,22,0.1)" : undefined }}>
-                    {plan.highlight && (
-                      <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full text-xs font-semibold" style={{ background: "#F97316", color: "#050B14" }}>
-                        En Popüler
-                      </div>
-                    )}
-                    <div className="mb-4">
-                      <div className="text-sm mb-2" style={{ color: plan.color }}>{plan.plan}</div>
-                      <div className="flex items-end gap-1">
-                        <span className="text-3xl font-bold text-white" style={{ fontFamily: "Space Grotesk, sans-serif" }}>{plan.price}</span>
-                        <span className="text-sm mb-1" style={{ color: "#475569" }}>{plan.period}</span>
-                      </div>
+                  { title: "AI Freelancing", desc: "AI araçlarıyla content writing, code development ve tasarım hizmetleri sunarak gelir elde edin.", icon: <Users className="w-5 h-5" />, color: "#F97316", examples: ["AI Content Writer", "AI Code Developer", "AI Graphic Designer"] },
+                  { title: "Prompt Engineering", desc: "Etkili prompt yazma becerisi kazanın. Enterprise firmalar bu hizmeti yüksek ücretlerle satın alıyor.", icon: <Code2 className="w-5 h-5" />, color: "#00E5A0", examples: ["Prompt Templates Satışı", "LLM Fine-tuning", "Enterprise Consulting"] },
+                  { title: "AI SaaS Ürünleri", desc: "Niche AI araçları geliştirin ve abonelik bazlı gelir modeliyle sürdürülebilir kazanç yaratın.", icon: <Layers className="w-5 h-5" />, color: "#38BDF8", examples: ["AI Writing Tool", "AI Resume Builder", "AI Image Editor"] },
+                  { title: "YouTube & TikTok AI", desc: "AI araçlarıyla içerik üretin. Video script, thumbnail, ses ve edit işlemlerini otomatikleştirin.", icon: <Eye className="w-5 h-5" />, color: "#A78BFA", examples: ["AI Script Generator", "AI Thumbnail Maker", "AI Voice Cloning"] },
+                  { title: "Affiliate Marketing", desc: "AI araçlarını tanıtın ve affiliate programlarıyla pasif gelir oluşturun.", icon: <ExternalLink className="w-5 h-5" />, color: "#FCD34D", examples: ["ChatGPT Plus Referral", "AI Tool Reviews", "Comparison Sites"] },
+                  { title: "AI Otomasyon Danışmanlığı", desc: "İşletmelere AI otomasyon çözümleri sunarak yüksek değerli danışmanlık hizmetleri verin.", icon: <Zap className="w-5 h-5" />, color: "#FB7185", examples: ["Workflow Automation", "Chatbot Deployment", "Data Pipeline AI"] },
+                ].map((item, i) => (
+                  <div key={i} className="glass rounded-xl p-5 hover:scale-[1.02] transition-all duration-300 card-glow cursor-pointer focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#F97316]/30">
+                    <div className="flex items-center gap-2 mb-3">
+                      <div className="p-2 rounded-lg" style={{ background: `${item.color}15`, color: item.color }}>{item.icon}</div>
+                      <span className="font-semibold text-white text-sm" style={{ fontFamily: "Space Grotesk, sans-serif" }}>{item.title}</span>
                     </div>
-                    <div className="space-y-2">
-                      {plan.features.map((f, j) => (
-                        <div key={j} className="flex items-center gap-2">
-                          <div className="w-1.5 h-1.5 rounded-full" style={{ background: plan.color }} />
-                          <span className="text-xs" style={{ color: "#94A3B8" }}>{f}</span>
+                    <p className="text-xs leading-relaxed mb-3" style={{ color: "#94A3B8" }}>{item.desc}</p>
+                    <div className="space-y-1">
+                      {item.examples.map((ex, j) => (
+                        <div key={j} className="flex items-center gap-1.5">
+                          <div className="w-1 h-1 rounded-full" style={{ background: item.color }} />
+                          <span className="text-xs" style={{ color: "#64748B" }}>{ex}</span>
                         </div>
                       ))}
                     </div>
@@ -894,35 +998,50 @@ export default function Home() {
                 ))}
               </div>
 
-              <div className="grid md:grid-cols-2 gap-6">
-                <div className="glass rounded-xl p-6">
-                  <h3 className="font-semibold text-white mb-4" style={{ fontFamily: "Space Grotesk, sans-serif" }}>Tahmini Gelir Büyümesi ($)</h3>
-                  <ResponsiveContainer width="100%" height={220}>
-                    <BarChart data={revenueData}>
-                      <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" />
-                      <XAxis dataKey="month" stroke="#475569" tick={{ fill: "#64748B", fontSize: 11 }} />
-                      <YAxis stroke="#475569" tick={{ fill: "#64748B", fontSize: 11 }} />
-                      <Tooltip contentStyle={{ background: "#0D1B2A", border: "1px solid rgba(249,115,22,0.2)", borderRadius: "8px", color: "#E2E8F0" }} />
-                      <Legend wrapperStyle={{ color: "#94A3B8", fontSize: "11px" }} />
-                      <Bar dataKey="free" name="Free" fill="#334155" radius={[2, 2, 0, 0]} />
-                      <Bar dataKey="pro" name="Pro" fill="#F97316" radius={[2, 2, 0, 0]} />
-                      <Bar dataKey="enterprise" name="Enterprise" fill="#38BDF8" radius={[2, 2, 0, 0]} />
-                    </BarChart>
-                  </ResponsiveContainer>
+              {/* Başarı Hikayeleri & Vaka Analizleri */}
+              <div className="grid md:grid-cols-2 gap-4 mb-8">
+                <div className="glass rounded-xl p-5">
+                  <h3 className="font-semibold text-white mb-3 flex items-center gap-2" style={{ fontFamily: "Space Grotesk, sans-serif" }}>
+                    <Award className="w-4 h-4" style={{ color: "#F97316" }} />
+                    Başarı Hikayeleri
+                  </h3>
+                  <div className="space-y-3">
+                    {[
+                      { person: "Freelance Yazar", income: "$4,200/ay", method: "ChatGPT + Jasper ile AI-assisted content writing", tag: "Content" },
+                      { person: "Solo Developer", income: "$12,800/ay", method: "AI SaaS: Otomatik resume builder + ATS optimizer", tag: "SaaS" },
+                      { person: "YouTube Kanalı", income: "$6,500/ay", method: "AI ile günlük video içerik üretimi ve monetizasyon", tag: "Video" },
+                    ].map((story, i) => (
+                      <div key={i} className="p-3 rounded-lg hover:bg-white/[0.03] transition-colors cursor-pointer">
+                        <div className="flex items-center justify-between mb-1">
+                          <span className="text-sm font-medium text-white">{story.person}</span>
+                          <span className="mono text-xs px-2 py-0.5 rounded" style={{ background: "rgba(249,115,22,0.1)", color: "#F97316" }}>{story.income}</span>
+                        </div>
+                        <p className="text-xs" style={{ color: "#94A3B8" }}>{story.method}</p>
+                        <span className="mono text-xs mt-1 inline-block" style={{ color: "#475569" }}>{story.tag}</span>
+                      </div>
+                    ))}
+                  </div>
                 </div>
-                <div className="glass rounded-xl p-6">
-                  <h3 className="font-semibold text-white mb-4" style={{ fontFamily: "Space Grotesk, sans-serif" }}>Gelir Dağılımı (12. Ay)</h3>
-                  <ResponsiveContainer width="100%" height={220}>
-                    <PieChart>
-                      <Pie data={revenueShareData} cx="50%" cy="50%" innerRadius={55} outerRadius={85} paddingAngle={3} dataKey="value">
-                        {revenueShareData.map((entry, index) => (
-                          <Cell key={index} fill={entry.color} />
-                        ))}
-                      </Pie>
-                      <Tooltip contentStyle={{ background: "#0D1B2A", border: "1px solid rgba(249,115,22,0.2)", borderRadius: "8px", color: "#E2E8F0" }} formatter={(v) => [`${v}%`, ""]} />
-                      <Legend wrapperStyle={{ color: "#94A3B8", fontSize: "12px" }} />
-                    </PieChart>
-                  </ResponsiveContainer>
+                <div className="glass rounded-xl p-5">
+                  <h3 className="font-semibold text-white mb-3 flex items-center gap-2" style={{ fontFamily: "Space Grotesk, sans-serif" }}>
+                    <Target className="w-4 h-4" style={{ color: "#38BDF8" }} />
+                    Vaka Analizleri
+                  </h3>
+                  <div className="space-y-3">
+                    {[
+                      { title: "AI ile E-ticaret: Otomatik Ürün Açıklamaları", revenue: "+340%", metric: "Dönüşüm oranı artışı" },
+                      { title: "Prompt Engineering ile AI Agent Gelir Modeli", revenue: "$28K", metric: "İlk 6 ay gelir" },
+                      { title: "AI Video Üretimi: Pasif Gelir Stratejisi", revenue: "12 ay", metric: "Break-even süresi" },
+                    ].map((cs, i) => (
+                      <div key={i} className="p-3 rounded-lg hover:bg-white/[0.03] transition-colors cursor-pointer">
+                        <div className="flex items-center justify-between mb-1">
+                          <span className="text-sm font-medium text-white">{cs.title}</span>
+                          <span className="mono text-xs font-bold" style={{ color: "#00E5A0" }}>{cs.revenue}</span>
+                        </div>
+                        <span className="text-xs" style={{ color: "#475569" }}>{cs.metric}</span>
+                      </div>
+                    ))}
+                  </div>
                 </div>
               </div>
             </section>
@@ -1132,9 +1251,32 @@ export default function Home() {
               <SectionHeader
                 icon={<Shield className="w-5 h-5" />}
                 title="Siber Güvenlik"
-                subtitle="05 — Kurumsal Güvenlik Mimarisi"
+                subtitle="05 — Tehdit Haritası, Zafiyetler & Güvenlik"
                 accent="#FB7185"
               />
+
+              {/* Global Attack Map + Live Threat Counter */}
+              <div className="grid lg:grid-cols-3 gap-4 mb-6">
+                <div className="lg:col-span-2">
+                  <AttackMap />
+                </div>
+                <div className="space-y-4">
+                  <LiveThreatCounter />
+                </div>
+              </div>
+
+              {/* AI Risk Score + CVE Feed */}
+              <div className="grid lg:grid-cols-2 gap-4 mb-6">
+                <AIRiskScore />
+                <CVEFeed />
+              </div>
+
+              {/* Security News */}
+              <div className="mb-6">
+                <SecurityNews />
+              </div>
+
+              {/* Güvenlik Mimarisi */}
               <div className="glass rounded-xl p-6 mb-6">
                 <div className="flex items-center gap-3 mb-6">
                   <AlertTriangle className="w-5 h-5" style={{ color: "#FB7185" }} />
