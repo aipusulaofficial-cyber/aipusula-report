@@ -43,75 +43,53 @@
 }
 
 :root {
-  --primary: var(--color-blue-700);
-  --primary-foreground: var(--color-blue-50);
-  --sidebar-primary: var(--color-blue-600);
-  --sidebar-primary-foreground: var(--color-blue-50);
-  --chart-1: var(--color-blue-300);
-  --chart-2: var(--color-blue-500);
-  --chart-3: var(--color-blue-600);
-  --chart-4: var(--color-blue-700);
-  --chart-5: var(--color-blue-800);
-  --radius: 0.65rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.235 0.015 65);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.235 0.015 65);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.235 0.015 65);
-  --secondary: oklch(0.98 0.001 286.375);
-  --secondary-foreground: oklch(0.4 0.015 65);
-  --muted: oklch(0.967 0.001 286.375);
-  --muted-foreground: oklch(0.552 0.016 285.938);
-  --accent: oklch(0.967 0.001 286.375);
-  --accent-foreground: oklch(0.141 0.005 285.823);
-  --destructive: oklch(0.577 0.245 27.325);
-  --destructive-foreground: oklch(0.985 0 0);
-  --border: oklch(0.92 0.004 286.32);
-  --input: oklch(0.92 0.004 286.32);
-  --ring: oklch(0.623 0.214 259.815);
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.235 0.015 65);
-  --sidebar-accent: oklch(0.967 0.001 286.375);
-  --sidebar-accent-foreground: oklch(0.141 0.005 285.823);
-  --sidebar-border: oklch(0.92 0.004 286.32);
-  --sidebar-ring: oklch(0.623 0.214 259.815);
+  /* AIPUSULA Cyber Noir Theme */
+  --font-display: 'Space Grotesk', sans-serif;
+  --font-body: 'Inter', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+
+  /* Neon accent colors */
+  --neon-green: #00E5A0;
+  --neon-blue: #38BDF8;
+  --neon-orange: #F97316;
+  --neon-red: #EF4444;
+
+  --primary: oklch(0.82 0.18 160);
+  --primary-foreground: oklch(0.08 0.02 220);
+  --radius: 0.5rem;
+  --background: oklch(0.07 0.025 230);
+  --foreground: oklch(0.9 0.01 220);
+  --card: oklch(0.11 0.03 225);
+  --card-foreground: oklch(0.9 0.01 220);
+  --popover: oklch(0.11 0.03 225);
+  --popover-foreground: oklch(0.9 0.01 220);
+  --secondary: oklch(0.15 0.035 225);
+  --secondary-foreground: oklch(0.75 0.01 220);
+  --muted: oklch(0.14 0.03 225);
+  --muted-foreground: oklch(0.55 0.015 220);
+  --accent: oklch(0.82 0.18 160);
+  --accent-foreground: oklch(0.08 0.02 220);
+  --destructive: oklch(0.65 0.22 25);
+  --destructive-foreground: oklch(0.98 0 0);
+  --border: oklch(0.22 0.04 225);
+  --input: oklch(0.18 0.035 225);
+  --ring: oklch(0.82 0.18 160);
+  --chart-1: oklch(0.82 0.18 160);
+  --chart-2: oklch(0.72 0.18 210);
+  --chart-3: oklch(0.72 0.18 55);
+  --chart-4: oklch(0.65 0.22 25);
+  --chart-5: oklch(0.75 0.15 280);
+  --sidebar: oklch(0.09 0.025 228);
+  --sidebar-foreground: oklch(0.9 0.01 220);
+  --sidebar-primary: oklch(0.82 0.18 160);
+  --sidebar-primary-foreground: oklch(0.08 0.02 220);
+  --sidebar-accent: oklch(0.15 0.035 225);
+  --sidebar-accent-foreground: oklch(0.9 0.01 220);
+  --sidebar-border: oklch(0.18 0.035 225);
+  --sidebar-ring: oklch(0.82 0.18 160);
 }
 
-.dark {
-  --primary: var(--color-blue-700);
-  --primary-foreground: var(--color-blue-50);
-  --sidebar-primary: var(--color-blue-500);
-  --sidebar-primary-foreground: var(--color-blue-50);
-  --background: oklch(0.141 0.005 285.823);
-  --foreground: oklch(0.85 0.005 65);
-  --card: oklch(0.21 0.006 285.885);
-  --card-foreground: oklch(0.85 0.005 65);
-  --popover: oklch(0.21 0.006 285.885);
-  --popover-foreground: oklch(0.85 0.005 65);
-  --secondary: oklch(0.24 0.006 286.033);
-  --secondary-foreground: oklch(0.7 0.005 65);
-  --muted: oklch(0.274 0.006 286.033);
-  --muted-foreground: oklch(0.705 0.015 286.067);
-  --accent: oklch(0.274 0.006 286.033);
-  --accent-foreground:  oklch(0.92 0.005 65);
-  --destructive: oklch(0.704 0.191 22.216);
-  --destructive-foreground: oklch(0.985 0 0);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.488 0.243 264.376);
-  --chart-1: var(--color-blue-300);
-  --chart-2: var(--color-blue-500);
-  --chart-3: var(--color-blue-600);
-  --chart-4: var(--color-blue-700);
-  --chart-5: var(--color-blue-800);
-  --sidebar: oklch(0.21 0.006 285.885);
-  --sidebar-foreground: oklch(0.85 0.005 65);
-  --sidebar-accent: oklch(0.274 0.006 286.033);
-  --sidebar-accent-foreground:  oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.488 0.243 264.376);
-}
+/* No separate .dark class needed — this IS the dark theme */
 
 @layer base {
   * {
@@ -119,6 +97,10 @@
   }
   body {
     @apply bg-background text-foreground;
+    font-family: var(--font-body);
+  }
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-display);
   }
   button:not(:disabled),
   [role="button"]:not([aria-disabled="true"]),
@@ -134,24 +116,11 @@
 }
 
 @layer components {
-  /**
-   * Custom container utility that centers content and adds responsive padding.
-   *
-   * This overrides Tailwind's default container behavior to:
-   * - Auto-center content (mx-auto)
-   * - Add responsive horizontal padding
-   * - Set max-width for large screens
-   *
-   * Usage: <div className="container">...</div>
-   *
-   * For custom widths, use max-w-* utilities directly:
-   * <div className="max-w-6xl mx-auto px-4">...</div>
-   */
   .container {
     width: 100%;
     margin-left: auto;
     margin-right: auto;
-    padding-left: 1rem; /* 16px - mobile padding */
+    padding-left: 1rem;
     padding-right: 1rem;
   }
 
@@ -162,16 +131,101 @@
 
   @media (min-width: 640px) {
     .container {
-      padding-left: 1.5rem; /* 24px - tablet padding */
+      padding-left: 1.5rem;
       padding-right: 1.5rem;
     }
   }
 
   @media (min-width: 1024px) {
     .container {
-      padding-left: 2rem; /* 32px - desktop padding */
+      padding-left: 2rem;
       padding-right: 2rem;
-      max-width: 1280px; /* Standard content width */
+      max-width: 1280px;
     }
   }
+
+  /* Neon glow utilities */
+  .neon-glow-green {
+    box-shadow: 0 0 20px rgba(0, 229, 160, 0.3), 0 0 40px rgba(0, 229, 160, 0.1);
+  }
+  .neon-glow-blue {
+    box-shadow: 0 0 20px rgba(56, 189, 248, 0.3), 0 0 40px rgba(56, 189, 248, 0.1);
+  }
+  .neon-text-green {
+    color: #00E5A0;
+    text-shadow: 0 0 20px rgba(0, 229, 160, 0.5);
+  }
+  .neon-text-blue {
+    color: #38BDF8;
+    text-shadow: 0 0 20px rgba(56, 189, 248, 0.5);
+  }
+  .card-cyber {
+    background: oklch(0.11 0.03 225);
+    border: 1px solid rgba(0, 229, 160, 0.15);
+    border-radius: 0.5rem;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+  .card-cyber:hover {
+    border-color: rgba(0, 229, 160, 0.4);
+    box-shadow: 0 0 20px rgba(0, 229, 160, 0.1);
+  }
+  .mono {
+    font-family: var(--font-mono);
+  }
+  .grid-bg {
+    background-image: 
+      linear-gradient(rgba(0, 229, 160, 0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0, 229, 160, 0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+  }
+
+  /* Scanline overlay */
+  .scanline::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(0, 229, 160, 0.015) 2px,
+      rgba(0, 229, 160, 0.015) 4px
+    );
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  /* Terminal-style border */
+  .terminal-card {
+    background: oklch(0.09 0.025 228);
+    border: 1px solid rgba(0, 229, 160, 0.2);
+    border-radius: 0.25rem;
+    position: relative;
+  }
+  .terminal-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, #00E5A0, transparent);
+  }
+
+  /* Hex grid pattern */
+  .hex-bg {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='100'%3E%3Cpath d='M28 66L0 50V18L28 2l28 16v32z' fill='none' stroke='rgba(0,229,160,0.04)' stroke-width='1'/%3E%3Cpath d='M28 100L0 84V52L28 36l28 16v32z' fill='none' stroke='rgba(0,229,160,0.04)' stroke-width='1'/%3E%3C/svg%3E");
+  }
+
+  /* Command console sidebar */
+  .console-sidebar {
+    background: oklch(0.075 0.022 228);
+    border-right: 1px solid rgba(0, 229, 160, 0.12);
+  }
+
+  /* Threat level badge */
+  .threat-critical { background: rgba(239,68,68,0.15); color: #EF4444; border: 1px solid rgba(239,68,68,0.3); }
+  .threat-high { background: rgba(249,115,22,0.15); color: #F97316; border: 1px solid rgba(249,115,22,0.3); }
+  .threat-medium { background: rgba(252,211,77,0.15); color: #FCD34D; border: 1px solid rgba(252,211,77,0.3); }
+  .threat-low { background: rgba(0,229,160,0.15); color: #00E5A0; border: 1px solid rgba(0,229,160,0.3); }
 }
