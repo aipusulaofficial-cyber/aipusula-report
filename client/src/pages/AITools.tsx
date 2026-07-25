@@ -5,6 +5,7 @@
  * Scroll-to-section navigation
  */
 import { useState, useEffect } from "react";
+import { Link } from "wouter";
 import {
   Cpu, Search, Star, Filter, ChevronRight, Zap, Clock,
   Layers, Eye, ArrowRight, BookOpen, TrendingUp, Award,
@@ -17,16 +18,16 @@ const BRAND_COLOR = "#38BDF8";
 
 // ─── AI Tool Catalog ─────────────────────────────────────────────────────────
 const aiTools = [
-  { name: "ChatGPT", company: "OpenAI", category: "Sohbet", rating: 4.8, users: "200M+", pricing: "Ücretsiz / $20", features: ["Multimodal", "Plugin", "Custom GPT", "Voice"], isNew: false, trending: true },
-  { name: "Claude", company: "Anthropic", category: "Sohbet", rating: 4.7, users: "50M+", pricing: "Ücretsiz / $20", features: ["200K Context", "Artifacts", "Projects", "Vision"], isNew: false, trending: true },
-  { name: "Gemini", company: "Google", category: "Sohbet", rating: 4.5, users: "100M+", pricing: "Ücretsiz / $20", features: ["Google Entegre", "Multimodal", "Code", "Web"], isNew: false, trending: false },
-  { name: "Midjourney", company: "Midjourney", category: "Görsel", rating: 4.9, users: "16M+", pricing: "$10-$60", features: ["Fotoğraf Gerçekçi", "Stil Transfer", "Remix", "V6 Model"], isNew: false, trending: true },
-  { name: "Cursor", company: "Cursor AI", category: "Kod", rating: 4.9, users: "5M+", pricing: "Ücretsiz / $20", features: ["Tab Complete", "Chat", "Edit", "Multi-file"], isNew: true, trending: true },
-  { name: "Perplexity", company: "Perplexity AI", category: "Arama", rating: 4.6, users: "10M+", pricing: "Ücretsiz / $20", features: ["Gerçek Zamanlı", "Kaynak", "Collection", "Space"], isNew: false, trending: false },
-  { name: "Runway ML", company: "Runway", category: "Video", rating: 4.4, users: "2M+", pricing: "$12-$76", features: ["Gen-3", "Video Edit", "Motion Brush", "Image-to-Video"], isNew: true, trending: true },
-  { name: "ElevenLabs", company: "ElevenLabs", category: "Ses", rating: 4.7, users: "3M+", pricing: "Ücretsiz / $5+", features: ["TTS", "Voice Clone", "Dubbing", "Speech-to-Speech"], isNew: false, trending: false },
-  { name: "Copilot", company: "Microsoft", category: "Kod", rating: 4.6, users: "30M+", pricing: "$10-$39", features: ["IDE Entegre", "Agent Mode", "Review", "Chat"], isNew: false, trending: true },
-  { name: "Sunno", company: "Sunno AI", category: "Ses", rating: 4.5, users: "1M+", pricing: "Ücretsiz / $8", features: ["Müzik Üretimi", "Söz Yazımı", "Stil Kontrol"], isNew: true, trending: true },
+  { name: "ChatGPT", company: "OpenAI", category: "Sohbet", rating: 4.8, users: "200M+", pricing: "Ücretsiz / $20", features: ["Multimodal", "Plugin", "Custom GPT", "Voice"], isNew: false, trending: true, slug: "chatgpt", desc: "OpenAI'nin çok modlu sohbet modelidir. Metin, görsel ve ses işleme kapasitesine sahiptir." },
+  { name: "Claude", company: "Anthropic", category: "Sohbet", rating: 4.7, users: "50M+", pricing: "Ücretsiz / $20", features: ["200K Context", "Artifacts", "Projects", "Vision"], isNew: false, trending: true, slug: "claude", desc: "Anthropic'in güvenlik odaklı sohbet modelidir. 200K token bağlam penceresine sahiptir." },
+  { name: "Gemini", company: "Google", category: "Sohbet", rating: 4.5, users: "100M+", pricing: "Ücretsiz / $20", features: ["Google Entegre", "Multimodal", "Code", "Web"], isNew: false, trending: false, slug: "gemini", desc: "Google'ın çok modlu AI modelidir. Google ekosisteminde derin entegrasyon sunar." },
+  { name: "Midjourney", company: "Midjourney", category: "Görsel", rating: 4.9, users: "16M+", pricing: "$10-$60", features: ["Fotoğraf Gerçekçi", "Stil Transfer", "Remix", "V6 Model"], isNew: false, trending: true, slug: "midjourney", desc: "Foto-gerçekçi görsel üretim aracıdır. V6 model ile profesyonel kalitede sanat eserleri oluşturabilir." },
+  { name: "Cursor", company: "Cursor AI", category: "Kod", rating: 4.9, users: "5M+", pricing: "Ücretsiz / $20", features: ["Tab Complete", "Chat", "Edit", "Multi-file"], isNew: true, trending: true, slug: "cursor", desc: "AI-native kod editörüdür. Tab completion, chat ve multi-file edit ile kod yazma hızını 3x artırır." },
+  { name: "Perplexity", company: "Perplexity AI", category: "Arama", rating: 4.6, users: "10M+", pricing: "Ücretsiz / $20", features: ["Gerçek Zamanlı", "Kaynak", "Collection", "Space"], isNew: false, trending: false, slug: "perplexity", desc: "Kaynak göstererek arama yapan AI motorudur. Gerçek zamanlı bilgi güncelleme sunar." },
+  { name: "Runway ML", company: "Runway", category: "Video", rating: 4.4, users: "2M+", pricing: "$12-$76", features: ["Gen-3", "Video Edit", "Motion Brush", "Image-to-Video"], isNew: true, trending: true, slug: "runway-ml", desc: "AI tabanlı video üretim ve düzenleme platformudur. Gen-3 modeli ile fotogerçekçi video oluşturabilir." },
+  { name: "ElevenLabs", company: "ElevenLabs", category: "Ses", rating: 4.7, users: "3M+", pricing: "Ücretsiz / $5+", features: ["TTS", "Voice Clone", "Dubbing", "Speech-to-Speech"], isNew: false, trending: false, slug: "elevenlabs", desc: "En gelişmiş AI ses üretimi ve klonlama platformudur. Voice clone kalitesi mükemmeldir." },
+  { name: "Copilot", company: "Microsoft", category: "Kod", rating: 4.6, users: "30M+", pricing: "$10-$39", features: ["IDE Entegre", "Agent Mode", "Review", "Chat"], isNew: false, trending: true, slug: "copilot", desc: "Microsoft'un AI kod asistanıdır. IDE entegrasyonu ile kod yazımını hızlandırır." },
+  { name: "Sunno", company: "Sunno AI", category: "Ses", rating: 4.5, users: "1M+", pricing: "Ücretsiz / $8", features: ["Müzik Üretimi", "Söz Yazımı", "Stil Kontrol"], isNew: true, trending: true, slug: "sunno", desc: "AI müzik üretimi platformudur. Söz yazımından tam müzik üretimine kadar her şeyi destekler." },
 ];
 
 // ─── Categories ──────────────────────────────────────────────────────────────
@@ -43,8 +44,8 @@ const toolCategories = [
 
 // ─── Featured Tools (side-by-side comparison) ────────────────────────────────
 const featuredTools = [
-  { name: "Cursor", company: "Cursor AI", rating: 4.9, desc: "AI-native kod editörü. Tab completion, chat ve multi-file edit ile kod yazma hızını 3x artırır.", features: ["Tab Complete", "Chat Edit", "Multi-file", "Agent Mode"], color: "#00E5A0" },
-  { name: "Midjourney", company: "Midjourney", rating: 4.9, desc: "Foto-gerçekçi görsel üretim. V6 model ile profesyonel kalitede sanat eserleri oluşturabilirsiniz.", features: ["V6 Model", "Remix", "Stil Transfer", "Upscale"], color: "#A78BFA" },
+  { name: "Cursor", company: "Cursor AI", rating: 4.9, desc: "AI-native kod editörü. Tab completion, chat ve multi-file edit ile kod yazma hızını 3x artırır.", features: ["Tab Complete", "Chat Edit", "Multi-file", "Agent Mode"], color: "#00E5A0", slug: "cursor" },
+  { name: "Midjourney", company: "Midjourney", rating: 4.9, desc: "Foto-gerçekçi görsel üretim. V6 model ile profesyonel kalitede sanat eserleri oluşturabilirsiniz.", features: ["V6 Model", "Remix", "Stil Transfer", "Upscale"], color: "#A78BFA", slug: "midjourney" },
 ];
 
 // ─── Reviews ─────────────────────────────────────────────────────────────────
@@ -259,7 +260,8 @@ export default function AITools() {
           {(!activeCategory && !searchQuery) && (
             <div className="grid sm:grid-cols-2 gap-4 mb-5">
               {featuredTools.map((tool, i) => (
-                <div key={i} className="glass rounded-xl p-5 relative overflow-hidden" style={{ borderLeft: `3px solid ${tool.color}` }}>
+                <Link key={i} href={`/detay/ai-araclari/arac/${tool.slug}`}>
+                <div className="glass rounded-xl p-5 relative overflow-hidden transition-all duration-300 hover:bg-white/[0.02] cursor-pointer" style={{ borderLeft: `3px solid ${tool.color}` }}>
                   <div className="absolute top-2 right-2">
                     <span className="text-[10px] mono px-1.5 py-0.5 rounded-full" style={{ background: `${tool.color}15`, color: tool.color }}>ÖNE ÇIKAN</span>
                   </div>
@@ -280,6 +282,7 @@ export default function AITools() {
                     <span className="font-bold text-sm" style={{ color: tool.color, fontFamily: "Space Grotesk, sans-serif" }}>{tool.rating}</span>
                   </div>
                 </div>
+                </Link>
               ))}
             </div>
           )}
@@ -289,7 +292,8 @@ export default function AITools() {
             {filteredTools.map((tool, i) => {
               const catColor = toolCategories.find(c => c.name.includes(tool.category))?.color || BRAND_COLOR;
               return (
-                <div key={i} className="glass rounded-xl p-4 transition-all duration-300 hover:scale-[1.01] group" style={{ borderTop: `2px solid ${catColor}` }}>
+                <Link key={i} href={`/detay/ai-araclari/arac/${tool.slug}`}>
+                <div className="glass rounded-xl p-4 transition-all duration-300 hover:scale-[1.01] group cursor-pointer" style={{ borderTop: `2px solid ${catColor}` }}>
                   <div className="flex items-start justify-between mb-2">
                     <div>
                       <h3 className="font-bold text-white text-sm" style={{ fontFamily: "Space Grotesk, sans-serif" }}>{tool.name}</h3>
@@ -323,6 +327,7 @@ export default function AITools() {
                     <span>{tool.users}</span>
                   </div>
                 </div>
+                </Link>
               );
             })}
           </div>
@@ -370,7 +375,8 @@ export default function AITools() {
                   {aiTools.map((tool, i) => {
                     const catColor = toolCategories.find(c => c.name.includes(tool.category))?.color || BRAND_COLOR;
                     return (
-                      <tr key={i} className="border-b transition-colors hover:bg-white/[0.02]" style={{ borderColor: "rgba(255,255,255,0.04)" }}>
+                      <Link key={i} href={`/detay/ai-araclari/arac/${tool.slug}`}>
+                      <tr className="border-b transition-colors hover:bg-white/[0.02] cursor-pointer" style={{ borderColor: "rgba(255,255,255,0.04)" }}>
                         <td className="p-4">
                           <div className="font-semibold text-white">{tool.name}</div>
                           <div className="text-[10px]" style={{ color: "#64748B" }}>{tool.company}</div>
@@ -398,6 +404,7 @@ export default function AITools() {
                           </div>
                         </td>
                       </tr>
+                      </Link>
                     );
                   })}
                 </tbody>
@@ -412,7 +419,8 @@ export default function AITools() {
 
           <div className="grid sm:grid-cols-2 gap-4">
             {reviews.map((review, i) => (
-              <div key={i} className="glass rounded-xl p-5 transition-all duration-300">
+              <Link key={i} href={`/detay/ai-araclari/arac/${review.tool.toLowerCase()}`}>
+              <div className="glass rounded-xl p-5 transition-all duration-300 cursor-pointer hover:bg-white/[0.02]">
                 <div className="flex items-center gap-2 mb-3">
                   <span className="font-bold text-sm text-white" style={{ fontFamily: "Space Grotesk, sans-serif" }}>{review.tool}</span>
                   <div className="flex gap-0.5">
@@ -424,6 +432,7 @@ export default function AITools() {
                 </div>
                 <p className="text-sm italic" style={{ color: "#94A3B8" }}>"{review.text}"</p>
               </div>
+              </Link>
             ))}
           </div>
         </div>

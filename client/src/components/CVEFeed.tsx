@@ -3,6 +3,7 @@
  * Latest critical CVEs with severity badges, CVSS score, search
  */
 import { useState, useMemo } from "react";
+import { Link } from "wouter";
 import { Bug, Search, ExternalLink, Clock } from "lucide-react";
 
 interface CVEItem {
@@ -110,7 +111,8 @@ export function CVEFeed() {
             {filteredCVEs.map((cve) => {
               const style = severityStyles[cve.severity];
               return (
-                <div key={cve.id} className="px-4 py-3 hover:bg-white/[0.02] transition-colors">
+                <Link key={cve.id} href={`/detay/siber-guvenlik/cve/${cve.id}`}>
+                <div className="px-4 py-3 hover:bg-white/[0.02] transition-colors cursor-pointer">
                   <div className="flex items-start justify-between gap-3">
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2 mb-1">
@@ -130,6 +132,7 @@ export function CVEFeed() {
                   </div>
                   <p className="text-xs mt-1.5" style={{ color: "#475569" }}>{cve.description}</p>
                 </div>
+                </Link>
               );
             })}
           </div>

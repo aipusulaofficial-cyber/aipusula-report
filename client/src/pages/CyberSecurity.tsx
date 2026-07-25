@@ -5,6 +5,7 @@
  * Scroll-to-section navigation — NOT tabs (keeps widgets from existing components)
  */
 import { useState, useEffect } from "react";
+import { Link } from "wouter";
 import {
   Shield, AlertTriangle, Map, Bug, Newspaper, Wrench, BarChart2,
   ArrowRight, ChevronRight, Clock, Globe, Server, Lock, Eye, Zap,
@@ -34,11 +35,11 @@ const securityTools = [
 
 // ─── Security Analysis ───────────────────────────────────────────────────────
 const analyses = [
-  { title: "2026 Q2 Ransomware Raporu", type: "Yıllık Rapor", date: "Temmuz 2026", summary: "Ransomware saldırıları %35 artış gösterdi. Sağlık ve finans sektörleri en çok hedef alındı.", severity: "Kritik" },
-  { title: "Cloud Güvenlik Durumu Değerlendirmesi", type: "Analiz", date: "Haziran 2026", summary: "Bulut yapılandırma hataları hâlâ en yaygın saldırı vektörü. %68 oranında bulut ihlali yapılandırma hatasından kaynaklanıyor.", severity: "Yüksek" },
-  { title: "Zero-Trust Mimarisi: Uygulama Rehberi", type: "Rehber", date: "Temmuz 2026", summary: "Sıfır güven mimarisinin kurumsal ortamlara uygulanması adım adım açıklanıyor.", severity: "Bilgi" },
-  { title: "AI Tabanlı Saldırı Vektörleri", type: "Araştırma", date: "Haziran 2026", summary: "Deepfake ses klonlama ve AI phishing saldırılarının tespit yöntemleri.", severity: "Yüksek" },
-  { title: "Supply Chain Saldırıları: 2026 Trendleri", type: "Analiz", date: "Temmuz 2026", summary: "npm ve PyPI ekosistemlerindeki supply chain saldırıları %200 arttı.", severity: "Kritik" },
+  { title: "2026 Q2 Ransomware Raporu", type: "Yıllık Rapor", date: "Temmuz 2026", summary: "Ransomware saldırıları %35 artış gösterdi. Sağlık ve finans sektörleri en çok hedef alındı.", severity: "Kritik", slug: "ransomware-rapor-2026-q2" },
+  { title: "Cloud Güvenlik Durumu Değerlendirmesi", type: "Analiz", date: "Haziran 2026", summary: "Bulut yapılandırma hataları hâlâ en yaygın saldırı vektörü. %68 oranında bulut ihlali yapılandırma hatasından kaynaklanıyor.", severity: "Yüksek", slug: "cloud-guvenlik" },
+  { title: "Zero-Trust Mimarisi: Uygulama Rehberi", type: "Rehber", date: "Temmuz 2026", summary: "Sıfır güven mimarisinin kurumsal ortamlara uygulanması adım adım açıklanıyor.", severity: "Bilgi", slug: "zero-trust-mimarisi" },
+  { title: "AI Tabanlı Saldırı Vektörleri", type: "Araştırma", date: "Haziran 2026", summary: "Deepfake ses klonlama ve AI phishing saldırılarının tespit yöntemleri.", severity: "Yüksek", slug: "ai-saldiri-vektorleri" },
+  { title: "Supply Chain Saldırıları: 2026 Trendleri", type: "Analiz", date: "Temmuz 2026", summary: "npm ve PyPI ekosistemlerindeki supply chain saldırıları %200 arttı.", severity: "Kritik", slug: "supply-chain-trendleri" },
 ];
 
 // ─── Recent Threat Alerts ────────────────────────────────────────────────────
@@ -224,7 +225,8 @@ export default function CyberSecurity() {
           {/* Threat Category Grid */}
           <div className="grid sm:grid-cols-3 gap-3 mb-5">
             {threatCategories.map((tc, i) => (
-              <div key={i} className="glass rounded-xl p-4 transition-all duration-300 hover:scale-[1.01]" style={{ borderLeft: `3px solid ${tc.color}` }}>
+              <Link key={i} href={`/detay/siber-guvenlik/tehdit/${tc.name.toLowerCase().replace(/[^a-zğüşıöç]+/g, '-').replace(/^-|-$/g, '')}`}>
+              <div className="glass rounded-xl p-4 transition-all duration-300 hover:scale-[1.01] cursor-pointer" style={{ borderLeft: `3px solid ${tc.color}` }}>
                 <div className="flex items-center justify-between mb-1">
                   <div className="flex items-center gap-2">
                     <div style={{ color: tc.color }}>{tc.icon}</div>
@@ -234,6 +236,7 @@ export default function CyberSecurity() {
                 </div>
                 <div className="text-xs mono" style={{ color: "#64748B" }}>{tc.count.toLocaleString()} aktif</div>
               </div>
+              </Link>
             ))}
           </div>
 
@@ -242,7 +245,8 @@ export default function CyberSecurity() {
             <h3 className="font-bold text-white mb-3 text-sm" style={{ fontFamily: "Space Grotesk, sans-serif" }}>Son Tehdit Uyarıları</h3>
             <div className="space-y-2">
               {recentAlerts.map((alert, i) => (
-                <div key={i} className="flex items-center gap-3 p-3 rounded-lg transition-all hover:bg-white/[0.02]" style={{ background: `${alert.color}04`, border: `1px solid ${alert.color}10` }}>
+                <Link key={i} href={`/detay/siber-guvenlik/uyari/${alert.name.toLowerCase().replace(/[^a-zğüşıöç]+/g, '-').replace(/^-|-$/g, '')}`}>
+                <div className="flex items-center gap-3 p-3 rounded-lg transition-all hover:bg-white/[0.02] cursor-pointer" style={{ background: `${alert.color}04`, border: `1px solid ${alert.color}10` }}>
                   <div className="w-2 h-2 rounded-full flex-shrink-0" style={{ background: alert.color }} />
                   <span className="text-[10px] mono px-2 py-0.5 rounded-full flex-shrink-0" style={{ background: `${alert.color}12`, color: alert.color }}>{alert.severity}</span>
                   <div className="flex-1 min-w-0">
@@ -251,6 +255,7 @@ export default function CyberSecurity() {
                   </div>
                   <span className="text-xs flex-shrink-0" style={{ color: "#475569" }}>{alert.time}</span>
                 </div>
+                </Link>
               ))}
             </div>
           </div>
@@ -274,7 +279,8 @@ export default function CyberSecurity() {
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {securityTools.map((tool, i) => (
-              <div key={i} className="glass rounded-xl p-5 transition-all duration-300 hover:scale-[1.01] group" style={{ borderLeft: `3px solid ${BRAND_COLOR}` }}>
+              <Link key={i} href={`/detay/siber-guvenlik/arac/${tool.name.toLowerCase().replace(/[^a-zğüşıöç]+/g, '-').replace(/^-|-$/g, '')}`}>
+              <div className="glass rounded-xl p-5 transition-all duration-300 hover:scale-[1.01] group cursor-pointer" style={{ borderLeft: `3px solid ${BRAND_COLOR}` }}>
                 <div className="flex items-center justify-between mb-2">
                   <div className="flex items-center gap-2">
                     <Wrench className="w-4 h-4" style={{ color: BRAND_COLOR }} />
@@ -288,6 +294,7 @@ export default function CyberSecurity() {
                   <span className="text-[10px] mono" style={{ color: "#475569" }}>★ {tool.stars}</span>
                 )}
               </div>
+              </Link>
             ))}
           </div>
         </div>
@@ -298,7 +305,8 @@ export default function CyberSecurity() {
 
           <div className="space-y-4">
             {analyses.map((analysis, i) => (
-              <div key={i} className="glass rounded-xl p-5 transition-all duration-300 hover:bg-white/[0.02]">
+              <Link key={i} href={`/detay/siber-guvenlik/analiz/${analysis.slug}`}>
+              <div className="glass rounded-xl p-5 transition-all duration-300 hover:bg-white/[0.02] cursor-pointer">
                 <div className="flex items-start justify-between mb-2">
                   <div className="flex-1">
                     <div className="flex items-center gap-2 mb-1">
@@ -318,6 +326,7 @@ export default function CyberSecurity() {
                   <ChevronRight className="w-3 h-3" />
                 </div>
               </div>
+              </Link>
             ))}
           </div>
         </div>

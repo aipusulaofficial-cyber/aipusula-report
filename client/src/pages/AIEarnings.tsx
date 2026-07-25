@@ -5,6 +5,7 @@
  * Scroll-to-section navigation
  */
 import { useState, useEffect } from "react";
+import { Link } from "wouter";
 import {
   DollarSign, TrendingUp, Target, Users, BookOpen, ArrowRight,
   ChevronRight, Zap, Star, Clock, Award, Play, Monitor,
@@ -17,40 +18,40 @@ const BRAND_COLOR = "#FCD34D";
 
 // ─── Income Streams ──────────────────────────────────────────────────────────
 const incomeStreams = [
-  { title: "AI Freelancing", monthly: "$2K–$15K", difficulty: "Orta", timeToFirst: "2-4 hafta", icon: <Briefcase className="w-5 h-5" />, desc: "AI araçlarını kullanarak içerik, tasarım ve yazılım hizmetleri satışı", examples: "ChatGPT yazımı, Midjourney tasarımı, veri analizi", bar: 55 },
-  { title: "SaaS Ürünleri", monthly: "$5K–$50K", difficulty: "Zor", timeToFirst: "2-6 ay", icon: <Monitor className="w-5 h-5" />, desc: "AI tabanlı yazılım ürünleri geliştirme ve abonelik satışı", examples: "AI chatbot, içerik üretim aracı, otomasyon platformu", bar: 80 },
-  { title: "YouTube Otomasyonu", monthly: "$1K–$20K", difficulty: "Orta", timeToFirst: "1-3 ay", icon: <Play className="w-5 h-5" />, desc: "AI ile video üretim, senaryo yazımı ve SEO optimizasyonu", examples: "Teknoloji kanalı, eğitim içerikleri, haber kanalı", bar: 45 },
-  { title: "Affiliate Pazarlama", monthly: "$500–$8K", difficulty: "Kolay", timeToFirst: "1-2 hafta", icon: <Target className="w-5 h-5" />, desc: "AI araçları için affiliate linkleri ile komisyon kazanma", examples: "AI araç incelemeleri, karşılaştırma siteleri, blog", bar: 30 },
-  { title: "Online Kurs Satışı", monthly: "$1K–$30K", difficulty: "Orta", timeToFirst: "1-2 ay", icon: <BookOpen className="w-5 h-5" />, desc: "AI kullanımı hakkında online kurs ve eğitim satışı", examples: "ChatGPT mastery, AI içerik üretimi, prompt engineering", bar: 50 },
-  { title: "AI Danışmanlığı", monthly: "$3K–$25K", difficulty: "Zor", timeToFirst: "1-3 ay", icon: <Users className="w-5 h-5" />, desc: "Şirketlere AI entegrasyonu ve strateji danışmanlığı", examples: "Enterprise AI, süreç otomasyonu, veri stratejisi", bar: 70 },
+  { title: "AI Freelancing", monthly: "$2K–$15K", difficulty: "Orta", timeToFirst: "2-4 hafta", icon: <Briefcase className="w-5 h-5" />, desc: "AI araçlarını kullanarak içerik, tasarım ve yazılım hizmetleri satışı", examples: "ChatGPT yazımı, Midjourney tasarımı, veri analizi", bar: 55, slug: "ai-freelancing" },
+  { title: "SaaS Ürünleri", monthly: "$5K–$50K", difficulty: "Zor", timeToFirst: "2-6 ay", icon: <Monitor className="w-5 h-5" />, desc: "AI tabanlı yazılım ürünleri geliştirme ve abonelik satışı", examples: "AI chatbot, içerik üretim aracı, otomasyon platformu", bar: 80, slug: "saas-urunleri" },
+  { title: "YouTube Otomasyonu", monthly: "$1K–$20K", difficulty: "Orta", timeToFirst: "1-3 ay", icon: <Play className="w-5 h-5" />, desc: "AI ile video üretim, senaryo yazımı ve SEO optimizasyonu", examples: "Teknoloji kanalı, eğitim içerikleri, haber kanalı", bar: 45, slug: "youtube-otomasyon" },
+  { title: "Affiliate Pazarlama", monthly: "$500–$8K", difficulty: "Kolay", timeToFirst: "1-2 hafta", icon: <Target className="w-5 h-5" />, desc: "AI araçları için affiliate linkleri ile komisyon kazanma", examples: "AI araç incelemeleri, karşılaştırma siteleri, blog", bar: 30, slug: "affiliate-pazarlama" },
+  { title: "Online Kurs Satışı", monthly: "$1K–$30K", difficulty: "Orta", timeToFirst: "1-2 ay", icon: <BookOpen className="w-5 h-5" />, desc: "AI kullanımı hakkında online kurs ve eğitim satışı", examples: "ChatGPT mastery, AI içerik üretimi, prompt engineering", bar: 50, slug: "online-kurs-satis" },
+  { title: "AI Danışmanlığı", monthly: "$3K–$25K", difficulty: "Zor", timeToFirst: "1-3 ay", icon: <Users className="w-5 h-5" />, desc: "Şirketlere AI entegrasyonu ve strateji danışmanlığı", examples: "Enterprise AI, süreç otomasyonu, veri stratejisi", bar: 70, slug: "ai-danismanlik" },
 ];
 
 // ─── Guides ──────────────────────────────────────────────────────────────────
 const guides = [
-  { title: "AI Freelancing ile Aylık $5K Kazanç Rehberi", readTime: "12 dk", category: "Freelance", level: "Başlangıç", difficulty: "Kolay" },
-  { title: "ChatGPT ile İçerik Üretimi: Tam Rehber", readTime: "18 dk", category: "İçerik", level: "Orta", difficulty: "Orta" },
-  { title: "AI ile SaaS Ürün Geliştirme Adım Adım", readTime: "25 dk", category: "SaaS", level: "İleri", difficulty: "Zor" },
-  { title: "YouTube AI Otomasyonu: Sıfırdan Başlangıç", readTime: "15 dk", category: "YouTube", level: "Başlangıç", difficulty: "Kolay" },
-  { title: "Prompt Engineering ile Gelir Artırma", readTime: "10 dk", category: "Teknik", level: "Orta", difficulty: "Orta" },
-  { title: "AI Affiliate Pazarlama Stratejileri", readTime: "8 dk", category: "Pazarlama", level: "Başlangıç", difficulty: "Kolay" },
-  { title: "AI Danışmanlığı: Kurumsal Satış Süreci", readTime: "20 dk", category: "Danışmanlık", level: "İleri", difficulty: "Zor" },
-  { title: "Midjourney ile Dijital Sanat Satışı", readTime: "14 dk", category: "Sanat", level: "Orta", difficulty: "Orta" },
+  { title: "AI Freelancing ile Aylık $5K Kazanç Rehberi", readTime: "12 dk", category: "Freelance", level: "Başlangıç", difficulty: "Kolay", slug: "ai-freelancing-5k" },
+  { title: "ChatGPT ile İçerik Üretimi: Tam Rehber", readTime: "18 dk", category: "İçerik", level: "Orta", difficulty: "Orta", slug: "chatgpt-icerik-uretimi" },
+  { title: "AI ile SaaS Ürün Geliştirme Adım Adım", readTime: "25 dk", category: "SaaS", level: "İleri", difficulty: "Zor", slug: "ai-saas-gelistirme" },
+  { title: "YouTube AI Otomasyonu: Sıfırdan Başlangıç", readTime: "15 dk", category: "YouTube", level: "Başlangıç", difficulty: "Kolay", slug: "youtube-ai-otomasyon" },
+  { title: "Prompt Engineering ile Gelir Artırma", readTime: "10 dk", category: "Teknik", level: "Orta", difficulty: "Orta", slug: "prompt-engineering-gelir" },
+  { title: "AI Affiliate Pazarlama Stratejileri", readTime: "8 dk", category: "Pazarlama", level: "Başlangıç", difficulty: "Kolay", slug: "ai-affiliate-pazarlama" },
+  { title: "AI Danışmanlığı: Kurumsal Satış Süreci", readTime: "20 dk", category: "Danışmanlık", level: "İleri", difficulty: "Zor", slug: "ai-danismanlik-kurumsal" },
+  { title: "Midjourney ile Dijital Sanat Satışı", readTime: "14 dk", category: "Sanat", level: "Orta", difficulty: "Orta", slug: "midjourney-sanat-satisi" },
 ];
 
 // ─── Success Stories ─────────────────────────────────────────────────────────
 const successStories = [
-  { name: "Elif Y.", income: "$8,200/ay", method: "AI İçerik Üretimi", story: "ChatGPT ve Midjourney kullanarak kurumsal müşterilere içerik hizmeti sunuyorum. 6 ayda gelirim 3 katına çıktı.", avatar: "EY", months: "6 ay" },
-  { name: "Can K.", income: "$15,000/ay", method: "AI SaaS", story: "AI destekli müşteri hizmetleri chatbot platformu geliştirdim. 3 ayda 200+ abone buldum.", avatar: "CK", months: "8 ay" },
-  { name: "Zeynep A.", income: "$5,400/ay", method: "YouTube Otomasyonu", story: "AI ile günde 3 video üretiyorum. 4 ayda 50K aboneye ulaştım ve AdSense gelirim sürekli artıyor.", avatar: "ZA", months: "4 ay" },
-  { name: "Mehmet S.", income: "$22,000/ay", method: "AI Danışmanlığı", story: "Enterprise şirketlere AI entegrasyonu danışmanlığı veriyorum. Her proje $5K-$15K arasında.", avatar: "MS", months: "12 ay" },
+  { name: "Elif Y.", income: "$8,200/ay", method: "AI İçerik Üretimi", story: "ChatGPT ve Midjourney kullanarak kurumsal müşterilere içerik hizmeti sunuyorum. 6 ayda gelirim 3 katına çıktı.", avatar: "EY", months: "6 ay", slug: "elif-y-icerik" },
+  { name: "Can K.", income: "$15,000/ay", method: "AI SaaS", story: "AI destekli müşteri hizmetleri chatbot platformu geliştirdim. 3 ayda 200+ abone buldum.", avatar: "CK", months: "8 ay", slug: "can-k-saas" },
+  { name: "Zeynep A.", income: "$5,400/ay", method: "YouTube Otomasyonu", story: "AI ile günde 3 video üretiyorum. 4 ayda 50K aboneye ulaştım ve AdSense gelirim sürekli artıyor.", avatar: "ZA", months: "4 ay", slug: "zeynep-a-youtube" },
+  { name: "Mehmet S.", income: "$22,000/ay", method: "AI Danışmanlığı", story: "Enterprise şirketlere AI entegrasyonu danışmanlığı veriyorum. Her proje $5K-$15K arasında.", avatar: "MS", months: "12 ay", slug: "mehmet-s-danismanlik" },
 ];
 
 // ─── Freelance Platforms ─────────────────────────────────────────────────────
 const freelancePlatforms = [
-  { platform: "Upwork", category: "Genel", avgRate: "$35/saat", demand: "Çok Yüksek", demandColor: "#00E5A0" },
-  { platform: "Fiverr", category: "Mikro İşler", avgRate: "$25-200/proje", demand: "Yüksek", demandColor: "#00E5A0" },
-  { platform: "Toptal", category: "Elite", avgRate: "$80/saat", demand: "Orta", demandColor: "#FCD34D" },
-  { platform: "bionluk", category: "TR", avgRate: "₺500-5K/proje", demand: "Yüksek", demandColor: "#00E5A0" },
+  { platform: "Upwork", category: "Genel", avgRate: "$35/saat", demand: "Çok Yüksek", demandColor: "#00E5A0", slug: "upwork" },
+  { platform: "Fiverr", category: "Mikro İşler", avgRate: "$25-200/proje", demand: "Yüksek", demandColor: "#00E5A0", slug: "fiverr" },
+  { platform: "Toptal", category: "Elite", avgRate: "$80/saat", demand: "Orta", demandColor: "#FCD34D", slug: "toptal" },
+  { platform: "bionluk", category: "TR", avgRate: "₺500-5K/proje", demand: "Yüksek", demandColor: "#00E5A0", slug: "bionluk" },
 ];
 
 // ─── YouTube Ideas ───────────────────────────────────────────────────────────
@@ -201,7 +202,8 @@ export default function AIEarnings() {
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {incomeStreams.map((stream, i) => (
-              <div key={i} className="glass rounded-xl p-5 transition-all duration-300 hover:scale-[1.01] group">
+              <Link key={i} href={`/detay/ai-ile-kazanc/guide/${stream.slug}`}>
+              <div className="glass rounded-xl p-5 transition-all duration-300 hover:scale-[1.01] group cursor-pointer">
                 <div className="flex items-center justify-between mb-3">
                   <div style={{ color: BRAND_COLOR }}>{stream.icon}</div>
                   <span className="text-[10px] mono px-2 py-0.5 rounded-full" style={{
@@ -221,6 +223,7 @@ export default function AIEarnings() {
                 </div>
                 <p className="text-[10px] mt-2" style={{ color: "#475569" }}>{stream.examples}</p>
               </div>
+              </Link>
             ))}
           </div>
         </div>
@@ -231,7 +234,8 @@ export default function AIEarnings() {
 
           <div className="grid sm:grid-cols-2 gap-4">
             {guides.map((guide, i) => (
-              <div key={i} className="glass rounded-xl p-5 transition-all duration-300 hover:scale-[1.01] group" style={{ borderLeft: `3px solid ${BRAND_COLOR}` }}>
+              <Link key={i} href={`/detay/ai-ile-kazanc/guide/${guide.slug}`}>
+              <div className="glass rounded-xl p-5 transition-all duration-300 hover:scale-[1.01] group cursor-pointer" style={{ borderLeft: `3px solid ${BRAND_COLOR}` }}>
                 <div className="flex items-center gap-2 mb-2">
                   <span className="text-[10px] mono px-2 py-0.5 rounded-full" style={{ background: `${BRAND_COLOR}10`, color: BRAND_COLOR }}>{guide.category}</span>
                   <span className="text-[10px] px-1.5 py-0.5 rounded" style={{
@@ -247,6 +251,7 @@ export default function AIEarnings() {
                   </span>
                 </div>
               </div>
+              </Link>
             ))}
           </div>
         </div>
@@ -258,7 +263,8 @@ export default function AIEarnings() {
           <div className="glass rounded-xl p-5">
             <div className="grid sm:grid-cols-2 gap-4">
               {freelancePlatforms.map((p, i) => (
-                <div key={i} className="p-4 rounded-lg" style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.04)" }}>
+                <Link key={i} href={`/detay/ai-ile-kazanc/guide/${p.slug}`}>
+                <div className="p-4 rounded-lg transition-all hover:bg-white/[0.02] cursor-pointer" style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.04)" }}>
                   <div className="flex items-center justify-between mb-2">
                     <div className="font-bold text-white text-sm">{p.platform}</div>
                     <span className="text-[10px] mono px-1.5 py-0.5 rounded-full" style={{ background: `${p.demandColor}10`, color: p.demandColor }}>{p.demand} Talep</span>
@@ -266,6 +272,7 @@ export default function AIEarnings() {
                   <div className="text-xs mb-2" style={{ color: "#64748B" }}>{p.category}</div>
                   <div className="text-xs mono" style={{ color: BRAND_COLOR }}>{p.avgRate}</div>
                 </div>
+                </Link>
               ))}
             </div>
           </div>
@@ -277,7 +284,8 @@ export default function AIEarnings() {
 
           <div className="space-y-3">
             {youtubeIdeas.map((video, i) => (
-              <div key={i} className="glass rounded-xl p-4 flex items-center gap-4 transition-all duration-300 hover:bg-white/[0.02]">
+              <Link key={i} href={`/detay/ai-ile-kazanc/video/${i}`}>
+              <div className="glass rounded-xl p-4 flex items-center gap-4 transition-all duration-300 hover:bg-white/[0.02] cursor-pointer">
                 <div className="w-20 h-14 rounded-lg flex items-center justify-center flex-shrink-0 relative" style={{ background: `${BRAND_COLOR}08` }}>
                   <Play className="w-5 h-5" style={{ color: BRAND_COLOR }} />
                   <span className="absolute bottom-1 right-1 text-[9px] mono px-1 rounded" style={{ background: "rgba(0,0,0,0.7)", color: "#94A3B8" }}>{video.duration}</span>
@@ -290,6 +298,7 @@ export default function AIEarnings() {
                   </div>
                 </div>
               </div>
+              </Link>
             ))}
           </div>
         </div>
@@ -300,7 +309,8 @@ export default function AIEarnings() {
 
           <div className="grid sm:grid-cols-2 gap-4">
             {successStories.map((story, i) => (
-              <div key={i} className="glass rounded-xl p-5 transition-all duration-300">
+              <Link key={i} href={`/detay/ai-ile-kazanc/basari/${story.slug}`}>
+              <div className="glass rounded-xl p-5 transition-all duration-300 cursor-pointer hover:bg-white/[0.02]">
                 <div className="flex items-center gap-3 mb-3">
                   <div className="w-10 h-10 rounded-full flex items-center justify-center font-bold text-black" style={{ background: BRAND_COLOR, fontFamily: "Space Grotesk, sans-serif" }}>
                     {story.avatar}
@@ -316,6 +326,7 @@ export default function AIEarnings() {
                 </div>
                 <p className="text-xs leading-relaxed" style={{ color: "#94A3B8" }}>"{story.story}"</p>
               </div>
+              </Link>
             ))}
           </div>
         </div>

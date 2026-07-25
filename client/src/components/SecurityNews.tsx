@@ -3,6 +3,7 @@
  * Live cybersecurity news with category filters
  */
 import { useState, useMemo } from "react";
+import { Link } from "wouter";
 import { Newspaper, Clock, ExternalLink } from "lucide-react";
 
 interface NewsItem {
@@ -13,17 +14,18 @@ interface NewsItem {
   timeAgo: string;
   summary: string;
   url: string;
+  slug?: string;
 }
 
 const newsItems: NewsItem[] = [
-  { id: 1, title: "Microsoft Azure'da Kritik Güvenlik Açığı Kapatıldı", category: "Bulut", source: "TechCrunch", timeAgo: "12 dk önce", summary: "Azure Active Directory'deki zafiyet, yetkisiz erişim riski oluşturuyordu. Microsoft acil yama yayınladı.", url: "#" },
-  { id: 2, title: "NATO Ülkelerine Yönelik APT Saldırıları Artıyor", category: "Devlet Destekli", source: "Reuters", timeAgo: "45 dk önce", summary: "Siber güvenlik firmaları, NATO ülkelerine yönelik organize saldırı kampanyası tespit etti.", url: "#" },
-  { id: 3, title: "Yapay Zeka Destekli Phishing Saldırıları %340 Arttı", category: "AI Tehditleri", source: "Dark Reading", timeAgo: "1 saat önce", summary: "LLM tabanlı phishing kampanyaları geleneksel yöntemlere göre çok daha başarılı oluyor.", url: "#" },
-  { id: 4, title: "Google Chrome 0-Day Zafiyeti Hızlıca İstismar Ediliyor", category: "Tarayıcı", source: "The Hacker News", timeAgo: "2 saat önce", summary: "Chrome'daki bellek bozulma zafiyeti, aktif olarak istismar ediliyor. Acil güncelleme öneriliyor.", url: "#" },
-  { id: 5, title: "Avrupa DGA (Dijital İşlemler Yasası) Kapsamında Teknoloji Devlerine Rekor Ceza", category: "Regülasyon", source: "EU Observer", timeAgo: "3 saat önce", summary: "AB, siber güvenlik ihlali nedeniyle büyük teknoloji şirketlerine 2 milyar Euro ceza kesti.", url: "#" },
-  { id: 6, title: "Ransomware Grupları Sağlık Sektörünü Hedefliyor", category: "Ransomware", source: "BleepingComputer", timeAgo: "4 saat önce", summary: "LockBit benzeri gruplar hastane sistemlerini şifreleyerek fidye talep ediyor.", url: "#" },
-  { id: 7, title: "Supply Chain Saldırıları için Yeni Framework Yayınlandı", category: "Araştırma", source: "NIST", timeAgo: "5 saat önce", summary: "NIST, yazılım tedarik zinciri güvenliği için yeni değerlendirme çerçevesi yayınladı.", url: "#" },
-  { id: 8, title: "IoT Cihazlarında Toplu Zafiyet Tespit Edildi", category: "IoT", source: "ZDNet", timeAgo: "6 saat önce", summary: "50 milyondan fazla IoT cihazında aynı güvenlik açığı bulundu. Firmware güncellemesi gerekli.", url: "#" },
+  { id: 1, title: "Microsoft Azure'da Kritik Güvenlik Açığı Kapatıldı", category: "Bulut", source: "TechCrunch", timeAgo: "12 dk önce", summary: "Azure Active Directory'deki zafiyet, yetkisiz erişim riski oluşturuyordu. Microsoft acil yama yayınladı.", url: "#", slug: "azure-guvenlik-acigi" },
+  { id: 2, title: "NATO Ülkelerine Yönelik APT Saldırıları Artıyor", category: "Devlet Destekli", source: "Reuters", timeAgo: "45 dk önce", summary: "Siber güvenlik firmaları, NATO ülkelerine yönelik organize saldırı kampanyası tespit etti.", url: "#", slug: "nato-apt-saldirilar" },
+  { id: 3, title: "Yapay Zeka Destekli Phishing Saldırıları %340 Arttı", category: "AI Tehditleri", source: "Dark Reading", timeAgo: "1 saat önce", summary: "LLM tabanlı phishing kampanyaları geleneksel yöntemlere göre çok daha başarılı oluyor.", url: "#", slug: "ai-phishing-artis" },
+  { id: 4, title: "Google Chrome 0-Day Zafiyeti Hızlıca İstismar Ediliyor", category: "Tarayıcı", source: "The Hacker News", timeAgo: "2 saat önce", summary: "Chrome'daki bellek bozulma zafiyeti, aktif olarak istismar ediliyor. Acil güncelleme öneriliyor.", url: "#", slug: "chrome-zero-day" },
+  { id: 5, title: "Avrupa DGA (Dijital İşlemler Yasası) Kapsamında Teknoloji Devlerine Rekor Ceza", category: "Regülasyon", source: "EU Observer", timeAgo: "3 saat önce", summary: "AB, siber güvenlik ihlali nedeniyle büyük teknoloji şirketlerine 2 milyar Euro ceza kesti.", url: "#", slug: "eu-dga-ceza" },
+  { id: 6, title: "Ransomware Grupları Sağlık Sektörünü Hedefliyor", category: "Ransomware", source: "BleepingComputer", timeAgo: "4 saat önce", summary: "LockBit benzeri gruplar hastane sistemlerini şifreleyerek fidye talep ediyor.", url: "#", slug: "ransomware-saglik" },
+  { id: 7, title: "Supply Chain Saldırıları için Yeni Framework Yayınlandı", category: "Araştırma", source: "NIST", timeAgo: "5 saat önce", summary: "NIST, yazılım tedarik zinciri güvenliği için yeni değerlendirme çerçevesi yayınladı.", url: "#", slug: "supply-chain-framework" },
+  { id: 8, title: "IoT Cihazlarında Toplu Zafiyet Tespit Edildi", category: "IoT", source: "ZDNet", timeAgo: "6 saat önce", summary: "50 milyondan fazla IoT cihazında aynı güvenlik açığı bulundu. Firmware güncellemesi gerekli.", url: "#", slug: "iot-zafiyet" },
 ];
 
 const categories = ["Tümü", "Bulut", "AI Tehditleri", "Ransomware", "Devlet Destekli", "Regülasyon", "Araştırma", "IoT", "Tarayıcı"];
@@ -90,7 +92,8 @@ export function SecurityNews() {
         {filteredNews.map((news) => {
           const catColor = categoryColors[news.category] || "#00E5A0";
           return (
-            <div key={news.id} className="px-4 py-3 border-b hover:bg-white/[0.02] transition-colors" style={{ borderColor: "rgba(0,229,160,0.04)" }}>
+            <Link key={news.id} href={`/detay/siber-guvenlik/haber/${news.slug}`}>
+            <div className="px-4 py-3 border-b hover:bg-white/[0.02] transition-colors cursor-pointer" style={{ borderColor: "rgba(0,229,160,0.04)" }}>
               <div className="flex items-start gap-3">
                 <div className="w-1 h-full min-h-[40px] rounded-full flex-shrink-0" style={{ background: catColor, opacity: 0.4 }} />
                 <div className="flex-1 min-w-0">
@@ -106,6 +109,7 @@ export function SecurityNews() {
                 </div>
               </div>
             </div>
+            </Link>
           );
         })}
       </div>

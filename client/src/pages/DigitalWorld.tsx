@@ -5,12 +5,13 @@
  * Scroll-to-section navigation with unique dashboard-style presentation
  */
 import { useState, useEffect } from "react";
+import { Link } from "wouter";
 import {
   Globe, Code2, Smartphone, Cloud, Monitor, Rocket,
   ArrowRight, ChevronRight, TrendingUp, Zap, Server,
   GitBranch, Database, Layers, Star, Clock, Activity,
   Shield, Cpu, Wifi, Terminal, HardDrive, BarChart3,
-  ArrowUpRight, ArrowDownRight, Box,
+  ArrowUpRight, ArrowDownRight, Box, DollarSign,
 } from "lucide-react";
 import { AppShell } from "@/components/AppShell";
 import { useTheme } from "@/contexts/ThemeContext";
@@ -19,26 +20,26 @@ const BRAND_COLOR = "#A78BFA";
 
 // ─── Tech Pulse ──────────────────────────────────────────────────────────────
 const techPulse = [
-  { title: "Apple Vision Pro 2: Yeni Uzay Hesaplama Deneyimi", category: "Mobil", time: "3 saat önce", urgent: true },
-  { title: "Linux Kernel 6.12: %15 Performans Artışı", category: "Yazılım", time: "5 saat önce", urgent: false },
-  { title: "AWS Re:Invent 2026: Yeni Bulut Hizmetleri", category: "Bulut", time: "8 saat önce", urgent: false },
-  { title: "WebGPU Tarayıcı Desteği Yaygınlaşıyor", category: "Web", time: "12 saat önce", urgent: false },
-  { title: "Türkiye Girişim: $2.1M Yatırım Turu", category: "Girişim", time: "1 gün önce", urgent: false },
-  { title: "Rust Kurumsal Benimseme %40 Arttı", category: "Yazılım", time: "2 gün önce", urgent: false },
-  { title: "Samsung Galaxy AI: On-Device LLM Entegrasyonu", category: "Mobil", time: "2 gün önce", urgent: false },
-  { title: "Cloudflare Workers AI: Edge Computing Devrimi", category: "Bulut", time: "3 gün önce", urgent: false },
+  { title: "Apple Vision Pro 2: Yeni Uzay Hesaplama Deneyimi", category: "Mobil", time: "3 saat önce", urgent: true, slug: "apple-vision-pro-2" },
+  { title: "Linux Kernel 6.12: %15 Performans Artışı", category: "Yazılım", time: "5 saat önce", urgent: false, slug: "linux-kernel-612" },
+  { title: "AWS Re:Invent 2026: Yeni Bulut Hizmetleri", category: "Bulut", time: "8 saat önce", urgent: false, slug: "aws-reinvent-2026" },
+  { title: "WebGPU Tarayıcı Desteği Yaygınlaşıyor", category: "Web", time: "12 saat önce", urgent: false, slug: "webgpu-adoption" },
+  { title: "Türkiye Girişim: $2.1M Yatırım Turu", category: "Girişim", time: "1 gün önce", urgent: false, slug: "turkey-startup-funding" },
+  { title: "Rust Kurumsal Benimseme %40 Arttı", category: "Yazılım", time: "2 gün önce", urgent: false, slug: "rust-adoption" },
+  { title: "Samsung Galaxy AI: On-Device LLM Entegrasyonu", category: "Mobil", time: "2 gün önce", urgent: false, slug: "samsung-galaxy-ai" },
+  { title: "Cloudflare Workers AI: Edge Computing Devrimi", category: "Bulut", time: "3 gün önce", urgent: false, slug: "cloudflare-workers-ai" },
 ];
 
 // ─── Software Landscape ──────────────────────────────────────────────────────
 const softwareLandscape = [
-  { name: "React 20", category: "Frontend", status: "Stable", adoption: "Yüksek", trend: "+12%", trendUp: true, users: "8.5M", icon: <Code2 className="w-4 h-4" /> },
-  { name: "Next.js 15", category: "Framework", status: "Stable", adoption: "Yüksek", trend: "+18%", trendUp: true, users: "3.2M", icon: <Zap className="w-4 h-4" /> },
-  { name: "TypeScript 5.5", category: "Dil", status: "Stable", adoption: "Yüksek", trend: "+8%", trendUp: true, users: "5.1M", icon: <Terminal className="w-4 h-4" /> },
-  { name: "Tailwind CSS 4", category: "CSS", status: "Stable", adoption: "Yüksek", trend: "+25%", trendUp: true, users: "4.8M", icon: <Layers className="w-4 h-4" /> },
-  { name: "Rust", category: "Dil", status: "Stable", adoption: "Artıyor", trend: "+40%", trendUp: true, users: "2.1M", icon: <Shield className="w-4 h-4" /> },
-  { name: "Bun Runtime", category: "Runtime", status: "Beta", adoption: "Artıyor", trend: "+35%", trendUp: true, users: "800K", icon: <Cpu className="w-4 h-4" /> },
-  { name: "Deno 2.0", category: "Runtime", status: "Stable", adoption: "Orta", trend: "+15%", trendUp: true, users: "650K", icon: <Server className="w-4 h-4" /> },
-  { name: "Hono", category: "Framework", status: "Stable", adoption: "Artıyor", trend: "+60%", trendUp: true, users: "420K", icon: <Zap className="w-4 h-4" /> },
+  { name: "React 20", category: "Frontend", status: "Stable", adoption: "Yüksek", trend: "+12%", trendUp: true, users: "8.5M", icon: <Code2 className="w-4 h-4" />, slug: "react-20" },
+  { name: "Next.js 15", category: "Framework", status: "Stable", adoption: "Yüksek", trend: "+18%", trendUp: true, users: "3.2M", icon: <Zap className="w-4 h-4" />, slug: "nextjs-15" },
+  { name: "TypeScript 5.5", category: "Dil", status: "Stable", adoption: "Yüksek", trend: "+8%", trendUp: true, users: "5.1M", icon: <Terminal className="w-4 h-4" />, slug: "typescript-55" },
+  { name: "Tailwind CSS 4", category: "CSS", status: "Stable", adoption: "Yüksek", trend: "+25%", trendUp: true, users: "4.8M", icon: <Layers className="w-4 h-4" />, slug: "tailwind-4" },
+  { name: "Rust", category: "Dil", status: "Stable", adoption: "Artıyor", trend: "+40%", trendUp: true, users: "2.1M", icon: <Shield className="w-4 h-4" />, slug: "rust" },
+  { name: "Bun Runtime", category: "Runtime", status: "Beta", adoption: "Artıyor", trend: "+35%", trendUp: true, users: "800K", icon: <Cpu className="w-4 h-4" />, slug: "bun-runtime" },
+  { name: "Deno 2.0", category: "Runtime", status: "Stable", adoption: "Orta", trend: "+15%", trendUp: true, users: "650K", icon: <Server className="w-4 h-4" />, slug: "deno-2" },
+  { name: "Hono", category: "Framework", status: "Stable", adoption: "Artıyor", trend: "+60%", trendUp: true, users: "420K", icon: <Zap className="w-4 h-4" />, slug: "hono" },
 ];
 
 // ─── Cloud Matrix ────────────────────────────────────────────────────────────
@@ -53,27 +54,25 @@ const cloudProviders = [
 
 // ─── Startup Tracker ─────────────────────────────────────────────────────────
 const startups = [
-  { name: "FinAI", sector: "Fintech", funding: "$12M (Seri A)", stage: "Erken", founders: "İstanbul", val: "$45M", icon: <DollarSign className="w-4 h-4" /> },
-  { name: "DevMind", sector: "DevTools", funding: "$5M (Seed)", stage: "Seed", founders: "Ankara", val: "$15M", icon: <Code2 className="w-4 h-4" /> },
-  { name: "HealthNet", sector: "Healthtech", funding: "$25M (Seri B)", stage: "Büyüme", founders: "İzmir", val: "$80M", icon: <Activity className="w-4 h-4" /> },
-  { name: "EduTech Pro", sector: "EdTech", funding: "$8M (Seri A)", stage: "Erken", founders: "İstanbul", val: "$30M", icon: <Monitor className="w-4 h-4" /> },
-  { name: "LogiFlow", sector: "Logistics", funding: "$35M (Seri B)", stage: "Büyüme", founders: "İstanbul", val: "$120M", icon: <Box className="w-4 h-4" /> },
-  { name: "CyberShield", sector: "Cybersecurity", funding: "$18M (Seri A)", stage: "Erken", founders: "Ankara", val: "$55M", icon: <Shield className="w-4 h-4" /> },
+  { name: "FinAI", sector: "Fintech", funding: "$12M (Seri A)", stage: "Erken", founders: "İstanbul", val: "$45M", icon: <DollarSign className="w-4 h-4" />, slug: "finai" },
+  { name: "DevMind", sector: "DevTools", funding: "$5M (Seed)", stage: "Seed", founders: "Ankara", val: "$15M", icon: <Code2 className="w-4 h-4" />, slug: "devmind" },
+  { name: "HealthNet", sector: "Healthtech", funding: "$25M (Seri B)", stage: "Büyüme", founders: "İzmir", val: "$80M", icon: <Activity className="w-4 h-4" />, slug: "healthnet" },
+  { name: "EduTech Pro", sector: "EdTech", funding: "$8M (Seri A)", stage: "Erken", founders: "İstanbul", val: "$30M", icon: <Monitor className="w-4 h-4" />, slug: "edutech-pro" },
+  { name: "LogiFlow", sector: "Logistics", funding: "$35M (Seri B)", stage: "Büyüme", founders: "İstanbul", val: "$120M", icon: <Box className="w-4 h-4" />, slug: "logiflow" },
+  { name: "CyberShield", sector: "Cybersecurity", funding: "$18M (Seri A)", stage: "Erken", founders: "Ankara", val: "$55M", icon: <Shield className="w-4 h-4" />, slug: "cybershield" },
 ];
 
 // ─── Web Trends ──────────────────────────────────────────────────────────────
 const webTrends = [
-  { trend: "WebGPU", impact: "Yüksek", status: "Yaygınlaşıyor", desc: "WebGL'in yerini alıyor. GPU tabanlı rendering ve hesaplama." },
-  { trend: "Edge Computing", impact: "Yüksek", status: "Büyüyor", desc: "Cloudflare Workers, Vercel Edge Functions ile düşük gecikme." },
-  { trend: "Server Components", impact: "Orta", status: "Benimseniyor", desc: "React Server Components ile sunucu tarafı rendering." },
-  { trend: "WASM", impact: "Orta", status: "Yaygınlaşıyor", desc: "WebAssembly ile tarayıcıda native hızda kod çalıştırma." },
-  { trend: "AI-Powered Web", impact: "Çok Yüksek", status: "Patlama", desc: "AI entegre web uygulamaları ve otomatik içerik üretimi." },
-  { trend: "Progressive Web Apps", impact: "Orta", status: "Stabil", desc: "Native app deneyimi sunan web uygulamaları." },
+  { trend: "WebGPU", impact: "Yüksek", status: "Yaygınlaşıyor", desc: "WebGL'in yerini alıyor. GPU tabanlı rendering ve hesaplama.", slug: "webgpu" },
+  { trend: "Edge Computing", impact: "Yüksek", status: "Büyüyor", desc: "Cloudflare Workers, Vercel Edge Functions ile düşük gecikme.", slug: "edge-computing" },
+  { trend: "Server Components", impact: "Orta", status: "Benimseniyor", desc: "React Server Components ile sunucu tarafı rendering.", slug: "server-components" },
+  { trend: "WASM", impact: "Orta", status: "Yaygınlaşıyor", desc: "WebAssembly ile tarayıcıda native hızda kod çalıştırma.", slug: "wasm" },
+  { trend: "AI-Powered Web", impact: "Çok Yüksek", status: "Patlama", desc: "AI entegre web uygulamaları ve otomatik içerik üretimi.", slug: "ai-powered-web" },
+  { trend: "Progressive Web Apps", impact: "Orta", status: "Stabil", desc: "Native app deneyimi sunan web uygulamaları.", slug: "pwa" },
 ];
 
 // Import DollarSign for startup data
-import { DollarSign } from "lucide-react";
-
 function SectionHeader({ id, label, title, icon }: { id: string; label: string; title: string; icon: React.ReactNode }) {
   return (
     <div id={id} className="scroll-mt-24 mb-5">
@@ -226,12 +225,14 @@ export default function DigitalWorld() {
           <div className="glass rounded-xl p-5">
             {/* Urgent ticker */}
             {techPulse.filter(n => n.urgent).map((item, i) => (
-              <div key={i} className="flex items-center gap-3 p-3 rounded-lg mb-3" style={{ background: "rgba(0,229,160,0.04)", border: "1px solid rgba(0,229,160,0.1)" }}>
+              <Link key={i} href={`/detay/dijital-dunya/teknoloji/${item.slug}`}>
+              <div className="flex items-center gap-3 p-3 rounded-lg mb-3 transition-all hover:bg-white/[0.02] cursor-pointer" style={{ background: "rgba(0,229,160,0.04)", border: "1px solid rgba(0,229,160,0.1)" }}>
                 <div className="w-2 h-2 rounded-full bg-[#00E5A0] animate-pulse" />
                 <span className="text-[10px] mono px-2 py-0.5 rounded-full" style={{ background: "rgba(0,229,160,0.15)", color: "#00E5A0" }}>ACİL</span>
                 <h3 className="text-sm font-semibold text-white flex-1" style={{ fontFamily: "Space Grotesk, sans-serif" }}>{item.title}</h3>
                 <span className="text-xs" style={{ color: "#64748B" }}>{item.time}</span>
               </div>
+              </Link>
             ))}
 
             {/* Regular feed */}
@@ -239,7 +240,8 @@ export default function DigitalWorld() {
               {techPulse.filter(n => !n.urgent).map((item, i) => {
                 const catColors: Record<string, string> = { "Mobil": "#A78BFA", "Yazılım": "#00E5A0", "Bulut": "#38BDF8", "Web": "#FCD34D", "Girişim": "#FB7185" };
                 return (
-                  <div key={i} className="flex items-center gap-3 p-3 rounded-lg transition-all hover:bg-white/[0.02]">
+                  <Link key={i} href={`/detay/dijital-dunya/teknoloji/${item.slug}`}>
+                  <div className="flex items-center gap-3 p-3 rounded-lg transition-all hover:bg-white/[0.02] cursor-pointer">
                     <span className="text-[10px] mono px-2 py-0.5 rounded-full flex-shrink-0" style={{
                       background: `${catColors[item.category] || BRAND_COLOR}10`,
                       color: catColors[item.category] || BRAND_COLOR,
@@ -247,6 +249,7 @@ export default function DigitalWorld() {
                     <h3 className="text-sm text-white flex-1">{item.title}</h3>
                     <span className="text-xs flex-shrink-0" style={{ color: "#475569" }}>{item.time}</span>
                   </div>
+                  </Link>
                 );
               })}
             </div>
@@ -259,7 +262,8 @@ export default function DigitalWorld() {
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-3">
             {softwareLandscape.map((tool, i) => (
-              <div key={i} className="glass rounded-xl p-4 transition-all duration-300 hover:scale-[1.02]">
+              <Link key={i} href={`/detay/dijital-dunya/yazilim/${tool.slug}`}>
+              <div className="glass rounded-xl p-4 transition-all duration-300 hover:scale-[1.02] cursor-pointer">
                 <div className="flex items-center justify-between mb-2">
                   <div style={{ color: BRAND_COLOR }}>{tool.icon}</div>
                   <span className="text-[10px] mono px-1.5 py-0.5 rounded-full" style={{
@@ -277,6 +281,7 @@ export default function DigitalWorld() {
                   <span className="text-[10px]" style={{ color: "#475569" }}>{tool.adoption}</span>
                 </div>
               </div>
+              </Link>
             ))}
           </div>
         </div>
@@ -292,7 +297,8 @@ export default function DigitalWorld() {
               { title: "Google Pixel 10 Pro", desc: "Gemini Nano ile tam on-device AI. Fotoğraf düzenleme ve gerçek zamanlı çeviri.", spec: "Tensor G4 · 16GB RAM · Gemini Nano", brand: "Google" },
               { title: "Huawei HarmonyOS 5", desc: "Çoklu cihaz senkronizasyonu ve kendi app ekosistemi. ABD kısıtlamalarından bağımsız.", spec: "Kirin 9100 · 12GB RAM · HarmonyOS 5", brand: "Huawei" },
             ].map((device, i) => (
-              <div key={i} className="glass rounded-xl p-5 transition-all duration-300 hover:bg-white/[0.02]">
+              <Link key={i} href={`/detay/dijital-dunya/teknoloji/${device.title.toLowerCase().replace(/[^a-zğüşıöç0-9]+/g, '-').replace(/^-|-$/g, '').replace(/ /g, '-')}`}>
+              <div className="glass rounded-xl p-5 transition-all duration-300 hover:bg-white/[0.02] cursor-pointer">
                 <div className="flex items-center gap-2 mb-2">
                   <Smartphone className="w-4 h-4" style={{ color: BRAND_COLOR }} />
                   <h3 className="font-semibold text-white text-sm" style={{ fontFamily: "Space Grotesk, sans-serif" }}>{device.title}</h3>
@@ -301,6 +307,7 @@ export default function DigitalWorld() {
                 <p className="text-xs mb-3" style={{ color: "#94A3B8" }}>{device.desc}</p>
                 <div className="text-[10px] mono px-2 py-1 rounded" style={{ background: "rgba(255,255,255,0.03)", color: "#64748B" }}>{device.spec}</div>
               </div>
+              </Link>
             ))}
           </div>
         </div>
@@ -321,7 +328,8 @@ export default function DigitalWorld() {
                 </thead>
                 <tbody>
                   {cloudProviders.map((provider, i) => (
-                    <tr key={i} className="border-b transition-colors hover:bg-white/[0.02]" style={{ borderColor: "rgba(255,255,255,0.04)" }}>
+                    <tr key={i} className="border-b transition-colors hover:bg-white/[0.02] cursor-pointer" style={{ borderColor: "rgba(255,255,255,0.04)" }}
+                        onClick={() => window.location.href = `/detay/dijital-dunya/bulut/${provider.name.toLowerCase()}`}>
                       <td className="p-4">
                         <div className="flex items-center gap-2">
                           <div className="w-3 h-3 rounded-sm" style={{ background: provider.color }} />
@@ -350,7 +358,8 @@ export default function DigitalWorld() {
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {webTrends.map((trend, i) => (
-              <div key={i} className="glass rounded-xl p-5 transition-all duration-300 hover:scale-[1.01]" style={{ borderLeft: `3px solid ${BRAND_COLOR}` }}>
+              <Link key={i} href={`/detay/dijital-dunya/web/${trend.slug}`}>
+              <div className="glass rounded-xl p-5 transition-all duration-300 hover:scale-[1.01] cursor-pointer" style={{ borderLeft: `3px solid ${BRAND_COLOR}` }}>
                 <div className="flex items-center justify-between mb-2">
                   <h3 className="font-semibold text-white text-sm" style={{ fontFamily: "Space Grotesk, sans-serif" }}>{trend.trend}</h3>
                   <span className="text-[10px] mono px-2 py-0.5 rounded-full" style={{
@@ -363,6 +372,7 @@ export default function DigitalWorld() {
                   <span className="text-[10px] mono px-1.5 py-0.5 rounded" style={{ background: `${BRAND_COLOR}08`, color: BRAND_COLOR }}>{trend.impact} Etki</span>
                 </div>
               </div>
+              </Link>
             ))}
           </div>
         </div>
@@ -373,7 +383,8 @@ export default function DigitalWorld() {
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {startups.map((startup, i) => (
-              <div key={i} className="glass rounded-xl p-5 transition-all duration-300 hover:scale-[1.01] group" style={{ borderTop: `2px solid ${BRAND_COLOR}` }}>
+              <Link key={i} href={`/detay/dijital-dunya/girisim/${startup.slug}`}>
+              <div className="glass rounded-xl p-5 transition-all duration-300 hover:scale-[1.01] group cursor-pointer" style={{ borderTop: `2px solid ${BRAND_COLOR}` }}>
                 <div className="flex items-center justify-between mb-2">
                   <div className="flex items-center gap-2">
                     <div style={{ color: BRAND_COLOR }}>{startup.icon}</div>
@@ -396,6 +407,7 @@ export default function DigitalWorld() {
                   <span className="mono">{startup.stage}</span>
                 </div>
               </div>
+              </Link>
             ))}
           </div>
         </div>

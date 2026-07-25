@@ -10,6 +10,7 @@ import AITools from "./pages/AITools";
 import AIEarnings from "./pages/AIEarnings";
 import DigitalWorld from "./pages/DigitalWorld";
 import CyberSecurity from "./pages/CyberSecurity";
+import ContentDetail from "./pages/ContentDetail";
 
 function Router() {
   return (
@@ -20,6 +21,7 @@ function Router() {
       <Route path="/ai-ile-kazanc" component={AIEarnings} />
       <Route path="/dijital-dunya" component={DigitalWorld} />
       <Route path="/siber-guvenlik" component={CyberSecurity} />
+      <Route path="/detay/:category/:type/:slug" component={ContentDetail} />
       <Route path="/404" component={NotFound} />
       <Route component={NotFound} />
     </Switch>
