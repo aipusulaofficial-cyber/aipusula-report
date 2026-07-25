@@ -289,6 +289,8 @@ export default function Home() {
     { id: "cybersecurity", label: "Siber Güvenlik", icon: <Shield className="w-4 h-4" /> },
     { id: "competitors", label: "Rakip Analizi", icon: <Target className="w-4 h-4" /> },
     { id: "roadmap", label: "Yol Haritası", icon: <GitBranch className="w-4 h-4" /> },
+    { id: "ux", label: "UI/UX", icon: <Eye className="w-4 h-4" /> },
+    { id: "checklist", label: "Kontrol Listesi", icon: <CheckSquare className="w-4 h-4" /> },
   ];
 
   return (
@@ -307,8 +309,8 @@ export default function Home() {
               <span className="ml-1.5 text-xs px-1.5 py-0.5 rounded-full mono" style={{ background: "rgba(0,229,160,0.15)", color: "#00E5A0" }}>MVP</span>
             </div>
           </div>
-          <div className="hidden xl:flex items-center gap-0.5">
-            {navItems.slice(0, 7).map(item => (
+          <nav className="hidden xl:flex items-center gap-0.5">
+            {navItems.slice(0, 5).map(item => (
               <button
                 key={item.id}
                 onClick={() => {
@@ -325,7 +327,26 @@ export default function Home() {
                 {item.label}
               </button>
             ))}
-          </div>
+          </nav>
+          <nav className="hidden lg:flex items-center gap-0.5">
+            {navItems.slice(5, 9).map(item => (
+              <button
+                key={item.id}
+                onClick={() => {
+                  setActiveTab(item.id);
+                  document.getElementById(item.id)?.scrollIntoView({ behavior: "smooth" });
+                }}
+                className="flex items-center gap-1 px-2 py-0.5 rounded-md text-[10px] transition-all duration-200 ease-out cursor-pointer active:scale-[0.97] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#00E5A0]/30"
+                style={{
+                  color: activeTab === item.id ? "#00E5A0" : (isDark ? "#64748B" : "#94A3B8"),
+                  background: activeTab === item.id ? "rgba(0,229,160,0.1)" : "transparent",
+                }}
+              >
+                {item.icon}
+                {item.label}
+              </button>
+            ))}
+          </nav>
           <div className="flex items-center gap-2">
             <ThemeToggle />
             <AdvancedSearch />
@@ -609,11 +630,10 @@ export default function Home() {
                         setActiveTab(item.id);
                         document.getElementById(item.id)?.scrollIntoView({ behavior: "smooth" });
                       }}
-                      className="w-full flex items-center gap-2 px-2.5 py-1.5 rounded text-sm transition-all duration-200 ease-out text-left cursor-pointer active:scale-[0.98] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#00E5A0]/30"
+                      className={`w-full flex items-center gap-2 px-2.5 py-1.5 rounded text-sm transition-all duration-200 ease-out text-left cursor-pointer active:scale-[0.98] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#00E5A0]/30 border-l-2 ${activeTab === item.id ? "border-l-[#00E5A0]" : "border-l-transparent"}`}
                       style={{
                         color: activeTab === item.id ? "#00E5A0" : (isDark ? "#64748B" : "#475569"),
                         background: activeTab === item.id ? "rgba(0,229,160,0.08)" : "transparent",
-                        borderLeft: activeTab === item.id ? "2px solid #00E5A0" : "2px solid transparent",
                         fontFamily: activeTab === item.id ? "JetBrains Mono, monospace" : "inherit",
                         fontSize: "0.75rem",
                       }}
@@ -899,7 +919,7 @@ export default function Home() {
               <SectionHeader
                 icon={<Cpu className="w-5 h-5" />}
                 title="AI Araçları"
-                subtitle="02 — AI Tools Kataloğu & Karşılaştırma"
+                subtitle="03 — AI Tools Kataloğu & Karşılaştırma"
                 accent="#38BDF8"
               />
               {/* Öne Çıkan AI Araçları */}
@@ -967,7 +987,7 @@ export default function Home() {
               <SectionHeader
                 icon={<DollarSign className="w-5 h-5" />}
                 title="AI ile Kazanç"
-                subtitle="03 — AI ile Gelir Üretme Yolları & Eğitimi"
+                subtitle="04 — AI ile Gelir Üretme Yolları & Eğitimi"
                 accent="#F97316"
               />
               {/* Kazanç Yolları */}
@@ -1049,9 +1069,9 @@ export default function Home() {
             {/* ── 5. UI/UX Tasarım ── */}
             <section id="ux">
               <SectionHeader
-                icon={<Cpu className="w-5 h-5" />}
+                icon={<Eye className="w-5 h-5" />}
                 title="UI/UX Tasarım Sistemi"
-                subtitle="06 — Renk, Tipografi ve Bileşenler"
+                subtitle="05 — Renk, Tipografi ve Bileşenler"
                 accent="#FCD34D"
               />
               <div className="grid md:grid-cols-2 gap-6 mb-6">
@@ -1251,7 +1271,7 @@ export default function Home() {
               <SectionHeader
                 icon={<Shield className="w-5 h-5" />}
                 title="Siber Güvenlik"
-                subtitle="05 — Tehdit Haritası, Zafiyetler & Güvenlik"
+                subtitle="08 — Tehdit Haritası, Zafiyetler & Güvenlik"
                 accent="#FB7185"
               />
 
@@ -1335,7 +1355,7 @@ export default function Home() {
               <SectionHeader
                 icon={<CheckSquare className="w-5 h-5" />}
                 title="MVP Kontrol Listesi"
-                subtitle="08 — Lansman Öncesi Doğrulama"
+                subtitle="09 — Lansman Öncesi Doğrulama"
                 accent="#FCD34D"
               />
               <div className="glass rounded-xl p-6 mb-4">
