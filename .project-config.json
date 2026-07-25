@@ -1,0 +1,36 @@
+{
+  "build_command": "pnpm run build",
+  "capabilities": [],
+  "dev_command": "pnpm run dev",
+  "env_vars": {},
+  "experiments": null,
+  "git_remote": {
+    "repo_url": "s3://vida-prod-gitrepo/webdev-git/310519663852922295/89baNCuQ3eWJP6zq3E7tKn",
+    "access_key_id": "ASIAZV3A2ECZAJCE3QYG",
+    "secret_access_key": "/8VeGilnw6n/aT0CEQq+KW65TAZxNtitJr5DJQHV",
+    "session_token": "IQoJb3JpZ2luX2VjEE8aCXVzLWVhc3QtMSJHMEUCIQDwdV1Xab0MPteyp+G3pi/eNKwbWX50Mm1APdf6tUIQ3AIgFp18zP0Vzd1WPdba8HVArOigYbP2vFa3d4nbd/bmHdkq9gMIGBAEGgw2NjUzODYwOTg4NjYiDKN7Kn7sPsiIpdV2LCrTAyeNwH0MYbj7J+/TKFxRAaS7B/4v5f8cRUm+NQ6p+iVkMrZ8u5U3GMc8JXVLRkw3Y7CqLOibX+rVGnGTJdwPGzFLXiMF0Zyl/K9DT5D7IfbB+zBouiIwOrhKPOA+Q5jOvtA5eW8r4N9HRj94USdp8gTr+NfIAX0b7SAV4DdRtIMB0essazRqy8JpR7PdUigwmlwH9A5WshmuaTl1EWSvKjzT33ZV/1arPyELT3SnRwR/1hhkac+oITOxl7MvgCtV5QpQgozgG88q89vA81u2QBczFfaJDlSgmF23ihxRNedO7YZJo7w7olDz/9fYdRI5P+VGyWbvo97Q25yUwx4pnthtIhA997geBCDHcL+7U+3ootl0VdE/TxN8/+lWB/OuU6rNkSgxdZ2xHeTLsvhgziHC6yxDHUWl6i2V9YGasUcTgfxyUli9ED3MikHcXeF6lfSIsc61FgWp3EhRWrTzINtGpZH5tnzawN7qJhskH51nnA6+dyZVHcxuwJxOcNezTRm07Uc/dTTiOXpI1Fu36CmkAkuLO4iW41nk87oYssxCzAvUGeyzrEfBt7I0Hc1HRWecWnGVN9yqZH7BeWrE7s2IbO6B88lDD0UOa9gFP9LP6G9WMKy1kdMGOp0B8ro3yTOj90h6tkoOFh0XbhzCTJRsC4vSvhdnYhokA+w05lbedMwuLplWdV8EERN9CK7iTCzxEmOLKZv/n8CSgexGw6FLoWEX9Y51qrD1HJwggurf37m6VAZZOpMW4JSRHpXK0rrb4NZKncn05IHLdpVzuVNFAdx1KBa2UHDK5yrGJfFPeuVoe4QjoP/5GlYzXmxkBO77a7aMhTMuTg==",
+    "expiration": "2026-07-25T18:41:48.000Z",
+    "backend": "GIT_BACKEND_S3"
+  },
+  "name": "aipusula-report",
+  "path": "/home/ubuntu/aipusula-report",
+  "port": 3000,
+  "secrets": {
+    "BUILT_IN_FORGE_API_KEY": "dQNUngAdJuWYmiSQt2Lb4t",
+    "BUILT_IN_FORGE_API_URL": "https://forge.manus.ai",
+    "JWT_SECRET": "bMWTyRGSgLce5xXacoFWW6",
+    "OAUTH_SERVER_URL": "https://api.manus.im",
+    "OWNER_NAME": "Barış",
+    "OWNER_OPEN_ID": "aYiiyir5f4LHLJ4tbkexiY",
+    "VITE_ANALYTICS_ENDPOINT": "https://manus-analytics.com",
+    "VITE_ANALYTICS_WEBSITE_ID": "a69e872e-1c6c-4d19-8706-601a9dc1bc1c",
+    "VITE_APP_ID": "89baNCuQ3eWJP6zq3E7tKn",
+    "VITE_APP_LOGO": "",
+    "VITE_APP_TITLE": "AIPUSULA MVP Platform Report",
+    "VITE_FRONTEND_FORGE_API_KEY": "PaPV4jcLE9F776dxHZyhLS",
+    "VITE_FRONTEND_FORGE_API_URL": "https://forge.manus.ai",
+    "VITE_OAUTH_PORTAL_URL": "https://manus.im"
+  },
+  "template_id": "web-static",
+  "test_command": "pnpm test"
+}
