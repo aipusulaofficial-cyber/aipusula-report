@@ -224,19 +224,19 @@ function AnimatedCounter({ target, suffix = "", prefix = "" }: { target: number;
 // ─── Section Header ──────────────────────────────────────────────────────────
 function SectionHeader({ icon, title, subtitle, accent = "#00E5A0" }: { icon: React.ReactNode; title: string; subtitle: string; accent?: string }) {
   return (
-    <div className="mb-10 section-glow-green">
-      <div className="flex items-center gap-3 mb-3">
-        <div className="p-2.5 rounded-lg glass" style={{ borderColor: `${accent}30` }}>
+    <div className="mb-6 section-glow-green">
+      <div className="flex items-center gap-3 mb-2">
+        <div className="p-2 rounded-lg glass" style={{ borderColor: `${accent}30` }}>
           <div style={{ color: accent }}>{icon}</div>
         </div>
         <span className="mono text-xs uppercase tracking-widest" style={{ color: accent, textShadow: `0 0 12px ${accent}40` }}>
           {subtitle}
         </span>
       </div>
-      <h2 className="text-3xl font-bold text-white" style={{ fontFamily: "Space Grotesk, sans-serif", textShadow: "0 0 40px rgba(0,229,160,0.15)" }}>
+      <h2 className="text-2xl font-bold text-white" style={{ fontFamily: "Space Grotesk, sans-serif", textShadow: "0 0 40px rgba(0,229,160,0.15)" }}>
         {title}
       </h2>
-      <div className="mt-3 h-px w-32" style={{ background: `linear-gradient(90deg, ${accent}, ${accent}80, transparent)` }} />
+      <div className="mt-2 h-px w-24" style={{ background: `linear-gradient(90deg, ${accent}, ${accent}80, transparent)` }} />
     </div>
   );
 }
@@ -343,18 +343,18 @@ export default function Home() {
       <SystemStatusBar />
 
       {/* ── Hero Section ── */}
-      <section className="relative overflow-hidden" style={{ minHeight: "80px" }}>
-        <div className="container relative z-10 py-2">
+      <section className="relative overflow-hidden" style={{ minHeight: "60px" }}>
+        <div className="container relative z-10 py-1">
           <div className="flex items-end justify-between">
             <div className="flex-1">
               <div className="flex items-center gap-2 mb-0.5">
-                <div className="h-px w-8" style={{ background: "#00E5A0" }} />
+                <div className="h-px w-6" style={{ background: "#00E5A0" }} />
                 <span className="mono text-xs uppercase tracking-widest" style={{ color: "#00E5A0" }}>// YAPAY ZEKÂ & SİBER GÜVENLİK PLATFORMU</span>
               </div>
-              <h1 className="font-black leading-none" style={{ fontFamily: "Space Grotesk, sans-serif", fontSize: "clamp(2.2rem, 5.5vw, 3.5rem)", letterSpacing: "-0.02em" }}>
+              <h1 className="font-black leading-none" style={{ fontFamily: "Space Grotesk, sans-serif", fontSize: "clamp(2rem, 5vw, 3rem)", letterSpacing: "-0.02em" }}>
                 <span className="text-white">AI</span><span style={{ color: "#00E5A0", textShadow: "0 0 40px rgba(0,229,160,0.4)" }}>PUSULA</span>
               </h1>
-              <div className="mono text-xs mt-1" style={{ color: "#38BDF8", letterSpacing: "0.15em" }}>
+              <div className="mono text-xs mt-0.5" style={{ color: "#38BDF8", letterSpacing: "0.15em" }}>
                 GÜVENLİĞİN YAPAY ZEKÂ PUSULASI
               </div>
             </div>
@@ -363,17 +363,17 @@ export default function Home() {
       </section>
 
       {/* ── AI-Powered Platform Capabilities ── */}
-      <section className="container pb-2">
-        <div className="mb-2">
+      <section className="container pb-1">
+        <div className="mb-1">
           <div className="flex items-center gap-2 mb-1">
-            <div className="h-px w-8" style={{ background: "#00E5A0" }} />
+            <div className="h-px w-6" style={{ background: "#00E5A0" }} />
             <span className="mono text-xs uppercase tracking-widest" style={{ color: "#00E5A0" }}>CORE CAPABILITIES</span>
           </div>
-          <h3 className="text-xl font-bold text-white" style={{ fontFamily: "Space Grotesk, sans-serif", textShadow: "0 0 30px rgba(0,229,160,0.1)" }}>
+          <h3 className="text-lg font-bold text-white" style={{ fontFamily: "Space Grotesk, sans-serif", textShadow: "0 0 30px rgba(0,229,160,0.1)" }}>
             AI-Powered Platform Capabilities
           </h3>
         </div>
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-2">
           {[
             {
               title: "AI Security Assistant",
@@ -424,7 +424,7 @@ export default function Home() {
               color: "#A78BFA"
             },
           ].map((cap, i) => (
-            <div key={i} className="glass card-glow p-4 rounded-xl transition-all duration-300 hover:translate-y-[-2px]">
+            <div key={i} className="glass card-glow p-3 rounded-xl transition-all duration-300 hover:translate-y-[-2px]">
               <div className="flex items-start gap-3">
                 <div className="p-2 rounded-lg flex-shrink-0" style={{ background: `${cap.color}15`, color: cap.color }}>
                   {cap.icon}
@@ -444,8 +444,8 @@ export default function Home() {
       </section>
 
       {/* ── Sidebar + Content Layout ── */}
-      <div className="container pb-6">
-        <div className="flex gap-4">
+      <div className="container pb-4">
+        <div className="flex gap-3">
           {/* Sidebar Navigation */}
           <aside className="hidden lg:block w-52 flex-shrink-0">
             <div className="sticky top-16">
@@ -494,7 +494,7 @@ export default function Home() {
           </aside>
 
           {/* Main Content */}
-          <main className="flex-1 min-w-0 space-y-8">
+          <main className="flex-1 min-w-0 space-y-6">
 
             {/* ── Enterprise Dashboard (New) ── */}
             <section id="dashboard">
@@ -504,19 +504,19 @@ export default function Home() {
                 subtitle="00 — Canlı Güvenlik Operasyon Merkezi"
                 accent="#38BDF8"
               />
-              <div className="grid lg:grid-cols-3 gap-6">
+              <div className="grid lg:grid-cols-3 gap-4">
                 <div className="lg:col-span-2">
                   <AttackMap />
                 </div>
-                <div className="space-y-6">
+                <div className="space-y-4">
                   <LiveThreatCounter />
                 </div>
               </div>
-              <div className="grid lg:grid-cols-2 gap-6 mt-6">
+              <div className="grid lg:grid-cols-2 gap-4 mt-4">
                 <AIRiskScore />
                 <CVEFeed />
               </div>
-              <div className="mt-6">
+              <div className="mt-4">
                 <SecurityNews />
               </div>
             </section>

@@ -79,18 +79,18 @@ function EarthNetwork() {
       className="fixed pointer-events-none float-element"
       style={{
         zIndex: 0,
-        top: "50%",
-        right: "-5%",
+        top: "45%",
+        right: "-8%",
         transform: "translateY(-50%)",
-        width: "680px",
-        height: "680px",
+        width: "500px",
+        height: "500px",
         willChange: "transform",
       }}
     >
       {/* Ambient Glow Core */}
       <div
         className="absolute inset-0 rounded-full"
-        style={{ background: "#00E5FF", opacity: 0.04, filter: "blur(80px)" }}
+        style={{ background: "#00E5FF", opacity: 0.04, filter: "blur(60px)" }}
       />
 
       {/* Earth Vector (Engineered, strictly geometric network) */}
@@ -98,8 +98,8 @@ function EarthNetwork() {
         <div
           className="relative overflow-hidden"
           style={{
-            width: "340px",
-            height: "340px",
+            width: "250px",
+            height: "250px",
             borderRadius: "50%",
             border: "1px solid rgba(42,59,79,0.6)",
             boxShadow: "0 0 30px rgba(0,229,255,0.05)",
@@ -114,34 +114,34 @@ function EarthNetwork() {
             style={{
               backgroundImage:
                 "linear-gradient(transparent 49.8%, rgba(42,59,79,0.3) 50%, transparent 50.2%), linear-gradient(90deg, transparent 49.8%, rgba(42,59,79,0.3) 50%, transparent 50.2%)",
-              backgroundSize: "34px 34px",
+              backgroundSize: "25px 25px",
             }}
           />
 
           {/* Geometric Neural Framework */}
-          <svg className="absolute inset-0 w-full h-full" viewBox="0 0 340 340">
+          <svg className="absolute inset-0 w-full h-full" viewBox="0 0 250 250">
             {/* Precise, engineered paths (no chaotic webs) */}
             <path
-              d="M102,102 L238,102 L272,170 L238,238 L102,238 L68,170 Z"
+              d="M75,75 L175,75 L200,125 L175,175 L75,175 L50,125 Z"
               fill="none"
               stroke="rgba(0,229,255,0.15)"
               strokeWidth="0.5"
             />
             <path
-              d="M102,102 L238,238 M238,102 L102,238 M68,170 L272,170 M170,34 L170,306"
+              d="M75,75 L175,175 M175,75 L75,175 M50,125 L200,125 M125,25 L125,225"
               fill="none"
               stroke="rgba(0,229,255,0.1)"
               strokeWidth="0.5"
             />
 
             {/* Strategic Data Nodes */}
-            <circle cx="170" cy="170" r="2.5" fill="#00E5FF" style={{ opacity: 0.9 }} />
-            <circle cx="102" cy="102" r="1.5" fill="#00E5FF" style={{ opacity: 0.5 }} />
-            <circle cx="238" cy="102" r="2" fill="#00D9A6" style={{ opacity: 0.8 }} />
-            <circle cx="272" cy="170" r="1.5" fill="#00E5FF" style={{ opacity: 0.6 }} />
-            <circle cx="238" cy="238" r="1.5" fill="#00E5FF" style={{ opacity: 0.5 }} />
-            <circle cx="102" cy="238" r="2" fill="#00FF9C" style={{ opacity: 0.7 }} />
-            <circle cx="68" cy="170" r="1.5" fill="#00E5FF" style={{ opacity: 0.5 }} />
+            <circle cx="125" cy="125" r="2.5" fill="#00E5FF" style={{ opacity: 0.9 }} />
+            <circle cx="75" cy="75" r="1.5" fill="#00E5FF" style={{ opacity: 0.5 }} />
+            <circle cx="175" cy="75" r="2" fill="#00D9A6" style={{ opacity: 0.8 }} />
+            <circle cx="200" cy="125" r="1.5" fill="#00E5FF" style={{ opacity: 0.6 }} />
+            <circle cx="175" cy="175" r="1.5" fill="#00E5FF" style={{ opacity: 0.5 }} />
+            <circle cx="75" cy="175" r="2" fill="#00FF9C" style={{ opacity: 0.7 }} />
+            <circle cx="50" cy="125" r="1.5" fill="#00E5FF" style={{ opacity: 0.5 }} />
           </svg>
 
           {/* GPU-Optimized Scanner */}
@@ -163,8 +163,8 @@ function EarthNetwork() {
         <div
           className="rounded-full orbit-ring"
           style={{
-            width: "520px",
-            height: "520px",
+            width: "380px",
+            height: "380px",
             border: "1px solid rgba(42,59,79,0.4)",
             willChange: "transform",
           }}
@@ -173,8 +173,8 @@ function EarthNetwork() {
         <div
           className="absolute rounded-full orbit-ring-reverse"
           style={{
-            width: "740px",
-            height: "740px",
+            width: "540px",
+            height: "540px",
             border: "1px solid rgba(0,229,255,0.06)",
             willChange: "transform",
           }}
@@ -211,7 +211,7 @@ function BackgroundStyles() {
         0% { transform: translateX(-20px); opacity: 0; }
         15% { opacity: 0.6; }
         85% { opacity: 0.6; }
-        100% { transform: translateX(360px); opacity: 0; }
+        100% { transform: translateX(270px); opacity: 0; }
       }
       @keyframes map-pulse {
         0%, 100% { opacity: 0.5; transform: scale(1) translateZ(0); }

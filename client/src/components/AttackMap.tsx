@@ -107,7 +107,7 @@ export function AttackMap() {
 
       {/* SVG World Map */}
       <div className="relative" style={{ background: "radial-gradient(ellipse at center, #0a1a2e 0%, #050B14 100%)" }}>
-        <svg viewBox="0 0 700 400" className="w-full h-[380px]">
+        <svg viewBox="0 0 700 400" className="w-full h-[280px]">
           {/* Grid lines */}
           <defs>
             <pattern id="grid" width="35" height="35" patternUnits="userSpaceOnUse">
