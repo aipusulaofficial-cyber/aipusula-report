@@ -7,8 +7,8 @@
 import { useState, useEffect } from "react";
 import { Link } from "wouter";
 import {
-  Brain, Cpu, DollarSign, Globe, Shield, TrendingUp,
-  ChevronRight, Zap, Clock, ArrowRight
+  Brain, Cpu, DollarSign, Globe, Shield,
+  ChevronRight, Clock, ArrowRight
 } from "lucide-react";
 import { CyberBackground } from "@/components/CyberBackground";
 import { AppShell } from "@/components/AppShell";
@@ -133,47 +133,79 @@ export default function Home() {
             </p>
           </div>
 
-          {/* Right: Stats + data-strip + radar — fills remaining width */}
+          {/* Right: Animated AI Network Visualization */}
           <div className="flex-1 flex items-center justify-end">
-            <div className="flex items-center gap-8">
-              {/* Stats */}
-              <div className="flex items-center gap-6">
-                {[
-                  { value: "5", label: "Kategori", color: "#00E5A0" },
-                  { value: "512", label: "AI Araç", color: "#38BDF8" },
-                  { value: "247", label: "Makale", color: "#A78BFA" },
-                  { value: "24/7", label: "Tehdit İzleme", color: "#F97316" },
-                ].map((s, i) => (
-                  <div key={i} className="flex flex-col items-center">
-                    <span className="font-bold" style={{ fontFamily: "Space Grotesk, sans-serif", fontSize: "1.35rem", color: s.color }}>
-                      {s.value}
-                    </span>
-                    <span className="mono text-[0.6rem]" style={{ color: "#475569" }}>{s.label}</span>
-                  </div>
-                ))}
-              </div>
+            <div className="relative w-64 h-32">
+              {/* Canvas-based animated network */}
+              <canvas
+                ref={(el) => {
+                  if (!el || el.dataset.bound) return;
+                  el.dataset.bound = "1";
+                  const ctx = el.getContext("2d")!;
+                  const w = (el.width = el.offsetWidth * 2);
+                  const h = (el.height = el.offsetHeight * 2);
+                  ctx.scale(2, 2);
+                  const realW = el.offsetWidth;
+                  const realH = el.offsetHeight;
 
-              {/* Divider */}
-              <div className="h-10 w-px" style={{ background: "rgba(0,229,160,0.15)" }} />
+                  // Nodes
+                  const nodes = Array.from({ length: 18 }, () => ({
+                    x: Math.random() * realW,
+                    y: Math.random() * realH,
+                    vx: (Math.random() - 0.5) * 0.4,
+                    vy: (Math.random() - 0.5) * 0.4,
+                    r: 1.5 + Math.random() * 2,
+                    color: ["#00E5A0", "#38BDF8", "#A78BFA"][Math.floor(Math.random() * 3)],
+                  }));
 
-              {/* Data Strip + Radar */}
-              <div className="flex flex-col items-end gap-1.5">
-                <div className="flex items-center gap-1.5">
-                  <div className="data-strip" style={{ fontSize: "0.6rem", padding: "2px 8px" }}>
-                    KATEGORİ: 5 AKTİF
-                  </div>
-                  <div className="data-strip" style={{ fontSize: "0.6rem", padding: "2px 8px" }}>
-                    İÇERİK: 1,247 PARÇA
-                  </div>
-                  <div className="data-strip" style={{ fontSize: "0.6rem", padding: "2px 8px" }}>
-                    {currentTime.toLocaleTimeString('tr-TR')}
-                  </div>
-                </div>
-                <div className="flex items-center gap-3">
-                  <span className="mono text-[0.6rem]" style={{ color: "#334155" }}>LIVE</span>
-                  <div className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: "#00E5A0", boxShadow: "0 0 6px #00E5A0" }} />
-                </div>
-              </div>
+                  let animId: number;
+                  const draw = () => {
+                    ctx.clearRect(0, 0, realW, realH);
+                    // Update positions
+                    nodes.forEach(n => {
+                      n.x += n.vx;
+                      n.y += n.vy;
+                      if (n.x < 0 || n.x > realW) n.vx *= -1;
+                      if (n.y < 0 || n.y > realH) n.vy *= -1;
+                    });
+
+                    // Draw connections
+                    const maxDist = 70;
+                    for (let i = 0; i < nodes.length; i++) {
+                      for (let j = i + 1; j < nodes.length; j++) {
+                        const dx = nodes[i].x - nodes[j].x;
+                        const dy = nodes[i].y - nodes[j].y;
+                        const dist = Math.sqrt(dx * dx + dy * dy);
+                        if (dist < maxDist) {
+                          const alpha = (1 - dist / maxDist) * 0.3;
+                          ctx.beginPath();
+                          ctx.moveTo(nodes[i].x, nodes[i].y);
+                          ctx.lineTo(nodes[j].x, nodes[j].y);
+                          ctx.strokeStyle = `rgba(0, 229, 160, ${alpha})`;
+                          ctx.lineWidth = 0.5;
+                          ctx.stroke();
+                        }
+                      }
+                    }
+
+                    // Draw nodes with glow
+                    nodes.forEach(n => {
+                      ctx.beginPath();
+                      ctx.arc(n.x, n.y, n.r + 4, 0, Math.PI * 2);
+                      ctx.fillStyle = n.color.replace(")", ", 0.08)").replace("rgb", "rgba");
+                      ctx.fill();
+                      ctx.beginPath();
+                      ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2);
+                      ctx.fillStyle = n.color;
+                      ctx.fill();
+                    });
+
+                    animId = requestAnimationFrame(draw);
+                  };
+                  draw();
+                }}
+                className="w-full h-full"
+              />
             </div>
           </div>
         </div>
@@ -190,22 +222,22 @@ export default function Home() {
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {categoryCards.map((cat) => (
             <Link key={cat.id} href={cat.path}>
-              <div className="glass rounded-xl p-5 h-full cursor-pointer group transition-all duration-300 hover:scale-[1.02]"
+              <div className="glass rounded-xl p-4 h-full cursor-pointer group transition-all duration-300 hover:scale-[1.02]"
                 style={{ borderLeft: `3px solid ${cat.color}` }}>
-                <div className="flex items-start justify-between mb-3">
-                  <div className="p-2 rounded-lg" style={{ background: `${cat.color}10` }}>
+                <div className="flex items-start justify-between mb-2">
+                  <div className="p-1.5 rounded-lg" style={{ background: `${cat.color}10` }}>
                     <div style={{ color: cat.color }}>{cat.icon}</div>
                   </div>
                   <span className="mono text-[10px] px-2 py-0.5 rounded-full" style={{ background: `${cat.color}10`, color: cat.color }}>
                     {cat.stat}
                   </span>
                 </div>
-                <h3 className="font-semibold text-white mb-1" style={{ fontFamily: "Space Grotesk, sans-serif" }}>
+                <h3 className="font-semibold text-white mb-0.5" style={{ fontFamily: "Space Grotesk, sans-serif" }}>
                   {cat.label}
                 </h3>
-                <p className="text-xs mb-2" style={{ color: cat.color }}>{cat.subtitle}</p>
+                <p className="text-xs mb-1" style={{ color: cat.color }}>{cat.subtitle}</p>
                 <p className="text-xs leading-relaxed" style={{ color: "#64748B" }}>{cat.description}</p>
-                <div className="flex items-center gap-1 mt-3 text-xs" style={{ color: cat.color, opacity: 0.7 }}>
+                <div className="flex items-center gap-1 mt-2 text-xs" style={{ color: cat.color, opacity: 0.7 }}>
                   <span>Keşfet</span>
                   <ChevronRight className="w-3 h-3 group-hover:translate-x-1 transition-transform" />
                 </div>
@@ -216,15 +248,15 @@ export default function Home() {
       </section>
 
       {/* ── Recent Activity Feed ── */}
-      <section className="mt-10">
-        <div className="flex items-center gap-3 mb-5">
+      <section className="mt-6">
+        <div className="flex items-center gap-3 mb-3">
           <Clock className="w-4 h-4" style={{ color: "#38BDF8" }} />
           <span className="mono text-xs uppercase tracking-widest" style={{ color: "#38BDF8" }}>Son Aktivite</span>
         </div>
 
         <div className="glass rounded-xl overflow-hidden">
           {recentActivity.map((item, i) => (
-            <div key={i} className="flex items-center gap-4 px-5 py-3 border-b last:border-b-0 transition-colors hover:bg-white/[0.02]"
+            <div key={i} className="flex items-center gap-4 px-4 py-2.5 border-b last:border-b-0 transition-colors hover:bg-white/[0.02]"
               style={{ borderColor: "rgba(255,255,255,0.04)" }}>
               <div className="w-2 h-2 rounded-full flex-shrink-0" style={{ background: item.color, boxShadow: `0 0 6px ${item.color}40` }} />
               <div className="flex-1 min-w-0">
@@ -239,29 +271,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── Platform Metrics ── */}
-      <section className="mt-10">
-        <div className="glass rounded-xl p-6">
-          <div className="flex items-center gap-2 mb-5">
-            <TrendingUp className="w-4 h-4" style={{ color: "#00E5A0" }} />
-            <span className="mono text-xs uppercase tracking-widest" style={{ color: "#00E5A0" }}>Platform Metrikleri</span>
-          </div>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            {[
-              { label: "Aktif Kullanıcı", value: "12,847", change: "+12.4%", color: "#00E5A0" },
-              { label: "Toplam İçerik", value: "1,247", change: "+28", color: "#38BDF8" },
-              { label: "Günlük Görüntüleme", value: "48.2K", change: "+8.1%", color: "#A78BFA" },
-              { label: "Ortalama Süre", value: "4:32", change: "+0:18", color: "#FCD34D" },
-            ].map((m, i) => (
-              <div key={i} className="p-4 rounded-lg" style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.04)" }}>
-                <div className="text-xs mb-1" style={{ color: "#475569" }}>{m.label}</div>
-                <div className="font-bold" style={{ fontFamily: "Space Grotesk, sans-serif", fontSize: "1.5rem", color: m.color }}>{m.value}</div>
-                <div className="text-xs mt-1" style={{ color: "#00E5A0" }}>{m.change}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      {/* ── Platform Metrics — REMOVED ── */}
 
       {/* ── Quick Access ── */}
       <section className="mt-10">

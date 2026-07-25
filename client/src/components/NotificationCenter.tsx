@@ -49,18 +49,10 @@ export function NotificationCenter() {
         style={{
           background: "rgba(255,255,255,0.04)",
           border: "1px solid rgba(255,255,255,0.06)",
-          color: unreadCount > 0 ? "#EF4444" : "#64748B",
+          color: "#64748B",
         }}
       >
         <Bell className="w-4 h-4" />
-        {unreadCount > 0 && (
-          <span
-            className="absolute -top-1 -right-1 w-4 h-4 rounded-full flex items-center justify-center mono text-[9px] font-bold text-white"
-            style={{ background: "#EF4444", boxShadow: "0 0 8px rgba(239,68,68,0.5)" }}
-          >
-            {unreadCount}
-          </span>
-        )}
       </button>
 
       {/* Dropdown Panel */}
