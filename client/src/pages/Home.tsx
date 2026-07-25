@@ -11,7 +11,15 @@ import {
   ArrowRight, ExternalLink, Clock, Cpu, Eye, FileCode, Search
 } from "lucide-react";
 import { CyberBackground } from "@/components/CyberBackground";
+import { AttackMap } from "@/components/AttackMap";
+import { LiveThreatCounter, AIRiskScore } from "@/components/EnterpriseWidgets";
+import { CVEFeed } from "@/components/CVEFeed";
+import { SecurityNews } from "@/components/SecurityNews";
+import { NotificationCenter } from "@/components/NotificationCenter";
+import { AdvancedSearch } from "@/components/AdvancedSearch";
+import { ThemeToggle } from "@/components/ThemeToggle";
 import { useIsMobile } from "@/hooks/useMobile";
+import { useTheme } from "@/contexts/ThemeContext";
 
 // ─── Data ────────────────────────────────────────────────────────────────────
 
@@ -266,12 +274,14 @@ export default function Home() {
   const [checkedItems, setCheckedItems] = useState<number[]>([]);
   const [activeCompetitor, setActiveCompetitor] = useState<string | null>(null);
   const isMobile = useIsMobile();
+  const { theme } = useTheme();
 
   const toggleCheck = (id: number) => {
     setCheckedItems(prev => prev.includes(id) ? prev.filter(i => i !== id) : [...prev, id]);
   };
 
   const navItems = [
+    { id: "dashboard", label: "Güvenlik Merkezi", icon: <Shield className="w-4 h-4" /> },
     { id: "overview", label: "Genel Bakış", icon: <Eye className="w-4 h-4" /> },
     { id: "market", label: "Pazar Analizi", icon: <TrendingUp className="w-4 h-4" /> },
     { id: "architecture", label: "Mimari", icon: <Layers className="w-4 h-4" /> },
@@ -321,7 +331,10 @@ export default function Home() {
             ))}
           </div>
           <div className="flex items-center gap-2">
-            <span className="text-xs mono" style={{ color: "#94A3B8" }}>Temmuz 2026</span>
+            <ThemeToggle />
+            <AdvancedSearch />
+            <NotificationCenter />
+            <span className="hidden sm:inline text-xs mono" style={{ color: "#94A3B8" }}>Temmuz 2026</span>
             <div className="w-2 h-2 rounded-full animate-pulse" style={{ background: "#00E5A0" }} />
           </div>
         </div>
@@ -470,6 +483,31 @@ export default function Home() {
 
           {/* Main Content */}
           <main className="flex-1 min-w-0 space-y-20">
+
+            {/* ── Enterprise Dashboard (New) ── */}
+            <section id="dashboard">
+              <SectionHeader
+                icon={<Shield className="w-5 h-5" />}
+                title="Enterprise Güvenlik Merkezi"
+                subtitle="00 — Canlı Güvenlik Operasyon Merkezi"
+                accent="#38BDF8"
+              />
+              <div className="grid lg:grid-cols-3 gap-6">
+                <div className="lg:col-span-2">
+                  <AttackMap />
+                </div>
+                <div className="space-y-6">
+                  <LiveThreatCounter />
+                </div>
+              </div>
+              <div className="grid lg:grid-cols-2 gap-6 mt-6">
+                <AIRiskScore />
+                <CVEFeed />
+              </div>
+              <div className="mt-6">
+                <SecurityNews />
+              </div>
+            </section>
 
             {/* ── 1. Genel Bakış ── */}
             <section id="overview">
