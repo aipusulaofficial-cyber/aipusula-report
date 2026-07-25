@@ -10,6 +10,8 @@ import {
   Database, Server, Layers, GitBranch, Target, Award, BarChart2,
   ArrowRight, ExternalLink, Clock, Cpu, Eye, FileCode, Search
 } from "lucide-react";
+import { CyberBackground } from "@/components/CyberBackground";
+import { useIsMobile } from "@/hooks/useMobile";
 
 // ─── Data ────────────────────────────────────────────────────────────────────
 
@@ -107,49 +109,72 @@ const competitors = [
 // ─── Radar Compass SVG ───────────────────────────────────────────────────────
 function RadarCompass() {
   return (
-    <div className="relative w-64 h-64 flex-shrink-0">
-      <svg viewBox="0 0 240 240" className="w-full h-full" style={{ opacity: 0.7 }}>
+    <div className="relative w-72 h-72 flex-shrink-0">
+      {/* Outer glow */}
+      <div className="absolute inset-0 rounded-full" style={{
+        background: "radial-gradient(circle, rgba(0,229,160,0.08) 0%, transparent 70%)",
+        animation: "radarPulseBg 3s ease-in-out infinite"
+      }} />
+      <svg viewBox="0 0 240 240" className="w-full h-full relative" style={{ opacity: 0.85 }}>
         {/* Outer rings */}
-        {[100, 80, 60, 40, 20].map((r, i) => (
-          <circle key={i} cx="120" cy="120" r={r} fill="none" stroke="rgba(0,229,160,0.15)" strokeWidth="1" strokeDasharray={i % 2 === 0 ? "4 4" : "none"} />
+        {[110, 90, 70, 50, 30, 12].map((r, i) => (
+          <circle key={i} cx="120" cy="120" r={r} fill="none" 
+            stroke={i === 0 ? "rgba(0,229,160,0.12)" : "rgba(0,229,160,0.15)"} 
+            strokeWidth="1" 
+            strokeDasharray={i % 2 === 0 ? "4 6" : "2 4"} />
         ))}
         {/* Cross hairs */}
-        <line x1="120" y1="20" x2="120" y2="220" stroke="rgba(0,229,160,0.12)" strokeWidth="1" />
-        <line x1="20" y1="120" x2="220" y2="120" stroke="rgba(0,229,160,0.12)" strokeWidth="1" />
-        <line x1="49" y1="49" x2="191" y2="191" stroke="rgba(0,229,160,0.07)" strokeWidth="1" />
-        <line x1="191" y1="49" x2="49" y2="191" stroke="rgba(0,229,160,0.07)" strokeWidth="1" />
-        {/* Sweep */}
-        <path d="M120 120 L120 20 A100 100 0 0 1 200 70 Z" fill="rgba(0,229,160,0.06)" />
-        <line x1="120" y1="120" x2="200" y2="70" stroke="#00E5A0" strokeWidth="1.5" opacity="0.8" />
-        <line x1="120" y1="120" x2="120" y2="20" stroke="#00E5A0" strokeWidth="1.5" opacity="0.5" />
+        <line x1="120" y1="10" x2="120" y2="230" stroke="rgba(0,229,160,0.1)" strokeWidth="0.5" />
+        <line x1="10" y1="120" x2="230" y2="120" stroke="rgba(0,229,160,0.1)" strokeWidth="0.5" />
+        <line x1="43" y1="43" x2="197" y2="197" stroke="rgba(0,229,160,0.06)" strokeWidth="0.5" />
+        <line x1="197" y1="43" x2="43" y2="197" stroke="rgba(0,229,160,0.06)" strokeWidth="0.5" />
+        {/* Sweep cone */}
+        <path d="M120 120 L120 14 A106 106 0 0 1 150 20 Z" fill="rgba(0,229,160,0.1)" />
+        {/* Sweep line */}
+        <line x1="120" y1="120" x2="120" y2="14" stroke="#00E5A0" strokeWidth="2" opacity="0.9" strokeLinecap="round" />
+        <line x1="120" y1="120" x2="150" y2="20" stroke="#00E5A0" strokeWidth="1" opacity="0.5" strokeLinecap="round" />
         {/* Blips */}
-        <circle cx="155" cy="75" r="3" fill="#00E5A0" opacity="0.9">
-          <animate attributeName="opacity" values="0.9;0.2;0.9" dur="2s" repeatCount="indefinite" />
+        <circle cx="155" cy="75" r="4" fill="#00E5A0" opacity="0.9">
+          <animate attributeName="opacity" values="0.9;0.15;0.9" dur="2s" repeatCount="indefinite" />
         </circle>
-        <circle cx="80" cy="95" r="2" fill="#38BDF8" opacity="0.7">
+        <circle cx="80" cy="95" r="3" fill="#38BDF8" opacity="0.7">
           <animate attributeName="opacity" values="0.7;0.1;0.7" dur="3s" repeatCount="indefinite" />
         </circle>
-        <circle cx="170" cy="140" r="2.5" fill="#F97316" opacity="0.8">
-          <animate attributeName="opacity" values="0.8;0.2;0.8" dur="1.5s" repeatCount="indefinite" />
+        <circle cx="170" cy="140" r="3.5" fill="#F97316" opacity="0.8">
+          <animate attributeName="opacity" values="0.8;0.15;0.8" dur="1.5s" repeatCount="indefinite" />
         </circle>
-        {/* Center */}
-        <circle cx="120" cy="120" r="4" fill="#00E5A0" />
-        <circle cx="120" cy="120" r="8" fill="none" stroke="#00E5A0" strokeWidth="1" opacity="0.5" />
+        <circle cx="90" cy="160" r="2.5" fill="#A78BFA" opacity="0.6">
+          <animate attributeName="opacity" values="0.6;0.1;0.6" dur="2.5s" repeatCount="indefinite" />
+        </circle>
+        {/* Center dot */}
+        <circle cx="120" cy="120" r="5" fill="#00E5A0" />
+        <circle cx="120" cy="120" r="10" fill="none" stroke="#00E5A0" strokeWidth="1" opacity="0.4" />
+        <circle cx="120" cy="120" r="15" fill="none" stroke="#00E5A0" strokeWidth="0.5" opacity="0.2">
+          <animate attributeName="r" values="15;25;15" dur="2s" repeatCount="indefinite" />
+          <animate attributeName="opacity" values="0.2;0;0.2" dur="2s" repeatCount="indefinite" />
+        </circle>
         {/* Labels */}
-        <text x="118" y="14" fill="rgba(0,229,160,0.5)" fontSize="8" fontFamily="JetBrains Mono">N</text>
-        <text x="118" y="232" fill="rgba(0,229,160,0.5)" fontSize="8" fontFamily="JetBrains Mono">S</text>
-        <text x="8" y="124" fill="rgba(0,229,160,0.5)" fontSize="8" fontFamily="JetBrains Mono">W</text>
-        <text x="226" y="124" fill="rgba(0,229,160,0.5)" fontSize="8" fontFamily="JetBrains Mono">E</text>
+        <text x="118" y="8" fill="rgba(0,229,160,0.6)" fontSize="9" fontFamily="JetBrains Mono" fontWeight="bold">N</text>
+        <text x="118" y="238" fill="rgba(0,229,160,0.5)" fontSize="8" fontFamily="JetBrains Mono">S</text>
+        <text x="4" y="124" fill="rgba(0,229,160,0.5)" fontSize="8" fontFamily="JetBrains Mono">W</text>
+        <text x="228" y="124" fill="rgba(0,229,160,0.5)" fontSize="8" fontFamily="JetBrains Mono">E</text>
       </svg>
       {/* Rotating sweep animation */}
       <div className="absolute inset-0 flex items-center justify-center">
-        <div className="w-full h-full" style={{ animation: "spin 8s linear infinite", transformOrigin: "center" }}>
+        <div className="w-full h-full" style={{ animation: "radarSpin 6s linear infinite", transformOrigin: "center" }}>
           <svg viewBox="0 0 240 240" className="w-full h-full">
-            <path d="M120 120 L120 22 A98 98 0 0 1 148 28 Z" fill="rgba(0,229,160,0.08)" />
+            <defs>
+              <linearGradient id="sweepGrad" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0%" stopColor="rgba(0,229,160,0)" />
+                <stop offset="100%" stopColor="rgba(0,229,160,0.15)" />
+              </linearGradient>
+            </defs>
+            <path d="M120 120 L120 14 A106 106 0 0 1 165 30 Z" fill="url(#sweepGrad)" />
           </svg>
         </div>
       </div>
-      <style>{`@keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }`}</style>
+      <style>{`@keyframes radarSpin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }`}</style>
+      <style>{`@keyframes radarPulseBg { 0%, 100% { opacity: 0.5; } 50% { opacity: 1; } }`}</style>
     </div>
   );
 }
@@ -191,19 +216,19 @@ function AnimatedCounter({ target, suffix = "", prefix = "" }: { target: number;
 // ─── Section Header ──────────────────────────────────────────────────────────
 function SectionHeader({ icon, title, subtitle, accent = "#00E5A0" }: { icon: React.ReactNode; title: string; subtitle: string; accent?: string }) {
   return (
-    <div className="mb-10">
+    <div className="mb-10 section-glow-green">
       <div className="flex items-center gap-3 mb-3">
-        <div className="p-2 rounded-lg" style={{ background: `${accent}20`, color: accent }}>
-          {icon}
+        <div className="p-2.5 rounded-lg glass" style={{ borderColor: `${accent}30` }}>
+          <div style={{ color: accent }}>{icon}</div>
         </div>
-        <span className="mono text-xs uppercase tracking-widest" style={{ color: accent }}>
+        <span className="mono text-xs uppercase tracking-widest" style={{ color: accent, textShadow: `0 0 12px ${accent}40` }}>
           {subtitle}
         </span>
       </div>
-      <h2 className="text-3xl font-bold text-white" style={{ fontFamily: "Space Grotesk, sans-serif" }}>
+      <h2 className="text-3xl font-bold text-white" style={{ fontFamily: "Space Grotesk, sans-serif", textShadow: "0 0 40px rgba(0,229,160,0.15)" }}>
         {title}
       </h2>
-      <div className="mt-3 h-px w-24" style={{ background: `linear-gradient(90deg, ${accent}, transparent)` }} />
+      <div className="mt-3 h-px w-32" style={{ background: `linear-gradient(90deg, ${accent}, ${accent}80, transparent)` }} />
     </div>
   );
 }
@@ -240,6 +265,7 @@ export default function Home() {
   const [activeTab, setActiveTab] = useState("overview");
   const [checkedItems, setCheckedItems] = useState<number[]>([]);
   const [activeCompetitor, setActiveCompetitor] = useState<string | null>(null);
+  const isMobile = useIsMobile();
 
   const toggleCheck = (id: number) => {
     setCheckedItems(prev => prev.includes(id) ? prev.filter(i => i !== id) : [...prev, id]);
@@ -259,11 +285,15 @@ export default function Home() {
 
   return (
     <div className="min-h-screen grid-bg" style={{ background: "#050B14", fontFamily: "Inter, sans-serif" }}>
+      {/* ── Cyber Background ── */}
+      {!isMobile && <CyberBackground />}
+      {/* ── Noise Texture ── */}
+      <div className="noise-overlay" />
       {/* ── Top Navigation ── */}
-      <header className="sticky top-0 z-50 border-b" style={{ background: "rgba(5,11,20,0.95)", backdropFilter: "blur(12px)", borderColor: "rgba(0,229,160,0.15)" }}>
+      <header className="sticky top-0 z-50 border-b glass" style={{ borderColor: "rgba(0,229,160,0.2)" }}>
         <div className="container flex items-center justify-between py-3">
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ background: "linear-gradient(135deg, #00E5A0, #38BDF8)" }}>
+            <div className="w-8 h-8 rounded-lg flex items-center justify-center pulse-dot" style={{ background: "linear-gradient(135deg, #00E5A0, #38BDF8)", color: "#00E5A0" }}>
               <Shield className="w-4 h-4 text-black" />
             </div>
             <div>
@@ -301,8 +331,8 @@ export default function Home() {
       <SystemStatusBar />
 
       {/* ── Hero Section ── */}
-      <section className="relative overflow-hidden hex-bg" style={{ minHeight: "520px" }}>
-        <div className="absolute inset-0" style={{ background: "radial-gradient(ellipse at 15% 60%, rgba(0,229,160,0.1) 0%, transparent 55%), radial-gradient(ellipse at 85% 20%, rgba(56,189,248,0.07) 0%, transparent 45%), radial-gradient(ellipse at 50% 100%, rgba(0,0,0,0.8) 0%, transparent 60%)" }} />
+      <section className="relative overflow-hidden hex-bg hero-glow" style={{ minHeight: "560px" }}>
+        <div className="absolute inset-0" style={{ background: "radial-gradient(ellipse at 15% 60%, rgba(0,229,160,0.12) 0%, transparent 55%), radial-gradient(ellipse at 85% 20%, rgba(56,189,248,0.09) 0%, transparent 45%), radial-gradient(ellipse at 50% 100%, rgba(0,0,0,0.8) 0%, transparent 60%), radial-gradient(ellipse at 30% 30%, rgba(167,139,250,0.04) 0%, transparent 40%)" }} />
         <div className="container relative z-10 py-16">
           <div className="flex flex-col lg:flex-row items-start lg:items-center gap-12">
             {/* Left: Text */}
@@ -341,19 +371,21 @@ export default function Home() {
                   { label: "Sayfa", value: "6" },
                   { label: "Kontrol", value: "16" },
                 ].map((s, i) => (
-                  <div key={i} className="text-center p-3 rounded" style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.05)" }}>
-                    <div className="text-2xl font-bold" style={{ fontFamily: "Space Grotesk, sans-serif", color: "#00E5A0" }}>{s.value}</div>
-                    <div className="mono text-xs" style={{ color: "#475569" }}>{s.label}</div>
+                  <div key={i} className="text-center p-4 rounded-lg glass" style={{ borderColor: "rgba(0,229,160,0.15)" }}>
+                    <div className="text-2xl font-bold" style={{ fontFamily: "Space Grotesk, sans-serif", color: "#00E5A0", textShadow: "0 0 20px rgba(0,229,160,0.3)" }}>{s.value}</div>
+                    <div className="mono text-xs mt-1" style={{ color: "#64748B" }}>{s.label}</div>
                   </div>
                 ))}
               </div>
             </div>
             {/* Right: Radar */}
-            <div className="hidden lg:flex flex-col items-center gap-4">
+              <div className="hidden lg:flex flex-col items-center gap-4">
               <RadarCompass />
-              <div className="mono text-xs text-center" style={{ color: "#334155" }}>
-                THREAT DETECTION RADAR<br />
-                <span style={{ color: "#00E5A0" }}>3 ACTIVE SIGNALS</span>
+              <div className="glass rounded-lg px-4 py-2">
+                <div className="mono text-xs text-center" style={{ color: "#475569" }}>
+                  THREAT DETECTION RADAR<br />
+                  <span style={{ color: "#00E5A0", textShadow: "0 0 10px rgba(0,229,160,0.5)" }}>3 ACTIVE SIGNALS</span>
+                </div>
               </div>
             </div>
           </div>
@@ -369,7 +401,7 @@ export default function Home() {
             { label: "Hedef Kullanıcı", value: 50000, suffix: "+", icon: <Users className="w-5 h-5" />, color: "#A78BFA", desc: "12. Ayda" },
             { label: "Geliştirme Süresi", value: 12, suffix: " Ay", icon: <Clock className="w-5 h-5" />, color: "#F97316", desc: "MVP → Tam Sürüm" },
           ].map((kpi, i) => (
-            <div key={i} className="card-cyber p-5 rounded-xl">
+            <div key={i} className="glass card-glow p-5 rounded-xl">
               <div className="flex items-start justify-between mb-3">
                 <div className="p-2 rounded-lg" style={{ background: `${kpi.color}15`, color: kpi.color }}>
                   {kpi.icon}
@@ -392,7 +424,7 @@ export default function Home() {
           {/* Sidebar Navigation */}
           <aside className="hidden lg:block w-60 flex-shrink-0">
             <div className="sticky top-20">
-              <div className="terminal-card rounded p-0 overflow-hidden">
+              <div className="glass rounded p-0 overflow-hidden animated-border">
                 <div className="px-4 py-3 flex items-center gap-2" style={{ background: "rgba(0,229,160,0.05)", borderBottom: "1px solid rgba(0,229,160,0.1)" }}>
                   <div className="flex gap-1">
                     <div className="w-2 h-2 rounded-full" style={{ background: "#EF4444" }} />
@@ -447,17 +479,17 @@ export default function Home() {
                 subtitle="01 — Genel Bakış"
               />
               <div className="grid md:grid-cols-2 gap-6 mb-8">
-                <div className="card-cyber rounded-xl p-6">
+                <div className="glass rounded-xl p-6">
                   <h3 className="font-semibold text-white mb-3" style={{ fontFamily: "Space Grotesk, sans-serif" }}>Platform Vizyonu</h3>
                   <p className="text-sm leading-relaxed" style={{ color: "#94A3B8" }}>
                     AIPUSULA, yapay zekâ yeteneklerini siber güvenlik uzmanlığıyla birleştiren çok katmanlı bir platform olarak tasarlanmıştır. Bireysel kullanıcılar ve kurumsal müşteriler için AI destekli güvenlik tarama, tehdit analizi ve akıllı asistan hizmetleri sunar.
                   </p>
                   <div className="mt-4 flex items-center gap-2">
-                    <div className="w-2 h-2 rounded-full" style={{ background: "#00E5A0" }} />
+                    <div className="w-2 h-2 rounded-full pulse-dot" style={{ background: "#00E5A0", color: "#00E5A0" }} />
                     <span className="text-xs mono" style={{ color: "#00E5A0" }}>Güvenliğin Yapay Zekâ Pusulası</span>
                   </div>
                 </div>
-                <div className="card-cyber rounded-xl p-6">
+                <div className="glass rounded-xl p-6">
                   <h3 className="font-semibold text-white mb-3" style={{ fontFamily: "Space Grotesk, sans-serif" }}>Temel Farklılaşma</h3>
                   <div className="space-y-3">
                     {[
@@ -486,14 +518,16 @@ export default function Home() {
                   { name: "Security Scanner", icon: <Search className="w-5 h-5" />, desc: "URL/IP/Domain tarama, gerçek zamanlı ilerleme, zafiyet puanı, PDF rapor indirme", color: "#FB7185" },
                   { name: "Profile", icon: <Users className="w-5 h-5" />, desc: "Kullanıcı profili, abonelik yönetimi, MFA ayarları, API anahtarı yönetimi", color: "#FCD34D" },
                 ].map((page, i) => (
-                  <div key={i} className="card-cyber rounded-xl p-5 hover:scale-[1.02] transition-transform duration-200">
+                  <div key={i} className="glass rounded-xl p-5 hover:scale-[1.02] transition-all duration-300 card-glow" style={{ cursor: "default" }}>
                     <div className="flex items-center gap-3 mb-3">
-                      <div className="p-2 rounded-lg" style={{ background: `${page.color}15`, color: page.color }}>
+                      <div className="p-2.5 rounded-lg" style={{ background: `${page.color}15`, color: page.color, boxShadow: `0 0 15px ${page.color}20` }}>
                         {page.icon}
                       </div>
                       <span className="font-semibold text-white" style={{ fontFamily: "Space Grotesk, sans-serif" }}>{page.name}</span>
+                      <span className="ml-auto mono text-xs" style={{ color: page.color }}>0{i + 1}</span>
                     </div>
                     <p className="text-xs leading-relaxed" style={{ color: "#64748B" }}>{page.desc}</p>
+                    <div className="mt-3 h-px" style={{ background: `linear-gradient(90deg, ${page.color}40, transparent)` }} />
                   </div>
                 ))}
               </div>
@@ -513,7 +547,7 @@ export default function Home() {
                   { label: "Toplam Siber Güvenlik Pazarı", value: "$248B", change: "+13.4%", color: "#38BDF8" },
                   { label: "2030 Hedef Pazar Büyüklüğü", value: "$93.8B", change: "CAGR 22%", color: "#A78BFA" },
                 ].map((stat, i) => (
-                  <div key={i} className="card-cyber rounded-xl p-5">
+                  <div key={i} className="glass rounded-xl p-5">
                     <div className="text-2xl font-bold text-white mb-1" style={{ fontFamily: "Space Grotesk, sans-serif" }}>{stat.value}</div>
                     <div className="text-sm mb-2" style={{ color: "#94A3B8" }}>{stat.label}</div>
                     <div className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs" style={{ background: `${stat.color}15`, color: stat.color }}>
@@ -523,7 +557,7 @@ export default function Home() {
                   </div>
                 ))}
               </div>
-              <div className="card-cyber rounded-xl p-6">
+              <div className="glass rounded-xl p-6">
                 <h3 className="font-semibold text-white mb-6" style={{ fontFamily: "Space Grotesk, sans-serif" }}>AI Siber Güvenlik Pazar Büyümesi (Milyar $)</h3>
                 <ResponsiveContainer width="100%" height={280}>
                   <AreaChart data={marketGrowthData}>
@@ -562,7 +596,7 @@ export default function Home() {
               />
               <div className="space-y-3 mb-8">
                 {techStack.map((item, i) => (
-                  <div key={i} className="card-cyber rounded-xl p-4 flex items-start gap-4 hover:border-purple-500/30 transition-colors duration-200">
+                  <div key={i} className="glass rounded-xl p-4 flex items-start gap-4 hover:border-purple-500/30 transition-colors duration-300 card-glow">
                     <div className="p-2 rounded-lg flex-shrink-0 mt-0.5" style={{ background: "rgba(167,139,250,0.15)", color: "#A78BFA" }}>
                       {item.icon}
                     </div>
@@ -579,7 +613,7 @@ export default function Home() {
               </div>
 
               {/* Klasör Yapısı */}
-              <div className="card-cyber rounded-xl p-6">
+              <div className="glass rounded-xl p-6">
                 <h3 className="font-semibold text-white mb-4 flex items-center gap-2" style={{ fontFamily: "Space Grotesk, sans-serif" }}>
                   <FileCode className="w-4 h-4" style={{ color: "#A78BFA" }} />
                   Klasör Yapısı (MVP)
@@ -621,7 +655,7 @@ export default function Home() {
                 subtitle="04 — Zero-Trust Güvenlik"
                 accent="#FB7185"
               />
-              <div className="card-cyber rounded-xl p-6 mb-6">
+              <div className="glass rounded-xl p-6 mb-6">
                 <div className="flex items-center gap-3 mb-6">
                   <AlertTriangle className="w-5 h-5" style={{ color: "#F97316" }} />
                   <p className="text-sm" style={{ color: "#94A3B8" }}>
@@ -656,7 +690,7 @@ export default function Home() {
                   { title: "Erişim Kontrolü", items: ["RBAC + ABAC modeli", "MFA zorunluluğu", "Session yönetimi", "API rate limiting"], color: "#A78BFA", icon: <Shield className="w-4 h-4" /> },
                   { title: "İzleme & Yanıt", items: ["IDS/IPS entegrasyonu", "SIEM bağlantısı", "Otomatik tehdit yanıtı", "Penetrasyon testi"], color: "#F97316", icon: <Eye className="w-4 h-4" /> },
                 ].map((sec, i) => (
-                  <div key={i} className="card-cyber rounded-xl p-5">
+                  <div key={i} className="glass rounded-xl p-5 card-glow">
                     <div className="flex items-center gap-2 mb-3">
                       <div className="p-1.5 rounded-lg" style={{ background: `${sec.color}15`, color: sec.color }}>{sec.icon}</div>
                       <span className="font-semibold text-white text-sm" style={{ fontFamily: "Space Grotesk, sans-serif" }}>{sec.title}</span>
@@ -684,7 +718,7 @@ export default function Home() {
               />
               <div className="grid md:grid-cols-2 gap-6 mb-6">
                 {/* Renk Paleti */}
-                <div className="card-cyber rounded-xl p-6">
+                <div className="glass rounded-xl p-6">
                   <h3 className="font-semibold text-white mb-4" style={{ fontFamily: "Space Grotesk, sans-serif" }}>Renk Paleti</h3>
                   <div className="space-y-3">
                     {[
@@ -706,7 +740,7 @@ export default function Home() {
                   </div>
                 </div>
                 {/* Tipografi */}
-                <div className="card-cyber rounded-xl p-6">
+                <div className="glass rounded-xl p-6">
                   <h3 className="font-semibold text-white mb-4" style={{ fontFamily: "Space Grotesk, sans-serif" }}>Tipografi Sistemi</h3>
                   <div className="space-y-4">
                     <div>
@@ -731,7 +765,7 @@ export default function Home() {
               </div>
 
               {/* Performans Optimizasyonları */}
-              <div className="card-cyber rounded-xl p-6">
+              <div className="glass rounded-xl p-6">
                 <h3 className="font-semibold text-white mb-5 flex items-center gap-2" style={{ fontFamily: "Space Grotesk, sans-serif" }}>
                   <Zap className="w-4 h-4" style={{ color: "#FCD34D" }} />
                   Performans Optimizasyonları
@@ -766,7 +800,7 @@ export default function Home() {
                 accent="#FB7185"
               />
               {/* Competitor Table */}
-              <div className="card-cyber rounded-xl overflow-hidden mb-6">
+              <div className="glass rounded-xl overflow-hidden mb-6">
                 <div className="overflow-x-auto">
                   <table className="w-full text-sm">
                     <thead>
@@ -823,7 +857,7 @@ export default function Home() {
               </div>
 
               {/* Radar Chart */}
-              <div className="card-cyber rounded-xl p-6">
+              <div className="glass rounded-xl p-6">
                 <h3 className="font-semibold text-white mb-4" style={{ fontFamily: "Space Grotesk, sans-serif" }}>Çok Boyutlu Karşılaştırma</h3>
                 <ResponsiveContainer width="100%" height={320}>
                   <RadarChart data={competitorData}>
@@ -850,7 +884,7 @@ export default function Home() {
               />
               <div className="space-y-4">
                 {roadmapData.map((phase, i) => (
-                  <div key={i} className="card-cyber rounded-xl p-5 hover:scale-[1.01] transition-transform duration-200" style={{ borderLeft: `3px solid ${phase.color}` }}>
+                  <div key={i} className="glass rounded-xl p-5 hover:scale-[1.01] transition-all duration-300 card-glow" style={{ borderLeft: `3px solid ${phase.color}` }}>
                     <div className="flex flex-wrap items-start justify-between gap-3 mb-3">
                       <div>
                         <div className="flex items-center gap-2 mb-1">
@@ -888,7 +922,7 @@ export default function Home() {
                   { plan: "Pro", price: "$19.99", period: "/ay", features: ["Sınırsız AI araçları", "Günde 50 tarama", "CVE öncelikli bildirim", "Öncelikli destek", "API erişimi (1000 req/gün)"], color: "#00E5A0", highlight: true },
                   { plan: "Enterprise", price: "Özel", period: "Fiyat", features: ["Sınırsız her şey", "Özel güvenlik izleme", "SLA garantisi", "Dedicated destek", "Custom entegrasyonlar"], color: "#38BDF8", highlight: false },
                 ].map((plan, i) => (
-                  <div key={i} className="card-cyber rounded-xl p-6 relative" style={{ borderColor: plan.highlight ? "rgba(0,229,160,0.4)" : undefined, boxShadow: plan.highlight ? "0 0 30px rgba(0,229,160,0.1)" : undefined }}>
+                  <div key={i} className="glass rounded-xl p-6 relative card-glow" style={{ borderColor: plan.highlight ? "rgba(0,229,160,0.4)" : undefined, boxShadow: plan.highlight ? "0 0 30px rgba(0,229,160,0.1)" : undefined }}>
                     {plan.highlight && (
                       <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full text-xs font-semibold" style={{ background: "#00E5A0", color: "#050B14" }}>
                         En Popüler
@@ -914,7 +948,7 @@ export default function Home() {
               </div>
 
               <div className="grid md:grid-cols-2 gap-6">
-                <div className="card-cyber rounded-xl p-6">
+                <div className="glass rounded-xl p-6">
                   <h3 className="font-semibold text-white mb-4" style={{ fontFamily: "Space Grotesk, sans-serif" }}>Tahmini Gelir Büyümesi ($)</h3>
                   <ResponsiveContainer width="100%" height={220}>
                     <BarChart data={revenueData}>
@@ -929,7 +963,7 @@ export default function Home() {
                     </BarChart>
                   </ResponsiveContainer>
                 </div>
-                <div className="card-cyber rounded-xl p-6">
+                <div className="glass rounded-xl p-6">
                   <h3 className="font-semibold text-white mb-4" style={{ fontFamily: "Space Grotesk, sans-serif" }}>Gelir Dağılımı (12. Ay)</h3>
                   <ResponsiveContainer width="100%" height={220}>
                     <PieChart>
@@ -954,7 +988,7 @@ export default function Home() {
                 subtitle="09 — Lansman Öncesi Doğrulama"
                 accent="#FCD34D"
               />
-              <div className="card-cyber rounded-xl p-6 mb-4">
+              <div className="glass rounded-xl p-6 mb-4">
                 <div className="flex items-center justify-between mb-6">
                   <p className="text-sm" style={{ color: "#94A3B8" }}>
                     Tamamlanan: <strong style={{ color: "#00E5A0" }}>{checkedItems.length}</strong> / {checklistItems.length}
@@ -1000,20 +1034,20 @@ export default function Home() {
       </div>
 
       {/* ── Footer ── */}
-      <footer className="border-t py-8" style={{ borderColor: "rgba(0,229,160,0.1)" }}>
+      <footer className="border-t py-8 glass" style={{ borderColor: "rgba(0,229,160,0.15)" }}>
         <div className="container flex flex-col md:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-3">
-            <div className="w-6 h-6 rounded flex items-center justify-center" style={{ background: "linear-gradient(135deg, #00E5A0, #38BDF8)" }}>
+            <div className="w-6 h-6 rounded flex items-center justify-center pulse-dot" style={{ background: "linear-gradient(135deg, #00E5A0, #38BDF8)", color: "#00E5A0" }}>
               <Shield className="w-3 h-3 text-black" />
             </div>
             <span className="text-sm font-semibold text-white" style={{ fontFamily: "Space Grotesk, sans-serif" }}>AIPUSULA</span>
-            <span className="text-xs" style={{ color: "#334155" }}>MVP Platform Raporu — Temmuz 2026</span>
+            <span className="text-xs" style={{ color: "#475569" }}>MVP Platform Raporu — Temmuz 2026</span>
           </div>
           <div className="flex items-center gap-4">
-            <span className="text-xs mono" style={{ color: "#334155" }}>v1.0.0-MVP</span>
+            <span className="text-xs mono" style={{ color: "#475569" }}>v1.0.0-MVP</span>
             <div className="flex items-center gap-1.5">
-              <div className="w-1.5 h-1.5 rounded-full" style={{ background: "#00E5A0" }} />
-              <span className="text-xs" style={{ color: "#334155" }}>Hazır</span>
+              <div className="w-1.5 h-1.5 rounded-full pulse-dot" style={{ background: "#00E5A0", color: "#00E5A0" }} />
+              <span className="text-xs" style={{ color: "#475569" }}>Hazır</span>
             </div>
           </div>
         </div>
