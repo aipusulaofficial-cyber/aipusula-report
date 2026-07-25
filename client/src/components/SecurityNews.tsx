@@ -54,12 +54,12 @@ export function SecurityNews() {
         <div className="flex items-center gap-2">
           <Newspaper className="w-4 h-4" style={{ color: "#38BDF8" }} />
           <span className="mono text-xs uppercase tracking-widest" style={{ color: "#38BDF8" }}>
-            Security News Feed
+            SİBER GÜVENLİK HABERLERİ
           </span>
         </div>
         <div className="flex items-center gap-1.5">
           <div className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: "#00E5A0" }} />
-          <span className="mono text-[10px]" style={{ color: "#64748B" }}>LIVE</span>
+          <span className="mono text-[10px]" style={{ color: "#64748B" }}>CANLI</span>
         </div>
       </div>
 

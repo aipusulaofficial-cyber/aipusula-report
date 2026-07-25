@@ -58,12 +58,12 @@ const revenueShareData = [
 ];
 
 const roadmapData = [
-  { month: "Ay 1-2", phase: "Temel Altyapı", tasks: ["Auth sistemi", "CI/CD pipeline", "Dashboard UI", "Veritabanı şeması"], color: "#00E5A0", status: "critical" },
-  { month: "Ay 3-4", phase: "AI Entegrasyonu", tasks: ["Chat motoru", "AI Tools kataloğu", "Phishing analizörü", "Kod tarayıcı"], color: "#38BDF8", status: "high" },
+  { month: "Ay 1-2", phase: "Temel Altyapı", tasks: ["Kimlik doğrulama sistemi", "CI/CD işlem hattı", "Kontrol paneli arayüzü", "Veritabanı şeması"], color: "#00E5A0", status: "critical" },
+  { month: "Ay 3-4", phase: "AI Entegrasyonu", tasks: ["Sohbet motoru", "AI araçları kataloğu", "Phishing analizörü", "Kod tarayıcı"], color: "#38BDF8", status: "high" },
   { month: "Ay 5-6", phase: "Güvenlik Motoru", tasks: ["URL/IP tarayıcı", "CVE takibi", "Haber akışı", "Tehdit haritası"], color: "#F97316", status: "high" },
-  { month: "Ay 7-8", phase: "Mobil Uygulama", tasks: ["React Native geliştirme", "Push bildirimleri", "Offline destek", "Play Store hazırlık"], color: "#A78BFA", status: "medium" },
-  { month: "Ay 9-10", phase: "Entegrasyon & Test", tasks: ["E2E testler", "Performans opt.", "Penetrasyon testi", "Beta kullanıcıları"], color: "#FB7185", status: "medium" },
-  { month: "Ay 11-12", phase: "Lansman", tasks: ["Play Store yayın", "Pazarlama kampanyası", "Enterprise satış", "Yatırımcı sunumu"], color: "#FCD34D", status: "launch" },
+  { month: "Ay 7-8", phase: "Mobil Uygulama", tasks: ["React Native geliştirme", "Anlık bildirimler", "Çevrimdışı destek", "Mağaza hazırlığı"], color: "#A78BFA", status: "medium" },
+  { month: "Ay 9-10", phase: "Entegrasyon ve Test", tasks: ["Uçtan uca testler", "Performans optimizasyonu", "Sızma testi", "Beta kullanıcıları"], color: "#FB7185", status: "medium" },
+  { month: "Ay 11-12", phase: "Lansman", tasks: ["Mağaza yayını", "Pazarlama kampanyası", "Kurumsal satış", "Yatırımcı sunumu"], color: "#FCD34D", status: "launch" },
 ];
 
 const techStack = [
@@ -245,10 +245,10 @@ function SectionHeader({ icon, title, subtitle, accent = "#00E5A0" }: { icon: Re
 // ─── System Status Bar ───────────────────────────────────────────────────────
 function SystemStatusBar() {
   const statuses = [
-    { label: "PLATFORM", value: "OPERATIONAL", color: "#00E5A0" },
-    { label: "AI ENGINE", value: "ONLINE", color: "#00E5A0" },
-    { label: "THREAT MONITOR", value: "ACTIVE", color: "#F97316" },
-    { label: "CONTENT FEED", value: "LIVE", color: "#38BDF8" },
+    { label: "PLATFORM", value: "ÇALIŞIYOR", color: "#00E5A0" },
+    { label: "AI MOTORU", value: "ÇEVRİMİÇİ", color: "#00E5A0" },
+    { label: "TEHDİT İZLEME", value: "AKTİF", color: "#F97316" },
+    { label: "İÇERİK AKIŞI", value: "CANLI", color: "#38BDF8" },
   ];
   return (
     <div className="flex flex-wrap items-center gap-3 py-1.5 px-2 border-b" style={{ borderColor: "rgba(0,229,160,0.08)", background: "rgba(0,229,160,0.02)" }}>
@@ -499,16 +499,16 @@ export default function Home() {
             <div className="flex-1 max-w-[55%] relative z-10">
               <div className="flex items-center gap-2 mb-1">
                 <div className="h-px w-6" style={{ background: "#00E5A0" }} />
-                <span className="mono text-xs uppercase tracking-widest" style={{ color: "#00E5A0" }}>// ARTIFICIAL INTELLIGENCE & DIGITAL WORLD</span>
+                <span className="mono text-xs uppercase tracking-widest" style={{ color: "#00E5A0" }}>// YAPAY ZEKÂ & DİJİTAL DÜNYA</span>
               </div>
               <h1 className="font-black leading-none" style={{ fontFamily: "Space Grotesk, sans-serif", fontSize: "clamp(2rem, 5vw, 3rem)", letterSpacing: "-0.02em" }}>
                 <span className="text-white">AI</span><span style={{ color: "#00E5A0", textShadow: "0 0 40px rgba(0,229,160,0.4)" }}>PUSULA</span>
               </h1>
               <div className="mono text-xs mt-1" style={{ color: "#38BDF8", letterSpacing: "0.15em" }}>
-                THE COMPASS OF AI & THE DIGITAL WORLD
+                YAPAY ZEKÂ & DİJİTAL DÜNYA'NIN PUSULASI
               </div>
               <p className="text-sm mt-1.5 leading-relaxed max-w-md" style={{ color: "#64748B", fontFamily: "Inter, sans-serif" }}>
-                A premium platform that bridges artificial intelligence, digital tools, and cybersecurity for the modern professional. Discover AI tools, learn to monetize with AI, and stay protected in the digital world.
+                Yapay zekâ, dijital araçlar ve siber güvenliği birleştiren premium platform. AI araçlarını keşfedin, AI ile kazanmayı öğrenin ve dijital dünyada güvende kalın.
               </p>
             </div>
 
@@ -524,86 +524,7 @@ export default function Home() {
           }}
         />
       </section>
-      {/* ── AI-Powered Platform Capabilities ── */}
-      <section className="container pb-1">
-        <div className="mb-1">
-          <div className="flex items-center gap-2 mb-1">
-            <div className="h-px w-6" style={{ background: "#00E5A0" }} />
-            <span className="mono text-xs uppercase tracking-widest" style={{ color: "#00E5A0" }}>CORE CAPABILITIES</span>
-          </div>
-          <h3 className="text-lg font-bold text-white" style={{ fontFamily: "Space Grotesk, sans-serif", textShadow: "0 0 30px rgba(0,229,160,0.1)" }}>
-            AI-Powered Platform Capabilities
-          </h3>
-        </div>
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-2">
-          {[
-            {
-              title: "AI Assistant",
-              desc: "Autonomous threat detection and response powered by advanced machine learning models.",
-              icon: <Brain className="w-5 h-5" stroke="1.5" />,
-              color: "#00E5A0"
-            },
-            {
-              title: "AI Tools Catalog",
-              desc: "Curated library of 500+ AI tools for writing, coding, design, marketing, and productivity.",
-              icon: <Cpu className="w-5 h-5" stroke="1.5" />,
-              color: "#38BDF8"
-            },
-            {
-              title: "Digital Content Studio",
-              desc: "AI-powered content creation for social media, blogs, presentations, and video scripts.",
-              icon: <FileCode className="w-5 h-5" stroke="1.5" />,
-              color: "#A78BFA"
-            },
-            {
-              title: "AI Monetization Hub",
-              desc: "Business ideas, revenue strategies, and AI-driven income generation frameworks.",
-              icon: <DollarSign className="w-5 h-5" stroke="1.5" />,
-              color: "#F97316"
-            },
-            {
-              title: "Cybersecurity Scanner",
-              desc: "Automated vulnerability scanning engine that identifies and classifies threats in real-time.",
-              icon: <Shield className="w-5 h-5" stroke="1.5" />,
-              color: "#FCD34D"
-            },
-            {
-              title: "Threat Intelligence",
-              desc: "Real-time threat feeds aggregated from global cybersecurity intelligence networks.",
-              icon: <Globe className="w-5 h-5" stroke="1.5" />,
-              color: "#FB7185"
-            },
-            {
-              title: "Workflow Automation",
-              desc: "Streamline operations with AI-driven workflow orchestration and scheduling.",
-              icon: <Zap className="w-5 h-5" stroke="1.5" />,
-              color: "#00E5A0"
-            },
-            {
-              title: "API & Integrations",
-              desc: "Extensible platform architecture with REST APIs and third-party connectors.",
-              icon: <Code2 className="w-5 h-5" stroke="1.5" />,
-              color: "#38BDF8"
-            },
-          ].map((cap, i) => (
-            <div key={i} className="glass card-glow p-3 rounded-xl cursor-pointer transition-all duration-200 ease-out hover:translate-y-[-2px] hover:shadow-lg active:scale-[0.98] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#00E5A0]/30" style={{ willChange: "transform" }}>
-              <div className="flex items-start gap-3">
-                <div className="p-2 rounded-lg flex-shrink-0" style={{ background: `${cap.color}15`, color: cap.color }}>
-                  {cap.icon}
-                </div>
-                <div className="min-w-0">
-                  <div className="text-sm font-semibold text-white mb-1 leading-tight" style={{ fontFamily: "Space Grotesk, sans-serif" }}>
-                    {cap.title}
-                  </div>
-                  <div className="text-xs leading-relaxed transition-colors duration-200 group-hover:text-gray-500" style={{ color: "#64748B" }}>
-                    {cap.desc}
-                  </div>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
+
 
       {/* ── Sidebar + Content Layout ── */}
       <div className="container pb-4">
@@ -646,7 +567,7 @@ export default function Home() {
                 <div className="mt-2 pt-2 border-t" style={{ borderColor: "rgba(0,229,160,0.08)" }}>
                   <div className="mono text-xs px-1" style={{ color: "#1E3A2F" }}>
                     <div>AIPUSULA-MVP-v1.0</div>
-                    <div style={{ color: "#00E5A0" }}>● SYSTEM READY</div>
+                    <div style={{ color: "#00E5A0" }}>● SİSTEM HAZIR</div>
                   </div>
                 </div>
                 </div>
@@ -678,7 +599,7 @@ export default function Home() {
                       { title: "Anthropic Claude 4: Uzun Bağlam Penceresi ve Tool Use", tag: "Güncelleme", date: "6 saat önce", color: "#38BDF8" },
                       { title: "Google DeepMind: AlphaFold 3 Protein Yapı Tahmini", tag: "Araştırma", date: "12 saat önce", color: "#A78BFA" },
                       { title: "Meta Llama 4: Açık Kaynak LLM Geliştirmeleri", tag: "Açık Kaynak", date: "1 gün önce", color: "#F97316" },
-                      { title: "AI Agent Ecosystem: Autonomous Task Execution", tag: "Trend", date: "1 gün önce", color: "#FB7185" },
+                      { title: "AI Agent Ekosistemi: Otonom Görev Yürütme", tag: "Trend", date: "1 gün önce", color: "#FB7185" },
                     ].map((news, i) => (
                       <div key={i} className="flex items-start gap-3 p-3 rounded-lg hover:bg-white/[0.03] transition-colors duration-200 cursor-pointer focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#00E5A0]/30">
                         <div className="w-1.5 h-1.5 rounded-full mt-2 flex-shrink-0" style={{ background: news.color }} />
@@ -705,10 +626,10 @@ export default function Home() {
                     </h4>
                     <div className="space-y-2.5">
                       {[
-                        { name: "GPT-5", provider: "OpenAI", desc: "Agentic AI, Multimodal", color: "#00E5A0" },
-                        { name: "Claude 4", provider: "Anthropic", desc: "200K context, Tool use", color: "#38BDF8" },
-                        { name: "Gemini 2.0", provider: "Google", desc: "Multimodal, Long context", color: "#A78BFA" },
-                        { name: "Llama 4", provider: "Meta", desc: "Open source, 405B params", color: "#F97316" },
+                        { name: "GPT-5", provider: "OpenAI", desc: "Otonom AI, Çok Modlu", color: "#00E5A0" },
+                        { name: "Claude 4", provider: "Anthropic", desc: "200K bağlam, Araç kullanımı", color: "#38BDF8" },
+                        { name: "Gemini 2.0", provider: "Google", desc: "Çok modlu, Uzun bağlam", color: "#A78BFA" },
+                        { name: "Llama 4", provider: "Meta", desc: "Açık kaynak, 405B parametre", color: "#F97316" },
                       ].map((m, i) => (
                         <div key={i} className="flex items-center gap-3 p-2 rounded-lg hover:bg-white/[0.03] transition-colors cursor-pointer">
                           <div className="w-8 h-8 rounded-lg flex items-center justify-center text-xs font-bold" style={{ background: `${m.color}15`, color: m.color }}>{m.name[0]}</div>
@@ -727,7 +648,7 @@ export default function Home() {
                       AI Trendleri
                     </h4>
                     <div className="space-y-2">
-                      {["AI Agents & Autonomous Systems", "Multimodal AI", "Edge AI & On-Device ML", "AI-Powered Coding Assistants", "RAG & Knowledge Graphs"].map((trend, i) => (
+                      {["AI Ajanlar & Otonom Sistemler", "Çok Modlu Yapay Zekâ", "Kenar AI & Cihaz Üzeri ML", "AI Destekli Kodlama Asistanları", "RAG & Bilgi Grafikleri"].map((trend, i) => (
                         <div key={i} className="flex items-center gap-2">
                           <span className="mono text-xs" style={{ color: "#334155" }}>{String(i + 1).padStart(2, "0")}</span>
                           <span className="text-xs" style={{ color: "#94A3B8" }}>{trend}</span>
@@ -767,7 +688,7 @@ export default function Home() {
                     {[
                       { title: "RAG Mimarisi: Enterprise AI için Derinlemesine İnceleme", views: "12.4K" },
                       { title: "AI Kod Asistanları: Cursor, Copilot, Windsurf Karşılaştırması", views: "8.7K" },
-                      { title: "Multimodal AI: Metin, Görüntü ve Ses Birleştirme", views: "6.2K" },
+                      { title: "Çok Modlu Yapay Zekâ: Metin, Görüntü ve Ses Birleştirme", views: "6.2K" },
                     ].map((article, i) => (
                       <div key={i} className="flex items-center gap-2 p-2 rounded-lg hover:bg-white/[0.03] transition-colors cursor-pointer">
                         <span className="mono text-xs" style={{ color: "#A78BFA" }}>#{i + 1}</span>
@@ -783,12 +704,12 @@ export default function Home() {
             <h3 className="text-xl font-semibold text-white mb-5" style={{ fontFamily: "Space Grotesk, sans-serif" }}>Sayfa Planlaması</h3>
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
               {[
-                { name: "AI World", icon: <Brain className="w-5 h-5" />, desc: "AI eğitim içerikleri, rehberler, yeni teknoloji analizleri ve yapay zekâ trendleri", color: "#00E5A0" },
-                { name: "AI Tools", icon: <Cpu className="w-5 h-5" />, desc: "500+ AI araç kataloğu, karşılaştırma, puanlama ve kullanım rehberleri", color: "#38BDF8" },
-                { name: "AI Monetize", icon: <DollarSign className="w-5 h-5" />, desc: "AI ile kazanç yolları, iş fikirleri, gelir modelleri ve pasif gelir stratejileri", color: "#F97316" },
-                { name: "Digital World", icon: <Globe className="w-5 h-5" />, desc: "Teknoloji haberleri, yazılım dünyası, dijital dönüşüm ve yenilikçi projeler", color: "#A78BFA" },
-                { name: "Cybersecurity", icon: <Shield className="w-5 h-5" />, desc: "Tehdit analizi, zafiyet tarama, güvenlik tavsiyeleri ve kurumsal koruma", color: "#FB7185" },
-                { name: "Profile", icon: <Users className="w-5 h-5" />, desc: "Kullanıcı profili, abonelik yönetimi, MFA ayarları, API anahtarı yönetimi", color: "#FCD34D" },
+                { name: "AI Dünyası", icon: <Brain className="w-5 h-5" />, desc: "AI eğitim içerikleri, rehberler, yeni teknoloji analizleri ve yapay zekâ trendleri", color: "#00E5A0" },
+                { name: "AI Araçları", icon: <Cpu className="w-5 h-5" />, desc: "500+ AI araç kataloğu, karşılaştırma, puanlama ve kullanım rehberleri", color: "#38BDF8" },
+                { name: "AI ile Kazanç", icon: <DollarSign className="w-5 h-5" />, desc: "AI ile kazanç yolları, iş fikirleri, gelir modelleri ve pasif gelir stratejileri", color: "#F97316" },
+                { name: "Dijital Dünya", icon: <Globe className="w-5 h-5" />, desc: "Teknoloji haberleri, yazılım dünyası, dijital dönüşüm ve yenilikçi projeler", color: "#A78BFA" },
+                { name: "Siber Güvenlik", icon: <Shield className="w-5 h-5" />, desc: "Tehdit analizi, zafiyet tarama, güvenlik tavsiyeleri ve kurumsal koruma", color: "#FB7185" },
+                { name: "Profil", icon: <Users className="w-5 h-5" />, desc: "Kullanıcı profili, abonelik yönetimi, MFA ayarları, API anahtarı yönetimi", color: "#FCD34D" },
               ].map((page, i) => (
                 <div key={i} className="glass rounded-xl p-5 hover:scale-[1.02] transition-all duration-300 card-glow cursor-pointer">
                   <div className="flex items-center gap-3 mb-3">
@@ -919,7 +840,7 @@ export default function Home() {
               <SectionHeader
                 icon={<Cpu className="w-5 h-5" />}
                 title="AI Araçları"
-                subtitle="03 — AI Tools Kataloğu & Karşılaştırma"
+                subtitle="03 — AI Araçları Kataloğu & Karşılaştırma"
                 accent="#38BDF8"
               />
               {/* Öne Çıkan AI Araçları */}
@@ -928,12 +849,12 @@ export default function Home() {
                   { name: "ChatGPT", provider: "OpenAI", category: "Sohbet & İçerik", desc: "GPT-4o ile multimodal AI asistanı. Yazı, kod, analiz ve görsel üretme.", rating: 4.8, color: "#74AA9C" },
                   { name: "Claude", provider: "Anthropic", category: "Sohbet & Analiz", desc: "Uzun bağlam penceresi ve güvenli AI asistanı. Araştırma ve kodlama.", rating: 4.7, color: "#CC785C" },
                   { name: "Gemini", provider: "Google", desc: "Google'ın multimodal AI modeli. Arama entegrasyonu ve gerçek zamanlı bilgi.", category: "Sohbet & Arama", rating: 4.5, color: "#4285F4" },
-                  { name: "Cursor", provider: "Cursor Inc.", category: "Kod Geliştirme", desc: "AI-powered code editor. Autocomplete, refactor ve code review.", rating: 4.9, color: "#38BDF8" },
-                  { name: "Perplexity", provider: "Perplexity AI", category: "Araştırma & Arama", desc: "AI-powered search engine. Gerçek zamanlı yanıtlar ve kaynaklar.", rating: 4.6, color: "#1FB8CD" },
-                  { name: "Runway", provider: "Runway ML", category: "Video & Görsel", desc: "AI video generation, editing ve VFX. Gen-3 Alpha modeli.", rating: 4.4, color: "#A78BFA" },
-                  { name: "Midjourney", provider: "Midjourney", category: "Görsel Üretim", desc: "AI image generation. Sanatsal ve fotogerçekçi görseller.", rating: 4.7, color: "#FB7185" },
-                  { name: "ElevenLabs", provider: "ElevenLabs", category: "Ses & Konuşma", desc: "AI voice cloning, text-to-speech ve ses üretimi.", rating: 4.5, color: "#F97316" },
-                  { name: "Manus", provider: "Manus AI", category: "Otonom AI Agent", desc: "Tam otonom AI ajandalar. Araştırma, kodlama ve otomasyon.", rating: 4.6, color: "#FCD34D" },
+                  { name: "Cursor", provider: "Cursor Inc.", category: "Kod Geliştirme", desc: "AI destekli kod editörü. Otomatik tamamlama, yeniden düzenleme ve kod incelemesi.", rating: 4.9, color: "#38BDF8" },
+                  { name: "Perplexity", provider: "Perplexity AI", category: "Araştırma & Arama", desc: "AI destekli arama motoru. Gerçek zamanlı yanıtlar ve kaynaklar.", rating: 4.6, color: "#1FB8CD" },
+                  { name: "Runway", provider: "Runway ML", category: "Video & Görsel", desc: "AI video oluşturma, düzenleme ve görsel efektler. Gen-3 Alpha modeli.", rating: 4.4, color: "#A78BFA" },
+                  { name: "Midjourney", provider: "Midjourney", category: "Görsel Üretim", desc: "AI görsel oluşturma. Sanatsal ve fotogerçekçi görseller.", rating: 4.7, color: "#FB7185" },
+                  { name: "ElevenLabs", provider: "ElevenLabs", category: "Ses & Konuşma", desc: "AI ses klonlama, metinden konuşmaya ve ses üretimi.", rating: 4.5, color: "#F97316" },
+                  { name: "Manus", provider: "Manus AI", category: "Otonom AI Ajanı", desc: "Tam otonom AI ajanları. Araştırma, kodlama ve otomasyon.", rating: 4.6, color: "#FCD34D" },
                 ].map((tool, i) => (
                   <div key={i} className="glass rounded-xl p-4 hover:scale-[1.02] transition-all duration-300 card-glow cursor-pointer focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#38BDF8]/30">
                     <div className="flex items-center gap-3 mb-2">
@@ -993,12 +914,12 @@ export default function Home() {
               {/* Kazanç Yolları */}
               <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
                 {[
-                  { title: "AI Freelancing", desc: "AI araçlarıyla content writing, code development ve tasarım hizmetleri sunarak gelir elde edin.", icon: <Users className="w-5 h-5" />, color: "#F97316", examples: ["AI Content Writer", "AI Code Developer", "AI Graphic Designer"] },
-                  { title: "Prompt Engineering", desc: "Etkili prompt yazma becerisi kazanın. Enterprise firmalar bu hizmeti yüksek ücretlerle satın alıyor.", icon: <Code2 className="w-5 h-5" />, color: "#00E5A0", examples: ["Prompt Templates Satışı", "LLM Fine-tuning", "Enterprise Consulting"] },
-                  { title: "AI SaaS Ürünleri", desc: "Niche AI araçları geliştirin ve abonelik bazlı gelir modeliyle sürdürülebilir kazanç yaratın.", icon: <Layers className="w-5 h-5" />, color: "#38BDF8", examples: ["AI Writing Tool", "AI Resume Builder", "AI Image Editor"] },
-                  { title: "YouTube & TikTok AI", desc: "AI araçlarıyla içerik üretin. Video script, thumbnail, ses ve edit işlemlerini otomatikleştirin.", icon: <Eye className="w-5 h-5" />, color: "#A78BFA", examples: ["AI Script Generator", "AI Thumbnail Maker", "AI Voice Cloning"] },
-                  { title: "Affiliate Marketing", desc: "AI araçlarını tanıtın ve affiliate programlarıyla pasif gelir oluşturun.", icon: <ExternalLink className="w-5 h-5" />, color: "#FCD34D", examples: ["ChatGPT Plus Referral", "AI Tool Reviews", "Comparison Sites"] },
-                  { title: "AI Otomasyon Danışmanlığı", desc: "İşletmelere AI otomasyon çözümleri sunarak yüksek değerli danışmanlık hizmetleri verin.", icon: <Zap className="w-5 h-5" />, color: "#FB7185", examples: ["Workflow Automation", "Chatbot Deployment", "Data Pipeline AI"] },
+                  { title: "AI Freelancing", desc: "AI araçlarıyla içerik yazma, kod geliştirme ve tasarım hizmetleri sunarak gelir elde edin.", icon: <Users className="w-5 h-5" />, color: "#F97316", examples: ["AI İçerik Yazarı", "AI Kod Geliştirici", "AI Grafik Tasarımcı"] },
+                  { title: "Prompt Mühendisliği", desc: "Etkili prompt yazma becerisi kazanın. Enterprise firmalar bu hizmeti yüksek ücretlerle satın alıyor.", icon: <Code2 className="w-5 h-5" />, color: "#00E5A0", examples: ["Prompt Şablon Satışı", "LLM İnce Ayar", "Enterprise Danışmanlık"] },
+                  { title: "AI SaaS Ürünleri", desc: "Niş AI araçları geliştirin ve abonelik bazlı gelir modeliyle sürdürülebilir kazanç yaratın.", icon: <Layers className="w-5 h-5" />, color: "#38BDF8", examples: ["AI Yazma Aracı", "AI CV Oluşturucu", "AI Görsel Düzenleyici"] },
+                  { title: "YouTube & TikTok AI", desc: "AI araçlarıyla içerik üretin. Video senaryo, kapak, ses ve edit işlemlerini otomatikleştirin.", icon: <Eye className="w-5 h-5" />, color: "#A78BFA", examples: ["AI Senaryo Oluşturucu", "AI Kapak Tasarımı", "AI Ses Klonlama"] },
+                  { title: "Affiliate Marketing", desc: "AI araçlarını tanıtın ve affiliate programlarıyla pasif gelir oluşturun.", icon: <ExternalLink className="w-5 h-5" />, color: "#FCD34D", examples: ["ChatGPT Plus Yönlendirme", "AI Araç İncelemeleri", "Karşılaştırma Siteleri"] },
+                  { title: "AI Otomasyon Danışmanlığı", desc: "İşletmelere AI otomasyon çözümleri sunarak yüksek değerli danışmanlık hizmetleri verin.", icon: <Zap className="w-5 h-5" />, color: "#FB7185", examples: ["İş Akışı Otomasyonu", "Chatbot Kurulumu", "Veri Hattı AI"] },
                 ].map((item, i) => (
                   <div key={i} className="glass rounded-xl p-5 hover:scale-[1.02] transition-all duration-300 card-glow cursor-pointer focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#F97316]/30">
                     <div className="flex items-center gap-2 mb-3">
@@ -1027,9 +948,9 @@ export default function Home() {
                   </h3>
                   <div className="space-y-3">
                     {[
-                      { person: "Freelance Yazar", income: "$4,200/ay", method: "ChatGPT + Jasper ile AI-assisted content writing", tag: "Content" },
-                      { person: "Solo Developer", income: "$12,800/ay", method: "AI SaaS: Otomatik resume builder + ATS optimizer", tag: "SaaS" },
-                      { person: "YouTube Kanalı", income: "$6,500/ay", method: "AI ile günlük video içerik üretimi ve monetizasyon", tag: "Video" },
+                      { person: "Freelance Yazar", income: "$4,200/ay", method: "ChatGPT + Jasper ile AI destekli içerik yazma", tag: "İçerik" },
+                      { person: "Bağımsız Geliştirici", income: "$12,800/ay", method: "AI SaaS: Otomatik CV oluşturucu + ATS optimizasyonu", tag: "SaaS" },
+                      { person: "YouTube Kanalı", income: "$6,500/ay", method: "AI ile günlük video içerik üretimi ve gelir elde etme", tag: "Video" },
                     ].map((story, i) => (
                       <div key={i} className="p-3 rounded-lg hover:bg-white/[0.03] transition-colors cursor-pointer">
                         <div className="flex items-center justify-between mb-1">
@@ -1050,8 +971,8 @@ export default function Home() {
                   <div className="space-y-3">
                     {[
                       { title: "AI ile E-ticaret: Otomatik Ürün Açıklamaları", revenue: "+340%", metric: "Dönüşüm oranı artışı" },
-                      { title: "Prompt Engineering ile AI Agent Gelir Modeli", revenue: "$28K", metric: "İlk 6 ay gelir" },
-                      { title: "AI Video Üretimi: Pasif Gelir Stratejisi", revenue: "12 ay", metric: "Break-even süresi" },
+                      { title: "Prompt Mühendisliği ile AI Agent Gelir Modeli", revenue: "$28K", metric: "İlk 6 ay gelir" },
+                      { title: "AI Video Üretimi: Pasif Gelir Stratejisi", revenue: "12 ay", metric: "Başabaş süresi" },
                     ].map((cs, i) => (
                       <div key={i} className="p-3 rounded-lg hover:bg-white/[0.03] transition-colors cursor-pointer">
                         <div className="flex items-center justify-between mb-1">
@@ -1103,11 +1024,11 @@ export default function Home() {
                   <div className="space-y-4">
                     <div>
                       <div className="text-3xl font-bold text-white mb-1" style={{ fontFamily: "Space Grotesk, sans-serif" }}>Space Grotesk</div>
-                      <div className="text-xs mono" style={{ color: "#475569" }}>Başlıklar — Bold 700 / SemiBold 600</div>
+                      <div className="text-xs mono" style={{ color: "#475569" }}>Başlıklar — Kalın 700 / Yarı Kalın 600</div>
                     </div>
                     <div>
                       <div className="text-lg text-white mb-1" style={{ fontFamily: "Inter, sans-serif" }}>Inter Regular</div>
-                      <div className="text-xs mono" style={{ color: "#475569" }}>Gövde metni — Regular 400 / Medium 500</div>
+                      <div className="text-xs mono" style={{ color: "#475569" }}>Gövde metni — Normal 400 / Orta 500</div>
                     </div>
                     <div>
                       <div className="text-sm mb-1 mono" style={{ color: "#00E5A0" }}>JetBrains Mono</div>
@@ -1132,10 +1053,10 @@ export default function Home() {
                   {[
                     { title: "Redis Önbellekleme", desc: "Sık kullanılan AI yanıtları ve tarama sonuçları önbellekte tutulur. API yükü %60 azalır.", metric: "60% ↓ API Yükü" },
                     { title: "CDN Entegrasyonu", desc: "Statik dosyalar ve model ağırlıkları Cloudflare CDN üzerinden düşük gecikmeyle sunulur.", metric: "<50ms Gecikme" },
-                    { title: "Lazy Loading", desc: "Yalnızca aktif modüller yüklenir. Code splitting ile ilk yükleme süresi minimuma indirilir.", metric: "40% ↓ Bundle" },
-                    { title: "WebSocket Streaming", desc: "AI yanıtları parçalı biçimde iletilir. Kullanıcı ilk token'ı 200ms içinde görür.", metric: "<200ms TTFT" },
-                    { title: "DB Optimizasyonu", desc: "PostgreSQL'de query plan analizi, indeksleme ve PgBouncer connection pooling.", metric: "10x Sorgu Hızı" },
-                    { title: "Asenkron İşleme", desc: "Uzun süren taramalar RabbitMQ üzerinden arka planda çalışır, UI bloke olmaz.", metric: "0ms UI Blokaj" },
+                    { title: "Tembel Yükleme", desc: "Yalnızca aktif modüller yüklenir. Kod bölme ile ilk yükleme süresi minimuma indirilir.", metric: "%40 ↓ Paket" },
+                    { title: "WebSocket Akışı", desc: "AI yanıtları parçalı biçimde iletilir. Kullanıcı ilk token'ı 200ms içinde görür.", metric: "<200ms İlk Token" },
+                    { title: "Veritabanı Optimizasyonu", desc: "PostgreSQL'de sorgu plan analizi, indeksleme ve PgBouncer bağlantı havuzu.", metric: "10x Sorgu Hızı" },
+                    { title: "Eşzamanlısız İşleme", desc: "Uzun süren taramalar RabbitMQ üzerinden arka planda çalışır, arayüz tıkanmaz.", metric: "0ms Arayüz Tıkanıklığı" },
                   ].map((opt, i) => (
                     <div key={i} className="p-4 rounded-lg" style={{ background: "rgba(252,211,77,0.03)", border: "1px solid rgba(252,211,77,0.1)" }}>
                       <div className="flex items-start justify-between mb-2">
@@ -1157,7 +1078,7 @@ export default function Home() {
                 subtitle="06 — Pazar Konumlandırma"
                 accent="#FB7185"
               />
-              {/* Competitor Table */}
+              {/* Rakip Karşılaştırma Tablosu */}
               <div className="glass rounded-xl overflow-hidden mb-6">
                 <div className="overflow-x-auto">
                   <table className="w-full text-sm">
@@ -1216,7 +1137,7 @@ export default function Home() {
 
               {/* Radar Chart */}
               <div className="glass rounded-xl p-6">
-                <h3 className="font-semibold text-white mb-4" style={{ fontFamily: "Space Grotesk, sans-serif" }}>Çok Boyutlu Karşılaştırma</h3>
+                <h3 className="font-semibold text-white mb-4" style={{ fontFamily: "Space Grotesk, sans-serif" }}>Çok Boyutlu Rakip Karşılaştırma</h3>
                 <ResponsiveContainer width="100%" height={320}>
                   <RadarChart data={competitorData}>
                     <PolarGrid stroke="rgba(255,255,255,0.08)" />

@@ -56,9 +56,9 @@ export function LiveThreatCounter() {
       <div className="flex items-center gap-2 mb-4">
         <div className="w-2 h-2 rounded-full animate-pulse" style={{ background: "#EF4444", boxShadow: "0 0 8px #EF4444" }} />
         <span className="mono text-xs uppercase tracking-widest" style={{ color: "#EF4444" }}>
-          Live Threat Statistics
+          CANLI TEHDİT İSTATİSTİKLERİ
         </span>
-        <span className="mono text-[10px] ml-auto" style={{ color: "#334155" }}>Auto-refresh 3s</span>
+        <span className="mono text-[10px] ml-auto" style={{ color: "#334155" }}>3 saniyede bir güncellenir</span>
       </div>
       <div className="grid grid-cols-2 gap-3">
         {stats.map((stat, i) => (
@@ -86,7 +86,7 @@ export function LiveThreatCounter() {
 // ─── AI Risk Score Gauge ─────────────────────────────────────────────────────
 interface RiskScore {
   score: number;
-  level: "Low" | "Medium" | "High" | "Critical";
+  level: "Düşük" | "Orta" | "Yüksek" | "Kritik";
   reasons: string[];
   color: string;
 }
@@ -94,10 +94,10 @@ interface RiskScore {
 function generateRiskScore(): RiskScore {
   const score = Math.floor(Math.random() * 40) + 35;
   let level: RiskScore["level"], color: string;
-  if (score >= 70) { level = "Critical"; color = "#EF4444"; }
-  else if (score >= 55) { level = "High"; color = "#F97316"; }
-  else if (score >= 40) { level = "Medium"; color = "#FCD34D"; }
-  else { level = "Low"; color = "#00E5A0"; }
+  if (score >= 70) { level = "Kritik"; color = "#EF4444"; }
+  else if (score >= 55) { level = "Yüksek"; color = "#F97316"; }
+  else if (score >= 40) { level = "Orta"; color = "#FCD34D"; }
+  else { level = "Düşük"; color = "#00E5A0"; }
 
   const reasonPool = [
     "12 yeni kritik CVE tespit edildi (son 24 saat)",
@@ -141,7 +141,7 @@ export function AIRiskScore() {
       <div className="flex items-center gap-2 mb-4">
         <div className="w-2 h-2 rounded-full" style={{ background: risk.color, boxShadow: `0 0 8px ${risk.color}` }} />
         <span className="mono text-xs uppercase tracking-widest" style={{ color: risk.color }}>
-          AI Security Risk Score
+          AI GÜVENLİK RİSK SKORU
         </span>
       </div>
 
@@ -179,7 +179,7 @@ export function AIRiskScore() {
         {/* Reasons */}
         <div className="flex-1 min-w-0">
           <p className="mono text-[10px] uppercase tracking-wider mb-2" style={{ color: "#64748B" }}>
-            Risk Factors (AI Analyzed)
+            RİSK FAKTÖRLERİ (AI Analiz)
           </p>
           <div className="space-y-2">
             {risk.reasons.map((reason, i) => (

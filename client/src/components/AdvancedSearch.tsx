@@ -5,7 +5,7 @@
  */
 import { useState, useEffect, useMemo } from "react";
 import { toast } from "sonner";
-import { Search, Shield, Bug, Newspaper, Layers, TrendingUp, GitBranch, DollarSign, CheckSquare, Brain, Cpu, FileCode, X, ArrowRight } from "lucide-react";
+import { Search, Shield, Bug, Newspaper, Layers, TrendingUp, GitBranch, DollarSign, CheckSquare, Brain, Cpu, FileCode, Globe, X, ArrowRight } from "lucide-react";
 
 interface SearchItem {
   id: string;
@@ -18,22 +18,21 @@ interface SearchItem {
 
 const searchItems: SearchItem[] = [
   // Sections
-  { id: "s1", label: "Güvenlik Merkezi", description: "Canlı güvenlik operasyon merkezi", category: "Bölümler", icon: <Shield className="w-4 h-4" />, scrollId: "dashboard" },
-  { id: "s2", label: "Genel Bakış", description: "Pazar büyüklüğü ve KPI metrikleri", category: "Bölümler", icon: <Shield className="w-4 h-4" />, scrollId: "overview" },
-  { id: "s3", label: "Pazar Analizi", description: "AI Siber Güvenlik pazar verileri", category: "Bölümler", icon: <TrendingUp className="w-4 h-4" />, scrollId: "market" },
-  { id: "s4", label: "Mimari", description: "Teknoloji stack ve sistem tasarımı", category: "Bölümler", icon: <Layers className="w-4 h-4" />, scrollId: "architecture" },
-  { id: "s5", label: "Güvenlik", description: "Çok katmanlı güvenlik mimarisi", category: "Bölümler", icon: <Shield className="w-4 h-4" />, scrollId: "security" },
-  { id: "s6", label: "UI/UX Tasarım", description: "Sayfa planlaması ve mobil uyumluluk", category: "Bölümler", icon: <Cpu className="w-4 h-4" />, scrollId: "ux" },
+  { id: "s1", label: "AI Dünyası", description: "Yapay zekâ haberleri, modeller ve trendler", category: "Bölümler", icon: <Brain className="w-4 h-4" />, scrollId: "ai-world" },
+  { id: "s2", label: "Dijital Dünya", description: "Teknoloji stack ve sistem tasarımı", category: "Bölümler", icon: <Globe className="w-4 h-4" />, scrollId: "digital-world" },
+  { id: "s3", label: "AI Araçları", description: "AI araçları kataloğu ve karşılaştırma", category: "Bölümler", icon: <Cpu className="w-4 h-4" />, scrollId: "ai-tools" },
+  { id: "s4", label: "AI ile Kazanç", description: "AI ile gelir üretme yolları ve eğitimi", category: "Bölümler", icon: <DollarSign className="w-4 h-4" />, scrollId: "ai-monetize" },
+  { id: "s5", label: "Siber Güvenlik", description: "Tehdit haritası, zafiyetler ve güvenlik", category: "Bölümler", icon: <Shield className="w-4 h-4" />, scrollId: "cybersecurity" },
+  { id: "s6", label: "UI/UX Tasarım", description: "Renk, tipografi ve bileşen sistemleri", category: "Bölümler", icon: <FileCode className="w-4 h-4" />, scrollId: "ux" },
   { id: "s7", label: "Rakip Analizi", description: "ChatGPT, Claude, Gemini karşılaştırma", category: "Bölümler", icon: <TrendingUp className="w-4 h-4" />, scrollId: "competitors" },
   { id: "s8", label: "Yol Haritası", description: "MVP'den tam sürüme geliştirme planı", category: "Bölümler", icon: <GitBranch className="w-4 h-4" />, scrollId: "roadmap" },
-  { id: "s9", label: "Gelir Modeli", description: "Abonelik ve enterprise gelir projeksiyonu", category: "Bölümler", icon: <DollarSign className="w-4 h-4" />, scrollId: "revenue" },
-  { id: "s10", label: "Kontrol Listesi", description: "Lansman öncesi doğrulama kontrol listesi", category: "Bölümler", icon: <CheckSquare className="w-4 h-4" />, scrollId: "checklist" },
+  { id: "s9", label: "Kontrol Listesi", description: "Lansman öncesi doğrulama kontrol listesi", category: "Bölümler", icon: <CheckSquare className="w-4 h-4" />, scrollId: "checklist" },
 
   // CVEs
-  { id: "c1", label: "CVE-2026-12847", description: "Linux Kernel Privilege Escalation (CVSS 9.8)", category: "CVE", icon: <Bug className="w-4 h-4" /> },
-  { id: "c2", label: "CVE-2026-12901", description: "Apache HTTP Server RCE (CVSS 9.6)", category: "CVE", icon: <Bug className="w-4 h-4" /> },
-  { id: "c3", label: "CVE-2026-13120", description: "Kubernetes API Auth Bypass (CVSS 9.4)", category: "CVE", icon: <Bug className="w-4 h-4" /> },
-  { id: "c4", label: "CVE-2026-12950", description: "Docker Container Escape (CVSS 9.2)", category: "CVE", icon: <Bug className="w-4 h-4" /> },
+  { id: "c1", label: "CVE-2026-12847", description: "Linux Kernel Ayrıcalık Yükseltme (CVSS 9.8)", category: "CVE", icon: <Bug className="w-4 h-4" /> },
+  { id: "c2", label: "CVE-2026-12901", description: "Apache HTTP Sunucu Uzak Kod Yürütme (CVSS 9.6)", category: "CVE", icon: <Bug className="w-4 h-4" /> },
+  { id: "c3", label: "CVE-2026-13120", description: "Kubernetes API Kimlik Doğrulama Atlatma (CVSS 9.4)", category: "CVE", icon: <Bug className="w-4 h-4" /> },
+  { id: "c4", label: "CVE-2026-12950", description: "Docker Konteyner Kaçışı (CVSS 9.2)", category: "CVE", icon: <Bug className="w-4 h-4" /> },
 
   // AI Tools
   { id: "a1", label: "AI Chat Motoru", description: "Yapay zekâ destekli güvenlik asistanı", category: "AI Araçları", icon: <Brain className="w-4 h-4" /> },
@@ -97,7 +96,7 @@ export function AdvancedSearch() {
     if (item.scrollId) {
       document.getElementById(item.scrollId)?.scrollIntoView({ behavior: "smooth" });
     } else {
-      toast.info(`${item.label} - Coming Soon`, { description: item.description });
+      toast.info(`${item.label} — Yakında`, { description: item.description });
     }
   };
 

@@ -8,7 +8,7 @@ import { Bug, Search, ExternalLink, Clock } from "lucide-react";
 interface CVEItem {
   id: string;
   title: string;
-  severity: "CRITICAL" | "HIGH" | "MEDIUM" | "LOW";
+  severity: "KRİTİK" | "YÜKSEK" | "ORTA" | "DÜŞÜK";
   cvss: number;
   publishDate: string;
   affected: string;
@@ -16,34 +16,34 @@ interface CVEItem {
 }
 
 const cvePool: CVEItem[] = [
-  { id: "CVE-2026-12847", title: "Linux Kernel Privilege Escalation", severity: "CRITICAL", cvss: 9.8, publishDate: "2026-07-24", affected: "Linux Kernel 6.x", description: "Yerel yetki yükseltme zafiyeti, root erişimi sağlıyor." },
-  { id: "CVE-2026-12901", title: "Apache HTTP Server RCE", severity: "CRITICAL", cvss: 9.6, publishDate: "2026-07-24", affected: "Apache 2.4.x", description: "Uzaktan kod çalıştırma, sunucu ele geçirme riski." },
-  { id: "CVE-2026-13055", title: "OpenSSL Memory Corruption", severity: "HIGH", cvss: 8.4, publishDate: "2026-07-24", affected: "OpenSSL 3.x", description: "Bellek bozulması zafiyeti, hizmet kesintisine yol açabilir." },
-  { id: "CVE-2026-12783", title: "PostgreSQL Injection Flaw", severity: "HIGH", cvss: 8.1, publishDate: "2026-07-24", affected: "PostgreSQL 15-16", description: "SQL injection vektörü, veritabanı sızıntısı riski." },
-  { id: "CVE-2026-13120", title: "Kubernetes API Auth Bypass", severity: "CRITICAL", cvss: 9.4, publishDate: "2026-07-25", affected: "Kubernetes 1.28-1.30", description: "Kimlik doğrulama atlaması, küme ele geçirme riski." },
-  { id: "CVE-2026-12650", title: "Node.js Prototype Pollution", severity: "HIGH", cvss: 7.8, publishDate: "2026-07-24", affected: "Node.js 20.x", description: "Prototip kirlenmesi, RCE'ye kadar giden zincir." },
-  { id: "CVE-2026-13200", title: "Nginx Path Traversal", severity: "MEDIUM", cvss: 6.5, publishDate: "2026-07-25", affected: "Nginx 1.24-1.26", description: "Dizin atlaması, hassas dosya erişimi riski." },
-  { id: "CVE-2026-12950", title: "Docker Container Escape", severity: "CRITICAL", cvss: 9.2, publishDate: "2026-07-25", affected: "Docker 24.x-25.x", description: "Container kaçış zafiyeti, host sisteme erişim." },
-  { id: "CVE-2026-13080", title: "Redis Remote Code Exec", severity: "HIGH", cvss: 8.7, publishDate: "2026-07-25", affected: "Redis 7.x", description: "Uzaktan kod çalıştırma, sunucu ele geçirme." },
-  { id: "CVE-2026-12500", title: "Android Kernel DoS", severity: "MEDIUM", cvss: 5.5, publishDate: "2026-07-24", affected: "Android 14-15", description: "Hizmet kesintisi, cihaz kilitleme riski." },
-  { id: "CVE-2026-13150", title: "WordPress Plugin XSS", severity: "MEDIUM", cvss: 6.1, publishDate: "2026-07-25", affected: "WordPress 6.x Plugins", description: "Stored XSS, kullanıcı oturum çalma riski." },
-  { id: "CVE-2026-12400", title: "Windows Defender Bypass", severity: "HIGH", cvss: 7.5, publishDate: "2026-07-24", affected: "Windows 11 23H2", description: "Antivirüs atlama, zararlı yazılım dağıtımı." },
+  { id: "CVE-2026-12847", title: "Linux Kernel Yetki Yükseltme", severity: "KRİTİK", cvss: 9.8, publishDate: "2026-07-24", affected: "Linux Kernel 6.x", description: "Yerel yetki yükseltme zafiyeti, root erişimi sağlıyor." },
+  { id: "CVE-2026-12901", title: "Apache HTTP Sunucu RCE", severity: "KRİTİK", cvss: 9.6, publishDate: "2026-07-24", affected: "Apache 2.4.x", description: "Uzaktan kod çalıştırma, sunucu ele geçirme riski." },
+  { id: "CVE-2026-13055", title: "OpenSSL Bellek Bozulması", severity: "YÜKSEK", cvss: 8.4, publishDate: "2026-07-24", affected: "OpenSSL 3.x", description: "Bellek bozulması zafiyeti, hizmet kesintisine yol açabilir." },
+  { id: "CVE-2026-12783", title: "PostgreSQL Injection Açığı", severity: "YÜKSEK", cvss: 8.1, publishDate: "2026-07-24", affected: "PostgreSQL 15-16", description: "SQL injection vektörü, veritabanı sızıntısı riski." },
+  { id: "CVE-2026-13120", title: "Kubernetes API Kimlik Atlama", severity: "KRİTİK", cvss: 9.4, publishDate: "2026-07-25", affected: "Kubernetes 1.28-1.30", description: "Kimlik doğrulama atlaması, küme ele geçirme riski." },
+  { id: "CVE-2026-12650", title: "Node.js Prototip Kirlenmesi", severity: "YÜKSEK", cvss: 7.8, publishDate: "2026-07-24", affected: "Node.js 20.x", description: "Prototip kirlenmesi, RCE'ye kadar giden zincir." },
+  { id: "CVE-2026-13200", title: "Nginx Dizin Atlama", severity: "ORTA", cvss: 6.5, publishDate: "2026-07-25", affected: "Nginx 1.24-1.26", description: "Dizin atlaması, hassas dosya erişimi riski." },
+  { id: "CVE-2026-12950", title: "Docker Container Kaçış", severity: "KRİTİK", cvss: 9.2, publishDate: "2026-07-25", affected: "Docker 24.x-25.x", description: "Container kaçış zafiyeti, host sisteme erişim." },
+  { id: "CVE-2026-13080", title: "Redis Uzaktan Kod Çalıştırma", severity: "YÜKSEK", cvss: 8.7, publishDate: "2026-07-25", affected: "Redis 7.x", description: "Uzaktan kod çalıştırma, sunucu ele geçirme." },
+  { id: "CVE-2026-12500", title: "Android Kernel DoS", severity: "ORTA", cvss: 5.5, publishDate: "2026-07-24", affected: "Android 14-15", description: "Hizmet kesintisi, cihaz kilitleme riski." },
+  { id: "CVE-2026-13150", title: "WordPress Eklenti XSS", severity: "ORTA", cvss: 6.1, publishDate: "2026-07-25", affected: "WordPress 6.x Eklentiler", description: "Stored XSS, kullanıcı oturum çalma riski." },
+  { id: "CVE-2026-12400", title: "Windows Defender Atlama", severity: "YÜKSEK", cvss: 7.5, publishDate: "2026-07-24", affected: "Windows 11 23H2", description: "Antivirüs atlama, zararlı yazılım dağıtımı." },
 ];
 
 const severityStyles: Record<string, { bg: string; text: string; border: string }> = {
-  CRITICAL: { bg: "rgba(239,68,68,0.1)", text: "#EF4444", border: "rgba(239,68,68,0.3)" },
-  HIGH: { bg: "rgba(249,115,22,0.1)", text: "#F97316", border: "rgba(249,115,22,0.3)" },
-  MEDIUM: { bg: "rgba(252,211,77,0.1)", text: "#FCD34D", border: "rgba(252,211,77,0.3)" },
-  LOW: { bg: "rgba(56,189,248,0.1)", text: "#38BDF8", border: "rgba(56,189,248,0.3)" },
+  "KRİTİK": { bg: "rgba(239,68,68,0.1)", text: "#EF4444", border: "rgba(239,68,68,0.3)" },
+  "YÜKSEK": { bg: "rgba(249,115,22,0.1)", text: "#F97316", border: "rgba(249,115,22,0.3)" },
+  "ORTA": { bg: "rgba(252,211,77,0.1)", text: "#FCD34D", border: "rgba(252,211,77,0.3)" },
+  "DÜŞÜK": { bg: "rgba(56,189,248,0.1)", text: "#38BDF8", border: "rgba(56,189,248,0.3)" },
 };
 
 export function CVEFeed() {
   const [search, setSearch] = useState("");
-  const [filterSeverity, setFilterSeverity] = useState<string>("ALL");
+  const [filterSeverity, setFilterSeverity] = useState<string>("TÜMÜ");
 
   const filteredCVEs = useMemo(() => {
     return cvePool
-      .filter(cve => filterSeverity === "ALL" || cve.severity === filterSeverity)
+      .filter(cve => filterSeverity === "TÜMÜ" || cve.severity === filterSeverity)
       .filter(cve =>
         cve.id.toLowerCase().includes(search.toLowerCase()) ||
         cve.title.toLowerCase().includes(search.toLowerCase()) ||
@@ -58,10 +58,10 @@ export function CVEFeed() {
         <div className="flex items-center gap-2">
           <Bug className="w-4 h-4" style={{ color: "#EF4444" }} />
           <span className="mono text-xs uppercase tracking-widest" style={{ color: "#EF4444" }}>
-            Critical CVEs (24h)
+            Kritik CVE'ler (24s)
           </span>
         </div>
-        <span className="mono text-[10px]" style={{ color: "#64748B" }}>{cvePool.length} CVEs</span>
+        <span className="mono text-[10px]" style={{ color: "#64748B" }}>{cvePool.length} Zafiyet</span>
       </div>
 
       {/* Search & Filter */}
@@ -78,7 +78,7 @@ export function CVEFeed() {
           />
         </div>
         <div className="flex items-center gap-1">
-          {["ALL", "CRITICAL", "HIGH", "MEDIUM"].map(sev => (
+          {["TÜMÜ", "KRİTİK", "YÜKSEK", "ORTA"].map(sev => (
             <button
               key={sev}
               onClick={() => setFilterSeverity(sev)}

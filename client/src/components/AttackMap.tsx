@@ -19,18 +19,18 @@ interface AttackEvent {
 const attackTypes = ["DDoS", "Malware", "Phishing", "Ransomware", "APT", "SQL Inj", "Zero-Day"];
 
 const attackRegions = [
-  { name: "North America", x: 120, y: 160 },
-  { name: "South America", x: 170, y: 310 },
-  { name: "Europe", x: 310, y: 140 },
-  { name: "Africa", x: 320, y: 270 },
-  { name: "Russia", x: 380, y: 110 },
-  { name: "Middle East", x: 370, y: 200 },
-  { name: "India", x: 430, y: 220 },
-  { name: "China", x: 500, y: 175 },
-  { name: "Japan", x: 560, y: 165 },
-  { name: "Southeast Asia", x: 520, y: 250 },
-  { name: "Australia", x: 560, y: 330 },
-  { name: "South Korea", x: 540, y: 175 },
+  { name: "Kuzey Amerika", x: 120, y: 160 },
+  { name: "Güney Amerika", x: 170, y: 310 },
+  { name: "Avrupa", x: 310, y: 140 },
+  { name: "Afrika", x: 320, y: 270 },
+  { name: "Rusya", x: 380, y: 110 },
+  { name: "Orta Doğu", x: 370, y: 200 },
+  { name: "Hindistan", x: 430, y: 220 },
+  { name: "Çin", x: 500, y: 175 },
+  { name: "Japonya", x: 560, y: 165 },
+  { name: "Güneydoğu Asya", x: 520, y: 250 },
+  { name: "Avustralya", x: 560, y: 330 },
+  { name: "Güney Kore", x: 540, y: 175 },
 ];
 
 const severities: ("critical" | "high" | "medium" | "low")[] = ["critical", "high", "medium", "low"];
@@ -90,15 +90,15 @@ export function AttackMap() {
       <div className="px-4 py-3 border-b flex items-center justify-between" style={{ borderColor: "rgba(0,229,160,0.1)", background: "rgba(0,229,160,0.02)" }}>
         <div className="flex items-center gap-2">
           <div className="w-2 h-2 rounded-full animate-pulse" style={{ background: "#EF4444", boxShadow: "0 0 8px #EF4444" }} />
-          <span className="mono text-xs uppercase tracking-widest" style={{ color: "#38BDF8" }}>Global Attack Map</span>
+          <span className="mono text-xs uppercase tracking-widest" style={{ color: "#38BDF8" }}>GLOBAL SALDIRI HARİTASI</span>
         </div>
         <div className="flex items-center gap-3">
-          <span className="mono text-[10px]" style={{ color: "#64748B" }}>{attacks.length} ACTIVE ATTACKS</span>
+          <span className="mono text-[10px]" style={{ color: "#64748B" }}>{attacks.length} AKTİF SALDIRI</span>
           <div className="flex items-center gap-2">
             {Object.entries(severityColors).map(([key, color]) => (
               <div key={key} className="flex items-center gap-1">
                 <div className="w-1.5 h-1.5 rounded-full" style={{ background: color, boxShadow: `0 0 4px ${color}` }} />
-                <span className="mono text-[9px] uppercase" style={{ color: "#64748B" }}>{key}</span>
+                <span className="mono text-[9px] uppercase" style={{ color: "#64748B" }}>{key === "critical" ? "KRİTİK" : key === "high" ? "YÜKSEK" : key === "medium" ? "ORTA" : "DÜŞÜK"}</span>
               </div>
             ))}
           </div>
@@ -231,10 +231,10 @@ export function AttackMap() {
       </div>
 
       <div className="px-4 py-2 flex items-center justify-between border-t" style={{ borderColor: "rgba(0,229,160,0.08)", background: "rgba(5,11,20,0.6)" }}>
-        <span className="mono text-[10px]" style={{ color: "#334155" }}>Auto-refresh: 4s · Hover for details</span>
+        <span className="mono text-[10px]" style={{ color: "#334155" }}>4 saniyede güncellenir · Detaylar için üzerine gelin</span>
         <span className="mono text-[10px]" style={{ color: "#334155" }}>
-          Critical: {attacks.filter(a => a.severity === "critical").length} ·
-          High: {attacks.filter(a => a.severity === "high").length}
+          Kritik: {attacks.filter(a => a.severity === "critical").length} ·
+          Yüksek: {attacks.filter(a => a.severity === "high").length}
         </span>
       </div>
     </div>
