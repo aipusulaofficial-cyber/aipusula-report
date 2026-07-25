@@ -195,9 +195,9 @@ function BackgroundStyles() {
         0%, 100% { opacity: 0.2; transform: scale(1); }
         50% { opacity: 0.4; transform: scale(1); }
       }
-      @keyframes float-element {
-        0%, 100% { transform: translateY(-50%) translateZ(0); }
-        50% { transform: translateY(calc(-50% - 4px)) translateZ(0); }
+      @keyframes float {
+        0%, 100% { transform: translateY(0px) translateZ(0); }
+        50% { transform: translateY(-4px) translateZ(0); } /* Subdued for enterprise feel */
       }
       @keyframes orbit-spin {
         0% { transform: rotateX(74deg) rotateZ(0deg) translateZ(0); }
@@ -219,7 +219,7 @@ function BackgroundStyles() {
       }
 
       .aurora-glow { animation: pulse-opacity 14s ease-in-out infinite; }
-      .float-element { animation: float-element 24s ease-in-out infinite; }
+      .float-element { animation: float 24s ease-in-out infinite; }
       .orbit-ring { animation: orbit-spin 90s linear infinite; }
       .orbit-ring-reverse { animation: orbit-spin-reverse 120s linear infinite; }
       .scanner-line { animation: scanner-sweep 10s cubic-bezier(0.4, 0, 0.2, 1) infinite; }

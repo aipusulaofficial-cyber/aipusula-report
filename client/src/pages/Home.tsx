@@ -295,11 +295,9 @@ export default function Home() {
   ];
 
   return (
-    <div className="min-h-screen grid-bg" style={{ background: isDark ? "#050B14" : "#F8FAFC", fontFamily: "Inter, sans-serif" }}>
-      {/* ── Cyber Background ── */}
-      {!isMobile && isDark && <CyberBackground />}
-      {/* ── Noise Texture ── */}
-      {isDark && <div className="noise-overlay" />}
+    <div className="min-h-screen" style={{ background: isDark ? "#0A0C0D" : "#F8FAFC", fontFamily: "Inter, sans-serif" }}>
+      {/* ── Cyber Background (reference architecture) ── */}
+      {isDark && <CyberBackground />}
       {/* ── Top Navigation ── */}
       <header className="sticky top-0 z-50 border-b glass" style={{ borderColor: isDark ? "rgba(0,229,160,0.2)" : "rgba(0,229,160,0.15)" }}>
         <div className="container flex items-center justify-between py-2">
