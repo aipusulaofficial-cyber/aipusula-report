@@ -405,27 +405,82 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── KPI Cards ── */}
+      {/* ── AI-Powered Platform Capabilities ── */}
       <section className="container pb-4">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+        <div className="mb-4">
+          <div className="flex items-center gap-2 mb-2">
+            <div className="h-px w-8" style={{ background: "#00E5A0" }} />
+            <span className="mono text-xs uppercase tracking-widest" style={{ color: "#00E5A0" }}>CORE CAPABILITIES</span>
+          </div>
+          <h3 className="text-xl font-bold text-white" style={{ fontFamily: "Space Grotesk, sans-serif", textShadow: "0 0 30px rgba(0,229,160,0.1)" }}>
+            AI-Powered Platform Capabilities
+          </h3>
+        </div>
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
           {[
-            { label: "Pazar Büyüklüğü (2026)", value: 39.2, suffix: "B$", icon: <Globe className="w-5 h-5" />, color: "#00E5A0", desc: "AI Siber Güvenlik" },
-            { label: "CAGR Büyüme Oranı", value: 27.8, suffix: "%", icon: <TrendingUp className="w-5 h-5" />, color: "#38BDF8", desc: "2025-2026 arası" },
-            { label: "Hedef Kullanıcı", value: 50000, suffix: "+", icon: <Users className="w-5 h-5" />, color: "#A78BFA", desc: "12. Ayda" },
-            { label: "Geliştirme Süresi", value: 12, suffix: " Ay", icon: <Clock className="w-5 h-5" />, color: "#F97316", desc: "MVP → Tam Sürüm" },
-          ].map((kpi, i) => (
-            <div key={i} className="glass card-glow p-3 rounded-xl">
-              <div className="flex items-start justify-between mb-2">
-                <div className="p-2 rounded-lg" style={{ background: `${kpi.color}15`, color: kpi.color }}>
-                  {kpi.icon}
+            {
+              title: "AI Security Assistant",
+              desc: "Autonomous threat detection and response powered by advanced machine learning models.",
+              icon: <Brain className="w-5 h-5" stroke="1.5" />,
+              color: "#00E5A0"
+            },
+            {
+              title: "Natural Language Search",
+              desc: "Query security data using natural language with AI-powered semantic understanding.",
+              icon: <Search className="w-5 h-5" stroke="1.5" />,
+              color: "#38BDF8"
+            },
+            {
+              title: "Vulnerability Scanner",
+              desc: "Automated scanning engine that identifies and classifies vulnerabilities in real-time.",
+              icon: <Shield className="w-5 h-5" stroke="1.5" />,
+              color: "#A78BFA"
+            },
+            {
+              title: "Threat Intelligence",
+              desc: "Real-time threat feeds aggregated from global cybersecurity intelligence networks.",
+              icon: <Globe className="w-5 h-5" stroke="1.5" />,
+              color: "#F97316"
+            },
+            {
+              title: "AI Report Generator",
+              desc: "Generate comprehensive security reports automatically with actionable recommendations.",
+              icon: <FileCode className="w-5 h-5" stroke="1.5" />,
+              color: "#FCD34D"
+            },
+            {
+              title: "Workflow Automation",
+              desc: "Streamline security operations with AI-driven workflow orchestration and scheduling.",
+              icon: <Zap className="w-5 h-5" stroke="1.5" />,
+              color: "#00E5A0"
+            },
+            {
+              title: "Asset Management",
+              desc: "Centralized asset inventory with continuous monitoring and compliance tracking.",
+              icon: <Database className="w-5 h-5" stroke="1.5" />,
+              color: "#38BDF8"
+            },
+            {
+              title: "API & Integrations",
+              desc: "Extensible platform architecture with REST APIs and third-party security tool connectors.",
+              icon: <Code2 className="w-5 h-5" stroke="1.5" />,
+              color: "#A78BFA"
+            },
+          ].map((cap, i) => (
+            <div key={i} className="glass card-glow p-4 rounded-xl transition-all duration-300 hover:translate-y-[-2px]">
+              <div className="flex items-start gap-3">
+                <div className="p-2 rounded-lg flex-shrink-0" style={{ background: `${cap.color}15`, color: cap.color }}>
+                  {cap.icon}
                 </div>
-                <span className="mono text-xs" style={{ color: "#475569" }}>#{String(i + 1).padStart(2, "0")}</span>
+                <div className="min-w-0">
+                  <div className="text-sm font-semibold text-white mb-1 leading-tight" style={{ fontFamily: "Space Grotesk, sans-serif" }}>
+                    {cap.title}
+                  </div>
+                  <div className="text-xs leading-relaxed" style={{ color: "#64748B" }}>
+                    {cap.desc}
+                  </div>
+                </div>
               </div>
-              <div className="text-2xl font-bold text-white mb-1" style={{ fontFamily: "Space Grotesk, sans-serif" }}>
-                <AnimatedCounter target={kpi.value} suffix={kpi.suffix} />
-              </div>
-              <div className="text-xs font-medium mb-0.5" style={{ color: kpi.color }}>{kpi.label}</div>
-              <div className="text-xs" style={{ color: "#475569" }}>{kpi.desc}</div>
             </div>
           ))}
         </div>
