@@ -97,50 +97,47 @@ export default function Home() {
       {isDark && <CyberBackground />}
 
       {/* ── Hero Section ── */}
-      <section className="relative overflow-hidden py-4 intel-grid-bg intel-scanline">
+      <section className="relative overflow-hidden py-3 intel-grid-bg intel-scanline">
         {/* Background accent */}
         <div className="absolute inset-0 pointer-events-none" style={{
-          background: "radial-gradient(ellipse at 20% 50%, rgba(0,229,160,0.06) 0%, transparent 60%), radial-gradient(ellipse at 80% 30%, rgba(56,189,248,0.04) 0%, transparent 50%)",
+          background: "radial-gradient(ellipse at 15% 50%, rgba(0,229,160,0.06) 0%, transparent 50%), radial-gradient(ellipse at 85% 40%, rgba(56,189,248,0.04) 0%, transparent 40%)",
         }} />
 
-        <div className="relative z-10">
-          <div className="flex items-start justify-between gap-6">
-            <div className="flex-1">
-              {/* Breadcrumb-style label */}
-              <div className="flex items-center gap-2 mb-2">
-                <div className="h-px w-6" style={{ background: "#00E5A0" }} />
-                <span className="mono text-[0.65rem] uppercase tracking-[0.25em]" style={{ color: "#00E5A0" }}>
-                  // YAPAY ZEKÂ & DİJİTAL DÜNYA
-                </span>
-              </div>
-
-              {/* Main Title */}
-              <h1 className="font-black leading-[0.9]" style={{
-                fontFamily: "Space Grotesk, sans-serif",
-                fontSize: "clamp(2rem, 5vw, 3.2rem)",
-                letterSpacing: "-0.04em",
-                color: "#FFFFFF",
-              }}>
-                <span>AI</span><span style={{ color: "#00E5A0", textShadow: "0 0 60px rgba(0,229,160,0.5), 0 0 120px rgba(0,229,160,0.2)" }}>PUSULA</span>
-              </h1>
-
-              <div className="mono text-[0.72rem] mt-1.5" style={{
-                color: "#38BDF8",
-                letterSpacing: "0.2em",
-                textShadow: "0 0 20px rgba(56,189,248,0.3)",
-              }}>
-                YAPAY ZEKÂ & DİJİTAL DÜNYA'NIN PUSULASI
-              </div>
-
-              <p className="text-[0.8rem] mt-2 max-w-lg leading-relaxed" style={{ color: "#64748B" }}>
-                Yapay zekâ, dijital araçlar ve siber güvenliği birleştiren premium platform.
-                Her kategori kendi uzmanlığıyla öne çıkan bağımsız bir içerik merkezi olarak tasarlandı.
-              </p>
+        <div className="relative z-10 flex items-center justify-between gap-8">
+          {/* Left: Title + description */}
+          <div className="flex-shrink-0">
+            <div className="flex items-center gap-2 mb-1.5">
+              <div className="h-px w-6" style={{ background: "#00E5A0" }} />
+              <span className="mono text-[0.6rem] uppercase tracking-[0.25em]" style={{ color: "#00E5A0" }}>
+                // YAPAY ZEKÂ & DİJİTAL DÜNYA
+              </span>
             </div>
+            <h1 className="font-black leading-[0.88]" style={{
+              fontFamily: "Space Grotesk, sans-serif",
+              fontSize: "clamp(2.2rem, 4.5vw, 3rem)",
+              letterSpacing: "-0.04em",
+              color: "#FFFFFF",
+            }}>
+              <span>AI</span><span style={{ color: "#00E5A0", textShadow: "0 0 60px rgba(0,229,160,0.5), 0 0 120px rgba(0,229,160,0.2)" }}>PUSULA</span>
+            </h1>
+            <div className="mono text-[0.65rem] mt-1" style={{
+              color: "#38BDF8",
+              letterSpacing: "0.2em",
+              textShadow: "0 0 20px rgba(56,189,248,0.3)",
+            }}>
+              YAPAY ZEKÂ & DİJİTAL DÜNYA'NIN PUSULASI
+            </div>
+            <p className="text-[0.75rem] mt-1.5 max-w-md leading-relaxed" style={{ color: "#64748B" }}>
+              Yapay zekâ, dijital araçlar ve siber güvenliği birleştiren premium platform.
+              Her kategori kendi uzmanlığıyla öne çıkan bağımsız bir içerik merkezi olarak tasarlandı.
+            </p>
+          </div>
 
-            {/* Stats — Compact inline block on the right */}
-            <div className="flex flex-col items-end gap-2 pt-1">
-              <div className="flex items-center gap-4">
+          {/* Right: Stats + data-strip + radar — fills remaining width */}
+          <div className="flex-1 flex items-center justify-end">
+            <div className="flex items-center gap-8">
+              {/* Stats */}
+              <div className="flex items-center gap-6">
                 {[
                   { value: "5", label: "Kategori", color: "#00E5A0" },
                   { value: "512", label: "AI Araç", color: "#38BDF8" },
@@ -148,7 +145,7 @@ export default function Home() {
                   { value: "24/7", label: "Tehdit İzleme", color: "#F97316" },
                 ].map((s, i) => (
                   <div key={i} className="flex flex-col items-center">
-                    <span className="font-bold" style={{ fontFamily: "Space Grotesk, sans-serif", fontSize: "1.1rem", color: s.color }}>
+                    <span className="font-bold" style={{ fontFamily: "Space Grotesk, sans-serif", fontSize: "1.35rem", color: s.color }}>
                       {s.value}
                     </span>
                     <span className="mono text-[0.6rem]" style={{ color: "#475569" }}>{s.label}</span>
@@ -156,16 +153,25 @@ export default function Home() {
                 ))}
               </div>
 
-              {/* Intel Data Strip — compact */}
-              <div className="flex items-center gap-2 mt-1">
-                <div className="data-strip" style={{ fontSize: "0.6rem", padding: "2px 8px" }}>
-                  KATEGORİ: 5 AKTİF
+              {/* Divider */}
+              <div className="h-10 w-px" style={{ background: "rgba(0,229,160,0.15)" }} />
+
+              {/* Data Strip + Radar */}
+              <div className="flex flex-col items-end gap-1.5">
+                <div className="flex items-center gap-1.5">
+                  <div className="data-strip" style={{ fontSize: "0.6rem", padding: "2px 8px" }}>
+                    KATEGORİ: 5 AKTİF
+                  </div>
+                  <div className="data-strip" style={{ fontSize: "0.6rem", padding: "2px 8px" }}>
+                    İÇERİK: 1,247 PARÇA
+                  </div>
+                  <div className="data-strip" style={{ fontSize: "0.6rem", padding: "2px 8px" }}>
+                    {currentTime.toLocaleTimeString('tr-TR')}
+                  </div>
                 </div>
-                <div className="data-strip" style={{ fontSize: "0.6rem", padding: "2px 8px" }}>
-                  İÇERİK: 1,247 PARÇA
-                </div>
-                <div className="data-strip" style={{ fontSize: "0.6rem", padding: "2px 8px" }}>
-                  {currentTime.toLocaleTimeString('tr-TR')}
+                <div className="flex items-center gap-3">
+                  <span className="mono text-[0.6rem]" style={{ color: "#334155" }}>LIVE</span>
+                  <div className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: "#00E5A0", boxShadow: "0 0 6px #00E5A0" }} />
                 </div>
               </div>
             </div>
@@ -174,7 +180,7 @@ export default function Home() {
       </section>
 
       {/* ── Category Hub Grid ── */}
-      <section className="mt-5">
+      <section className="mt-3">
         <div className="flex items-center gap-3 mb-3">
           <div className="h-px flex-1" style={{ background: "linear-gradient(90deg, rgba(0,229,160,0.3), rgba(0,229,160,0.1), transparent)" }} />
           <span className="mono text-xs uppercase tracking-widest" style={{ color: "#00E5A0" }}>İçerik Merkezleri</span>

@@ -234,7 +234,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       )}
 
       {/* ── System Status Bar ── */}
-      <div className="flex flex-wrap items-center gap-3 py-1 px-3 border-b intel-grid-bg" style={{ borderColor: `rgba(0,229,160,0.06)`, background: `rgba(0,229,160,0.02)` }}>
+      <div className="flex flex-wrap items-center gap-3 py-0.5 px-3 border-b intel-grid-bg" style={{ borderColor: `rgba(0,229,160,0.06)`, background: `rgba(0,229,160,0.02)` }}>
         <span className="mono text-xs" style={{ color: "#334155" }}>SYS://AIPUSULA-v1.0</span>
         <div className="h-3 w-px" style={{ background: `rgba(0,229,160,0.12)` }} />
         <div className="flex items-center gap-1.5">
@@ -251,7 +251,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       </div>
 
       {/* ── Content Layout ── */}
-      <div className="container pb-8">
+      <div className="container pb-6">
         <div className="flex gap-4">
           {/* Sidebar — context-aware */}
           {currentCat.sidebarItems.length > 0 && !isMobile && (
