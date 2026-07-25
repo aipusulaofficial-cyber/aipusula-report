@@ -1,12 +1,5 @@
-# Cloudflare Pages Configuration
-# Reference: https://developers.cloudflare.com/pages/configuration/
-#
-# PURE STATIC Pages project — no Workers, no entry points,
-# no compatibility_date, no runtime. Only build config + static asset rules.
-
 name = "aipusula-report"
 pages_build_output_dir = "dist/public"
 
 [build]
   command = "node build-pages.mjs"
-  build_caching = true
