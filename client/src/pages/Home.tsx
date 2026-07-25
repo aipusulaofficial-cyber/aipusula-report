@@ -8,7 +8,8 @@ import {
   Shield, Brain, Smartphone, TrendingUp, DollarSign, Users, Code2,
   Lock, Zap, CheckSquare, AlertTriangle, Globe, ChevronRight, Star,
   Database, Server, Layers, GitBranch, Target, Award, BarChart2,
-  ArrowRight, ExternalLink, Clock, Cpu, Eye, FileCode, Search
+  ArrowRight, ExternalLink, Clock, Cpu, Eye, FileCode, Search,
+  Building2, BookOpen
 } from "lucide-react";
 import { CyberBackground } from "@/components/CyberBackground";
 import { AttackMap } from "@/components/AttackMap";
@@ -224,19 +225,34 @@ function AnimatedCounter({ target, suffix = "", prefix = "" }: { target: number;
 // ─── Section Header ──────────────────────────────────────────────────────────
 function SectionHeader({ icon, title, subtitle, accent = "#00E5A0" }: { icon: React.ReactNode; title: string; subtitle: string; accent?: string }) {
   return (
-    <div className="mb-6 section-glow-green">
-      <div className="flex items-center gap-3 mb-2">
-        <div className="p-2 rounded-lg glass" style={{ borderColor: `${accent}30` }}>
+    <div className="mb-8 relative" style={{
+      paddingTop: "1rem",
+    }}>
+      {/* Compass tick marks */}
+      <div className="absolute top-0 left-0 right-0 h-px" style={{ background: `linear-gradient(90deg, transparent, ${accent}30 20%, ${accent}30 80%, transparent)` }} />
+      <div className="flex items-center gap-3 mb-3">
+        <div className="p-2.5 rounded-lg" style={{ background: `${accent}08`, border: `1px solid ${accent}20`, boxShadow: `0 0 20px ${accent}10` }}>
           <div style={{ color: accent }}>{icon}</div>
         </div>
-        <span className="mono text-xs uppercase tracking-widest" style={{ color: accent, textShadow: `0 0 12px ${accent}40` }}>
+        <span className="mono text-xs uppercase tracking-[0.25em]" style={{ color: accent, textShadow: `0 0 16px ${accent}40` }}>
           {subtitle}
         </span>
+        {/* Compass direction markers */}
+        <div className="ml-auto flex items-center gap-1 opacity-30">
+          <div className="w-1 h-1 rounded-full" style={{ background: accent }} />
+          <span className="mono text-[10px]" style={{ color: accent }}>00</span>
+          <div className="w-px h-3" style={{ background: accent }} />
+        </div>
       </div>
-      <h2 className="text-2xl font-bold text-white" style={{ fontFamily: "Space Grotesk, sans-serif", textShadow: "0 0 40px rgba(0,229,160,0.15)" }}>
+      <h2 className="text-[1.75rem] font-bold leading-tight" style={{ 
+        fontFamily: "Space Grotesk, sans-serif", 
+        color: "#FFFFFF",
+        textShadow: `0 0 40px ${accent}15`,
+        letterSpacing: "-0.02em",
+      }}>
         {title}
       </h2>
-      <div className="mt-2 h-px w-24" style={{ background: `linear-gradient(90deg, ${accent}, ${accent}80, transparent)` }} />
+      <div className="mt-3 h-px w-32" style={{ background: `linear-gradient(90deg, ${accent}, ${accent}60, transparent)` }} />
     </div>
   );
 }
@@ -281,20 +297,65 @@ export default function Home() {
     setCheckedItems(prev => prev.includes(id) ? prev.filter(i => i !== id) : [...prev, id]);
   };
 
+  // Scroll-spy: IntersectionObserver ile aktif sekme otomatik güncellenir
+  useEffect(() => {
+    const sectionIds = navItems.map(n => n.id);
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setActiveTab(entry.target.id);
+          }
+        });
+      },
+      { rootMargin: "-20% 0px -70% 0px", threshold: 0 }
+    );
+    sectionIds.forEach((id) => {
+      const el = document.getElementById(id);
+      if (el) observer.observe(el);
+    });
+    return () => observer.disconnect();
+  }, []);
+
+  const [scrollProgress, setScrollProgress] = useState(0);
+
+  // Scroll progress tracking
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollTop = window.scrollY;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      setScrollProgress(docHeight > 0 ? (scrollTop / docHeight) * 100 : 0);
+    };
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    handleScroll();
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   const navItems = [
     { id: "ai-world", label: "AI Dünyası", icon: <Brain className="w-4 h-4" /> },
+    { id: "digital-world", label: "Dijital Dünya", icon: <Globe className="w-4 h-4" /> },
     { id: "ai-tools", label: "AI Araçları", icon: <Cpu className="w-4 h-4" /> },
     { id: "ai-monetize", label: "AI ile Kazanç", icon: <DollarSign className="w-4 h-4" /> },
-    { id: "digital-world", label: "Dijital Dünya", icon: <Globe className="w-4 h-4" /> },
-    { id: "cybersecurity", label: "Siber Güvenlik", icon: <Shield className="w-4 h-4" /> },
+    { id: "ux", label: "UI/UX", icon: <Eye className="w-4 h-4" /> },
     { id: "competitors", label: "Rakip Analizi", icon: <Target className="w-4 h-4" /> },
     { id: "roadmap", label: "Yol Haritası", icon: <GitBranch className="w-4 h-4" /> },
-    { id: "ux", label: "UI/UX", icon: <Eye className="w-4 h-4" /> },
+    { id: "cybersecurity", label: "Siber Güvenlik", icon: <Shield className="w-4 h-4" /> },
     { id: "checklist", label: "Kontrol Listesi", icon: <CheckSquare className="w-4 h-4" /> },
   ];
 
   return (
     <div className="min-h-screen" style={{ background: isDark ? "#0A0C0D" : "#F8FAFC", fontFamily: "Inter, sans-serif" }}>
+      {/* ── Scroll Progress Indicator ── */}
+      <div className="fixed top-0 left-0 right-0 z-[60] h-px" style={{ background: "transparent" }}>
+        <div
+          className="h-full transition-all duration-150 ease-out"
+          style={{
+            width: `${scrollProgress}%`,
+            background: "linear-gradient(90deg, #00E5A0, #38BDF8, #A78BFA)",
+            boxShadow: "0 0 8px rgba(0,229,160,0.4)",
+          }}
+        />
+      </div>
       {/* ── Cyber Background (reference architecture) ── */}
       {isDark && <CyberBackground />}
       {/* ── Top Navigation ── */}
@@ -310,7 +371,7 @@ export default function Home() {
             </div>
           </div>
           <nav className="hidden xl:flex items-center gap-0.5">
-            {navItems.slice(0, 5).map(item => (
+            {navItems.slice(0, 5).map((item, idx) => (
               <button
                 key={item.id}
                 onClick={() => {
@@ -329,7 +390,7 @@ export default function Home() {
             ))}
           </nav>
           <nav className="hidden lg:flex items-center gap-0.5">
-            {navItems.slice(5, 9).map(item => (
+            {navItems.slice(5, 9).map((item, idx) => (
               <button
                 key={item.id}
                 onClick={() => {
@@ -361,16 +422,16 @@ export default function Home() {
       <SystemStatusBar />
 
       {/* ── Hero Section (Two-Column) ── */}
-      <section className="relative overflow-hidden" style={{ minHeight: "110px" }}>
+      <section className="relative overflow-hidden" style={{ minHeight: "120px" }}>
         {/* Wireframe Earth - positioned in section, not in container */}
         <div
           className="hidden lg:block absolute right-0 top-1/2 pointer-events-none"
           style={{
             transform: "translateY(-50%)",
-            width: "320px",
-            height: "320px",
+            width: "380px",
+            height: "380px",
             zIndex: 0,
-            opacity: 0.62,
+            opacity: 0.55,
           }}
         >
           {/* Ambient Glow Core */}
@@ -493,23 +554,47 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="container relative z-10 py-2">
-          <div className="flex items-center gap-6">
+        <div className="container relative z-10 py-3">
+          <div className="flex items-center gap-8">
             {/* LEFT: Title + Subtitle + Description (45-50%) */}
-            <div className="flex-1 max-w-[55%] relative z-10">
+            <div className="flex-1 max-w-[58%] relative z-10">
               <div className="flex items-center gap-2 mb-1">
                 <div className="h-px w-6" style={{ background: "#00E5A0" }} />
                 <span className="mono text-xs uppercase tracking-widest" style={{ color: "#00E5A0" }}>// YAPAY ZEKÂ & DİJİTAL DÜNYA</span>
               </div>
-              <h1 className="font-black leading-none" style={{ fontFamily: "Space Grotesk, sans-serif", fontSize: "clamp(2rem, 5vw, 3rem)", letterSpacing: "-0.02em" }}>
-                <span className="text-white">AI</span><span style={{ color: "#00E5A0", textShadow: "0 0 40px rgba(0,229,160,0.4)" }}>PUSULA</span>
+              <h1 className="font-black leading-none" style={{ fontFamily: "Space Grotesk, sans-serif", fontSize: "clamp(2.5rem, 6vw, 4rem)", letterSpacing: "-0.04em" }}>
+                <span className="text-white">AI</span><span style={{ color: "#00E5A0", textShadow: "0 0 60px rgba(0,229,160,0.5), 0 0 120px rgba(0,229,160,0.2)" }}>PUSULA</span>
               </h1>
-              <div className="mono text-xs mt-1" style={{ color: "#38BDF8", letterSpacing: "0.15em" }}>
+              <div className="mono text-[0.8rem] mt-2" style={{ color: "#38BDF8", letterSpacing: "0.2em", textShadow: "0 0 20px rgba(56,189,248,0.3)" }}>
                 YAPAY ZEKÂ & DİJİTAL DÜNYA'NIN PUSULASI
               </div>
-              <p className="text-sm mt-1.5 leading-relaxed max-w-md" style={{ color: "#64748B", fontFamily: "Inter, sans-serif" }}>
+              <p className="text-sm mt-2 leading-relaxed max-w-md" style={{ color: "#64748B", fontFamily: "Inter, sans-serif" }}>
                 Yapay zekâ, dijital araçlar ve siber güvenliği birleştiren premium platform. AI araçlarını keşfedin, AI ile kazanmayı öğrenin ve dijital dünyada güvende kalın.
               </p>
+              {/* CTA Buttons */}
+              <div className="flex flex-wrap gap-2 mt-3">
+                <button
+                  onClick={() => { setActiveTab("ai-tools"); document.getElementById("ai-tools")?.scrollIntoView({ behavior: "smooth" }); }}
+                  className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all duration-200 ease-out cursor-pointer active:scale-[0.97] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#00E5A0]/30"
+                  style={{ background: "rgba(0,229,160,0.15)", color: "#00E5A0", border: "1px solid rgba(0,229,160,0.25)" }}
+                >
+                  <Cpu className="w-3.5 h-3.5" /> AI Araçlarını Keşfet
+                </button>
+                <button
+                  onClick={() => { setActiveTab("ai-world"); document.getElementById("ai-world")?.scrollIntoView({ behavior: "smooth" }); }}
+                  className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all duration-200 ease-out cursor-pointer active:scale-[0.97] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#38BDF8]/30"
+                  style={{ background: "rgba(56,189,248,0.1)", color: "#38BDF8", border: "1px solid rgba(56,189,248,0.2)" }}
+                >
+                  <TrendingUp className="w-3.5 h-3.5" /> Son Haberleri Gör
+                </button>
+                <button
+                  onClick={() => { setActiveTab("ai-monetize"); document.getElementById("ai-monetize")?.scrollIntoView({ behavior: "smooth" }); }}
+                  className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all duration-200 ease-out cursor-pointer active:scale-[0.97] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#F97316]/30"
+                  style={{ background: "rgba(249,115,22,0.1)", color: "#F97316", border: "1px solid rgba(249,115,22,0.2)" }}
+                >
+                  <DollarSign className="w-3.5 h-3.5" /> AI ile Kazanmaya Başla
+                </button>
+              </div>
             </div>
 
 
@@ -533,6 +618,7 @@ export default function Home() {
           <aside className="hidden lg:block w-52 flex-shrink-0">
             <div className="sticky top-16">
               <div className="glass rounded p-0 overflow-hidden animated-border">
+                {/* Window chrome */}
                 <div className="px-3 py-1.5 flex items-center gap-2" style={{ background: "rgba(0,229,160,0.05)", borderBottom: "1px solid rgba(0,229,160,0.1)" }}>
                   <div className="flex gap-1">
                     <div className="w-2 h-2 rounded-full" style={{ background: "#EF4444" }} />
@@ -540,11 +626,22 @@ export default function Home() {
                     <div className="w-2 h-2 rounded-full" style={{ background: "#00E5A0" }} />
                   </div>
                   <span className="mono text-xs" style={{ color: "#334155" }}>navigation.sys</span>
+                  <span className="ml-auto mono text-[10px]" style={{ color: "#475569" }}>{Math.round(scrollProgress)}%</span>
                 </div>
+
+                {/* Scroll progress bar */}
+                <div className="h-0.5" style={{ background: "rgba(255,255,255,0.04)" }}>
+                  <div className="h-full transition-all duration-150 ease-out" style={{
+                    width: `${scrollProgress}%`,
+                    background: "linear-gradient(90deg, #00E5A0, #38BDF8)",
+                    boxShadow: "0 0 6px rgba(0,229,160,0.3)",
+                  }} />
+                </div>
+
                 <div className="p-2">
                 <p className="mono text-xs uppercase tracking-widest mb-2 px-1" style={{ color: "#334155" }}>// INDEX</p>
                 <nav className="space-y-0.5">
-                  {navItems.map(item => (
+                  {navItems.map((item, idx) => (
                     <button
                       key={item.id}
                       onClick={() => {
@@ -561,10 +658,23 @@ export default function Home() {
                     >
                       {item.icon}
                       {item.label}
+                      {activeTab === item.id && (
+                        <div className="ml-auto w-1 h-1 rounded-full" style={{ background: "#00E5A0", boxShadow: "0 0 6px #00E5A0" }} />
+                      )}
                     </button>
                   ))}
                 </nav>
-                <div className="mt-2 pt-2 border-t" style={{ borderColor: "rgba(0,229,160,0.08)" }}>
+                <div className="mt-3 pt-2 border-t" style={{ borderColor: "rgba(0,229,160,0.08)" }}>
+                  {/* Mini compass motif */}
+                  <div className="flex items-center justify-center py-2">
+                    <svg viewBox="0 0 40 40" className="w-8 h-8" style={{ opacity: 0.4 }}>
+                      <circle cx="20" cy="20" r="18" fill="none" stroke="#00E5A0" strokeWidth="0.5" strokeDasharray="2 4" />
+                      <circle cx="20" cy="20" r="12" fill="none" stroke="#00E5A0" strokeWidth="0.3" strokeDasharray="1 3" />
+                      <circle cx="20" cy="20" r="2" fill="#00E5A0" opacity="0.8" />
+                      <line x1="20" y1="2" x2="20" y2="38" stroke="#00E5A0" strokeWidth="0.3" opacity="0.3" />
+                      <line x1="2" y1="20" x2="38" y2="20" stroke="#00E5A0" strokeWidth="0.3" opacity="0.3" />
+                    </svg>
+                  </div>
                   <div className="mono text-xs px-1" style={{ color: "#1E3A2F" }}>
                     <div>AIPUSULA-MVP-v1.0</div>
                     <div style={{ color: "#00E5A0" }}>● SİSTEM HAZIR</div>
@@ -659,22 +769,78 @@ export default function Home() {
                 </div>
               </div>
               {/* Editör Seçimi & Öne Çıkan */}
+              {/* AI Şirketleri & AI Araştırmaları */}
+              <div className="grid md:grid-cols-2 gap-4 mb-6">
+                <div className="glass rounded-xl p-5">
+                  <h3 className="font-semibold text-white mb-3 flex items-center gap-2" style={{ fontFamily: "Space Grotesk, sans-serif" }}>
+                    <Building2 className="w-4 h-4" style={{ color: "#00E5A0" }} />
+                    Öne Çıkan AI Şirketleri
+                  </h3>
+                  <div className="space-y-2.5">
+                    {[
+                      { name: "OpenAI", focus: "GPT-4o, ChatGPT, DALL-E", valuation: "$300B", tag: "Lider", color: "#00E5A0" },
+                      { name: "Anthropic", focus: "Claude, Güvenli AI", valuation: "$60B", tag: "Güvenlik", color: "#38BDF8" },
+                      { name: "Google DeepMind", focus: "Gemini, AlphaGo", valuation: "Alphabet", tag: "Araştırma", color: "#A78BFA" },
+                      { name: "Meta AI", focus: "Llama, Açık Kaynak", valuation: "Meta", tag: "Açık Kaynak", color: "#F97316" },
+                    ].map((company, i) => (
+                      <div key={i} className="flex items-center gap-3 p-2.5 rounded-lg hover:bg-white/[0.03] transition-colors duration-200 cursor-pointer">
+                        <div className="w-8 h-8 rounded-lg flex items-center justify-center text-xs font-bold" style={{ background: `${company.color}15`, color: company.color }}>{company.name[0]}</div>
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center gap-2">
+                            <span className="text-sm font-medium text-white">{company.name}</span>
+                            <span className="mono text-xs px-1.5 py-0.5 rounded" style={{ background: `${company.color}10`, color: company.color }}>{company.tag}</span>
+                          </div>
+                          <div className="text-xs" style={{ color: "#64748B" }}>{company.focus}</div>
+                        </div>
+                        <span className="mono text-xs" style={{ color: "#475569" }}>{company.valuation}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+                <div className="glass rounded-xl p-5">
+                  <h3 className="font-semibold text-white mb-3 flex items-center gap-2" style={{ fontFamily: "Space Grotesk, sans-serif" }}>
+                    <BookOpen className="w-4 h-4" style={{ color: "#FB7185" }} />
+                    AI Araştırmaları & Etkinlikler
+                  </h3>
+                  <div className="space-y-2.5">
+                    {[
+                      { title: "Agentic AI Frameworks: 2026 Eğilimleri", type: "Araştırma", date: "Bugün", color: "#FB7185" },
+                      { title: "NeurIPS 2026: Başvuru Dönemi", type: "Etkinlik", date: "2 hafta", color: "#38BDF8" },
+                      { title: "AI Safety & Alignment Summit", type: "Etkinlik", date: "1 ay", color: "#A78BFA" },
+                      { title: "RAG 2.0: Enterprise Uygulamalar", type: "Araştırma", date: "3 gün önce", color: "#00E5A0" },
+                    ].map((item, i) => (
+                      <div key={i} className="flex items-start gap-3 p-2.5 rounded-lg hover:bg-white/[0.03] transition-colors duration-200 cursor-pointer">
+                        <div className="w-1.5 h-1.5 rounded-full mt-2 flex-shrink-0" style={{ background: item.color }} />
+                        <div className="flex-1 min-w-0">
+                          <div className="text-sm font-medium text-white">{item.title}</div>
+                          <div className="flex items-center gap-2 mt-0.5">
+                            <span className="mono text-xs px-1.5 py-0.5 rounded" style={{ background: `${item.color}10`, color: item.color }}>{item.type}</span>
+                            <span className="text-xs" style={{ color: "#475569" }}>{item.date}</span>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              {/* Editör Seçimi & Öne Çıkan */}
               <div className="grid md:grid-cols-2 gap-4 mb-8">
                 <div className="glass rounded-xl p-5">
                   <h3 className="font-semibold text-white mb-3 flex items-center gap-2" style={{ fontFamily: "Space Grotesk, sans-serif" }}>
                     <Star className="w-4 h-4" style={{ color: "#FCD34D" }} />
-                    Editör Seçimi
+                    Editörün Seçimi
                   </h3>
                   <div className="space-y-2">
                     {[
-                      { title: "AI ile Üretkenlik: 2026 Rehberi", category: "Rehber" },
-                      { title: "OpenAI vs Anthropic vs Google: Karşılaştırma", category: "Analiz" },
-                      { title: "Kendi AI Agent'ınızı Oluşturma", category: "Eğitim" },
+                      { title: "AI ile Üretkenlik: 2026 Rehberi", category: "Rehber", badge: "Yeni" },
+                      { title: "OpenAI vs Anthropic vs Google: Karşılaştırma", category: "Analiz", badge: "Popüler" },
+                      { title: "Kendi AI Agent'ınızı Oluşturma", category: "Eğitim", badge: "Güncellendi" },
                     ].map((item, i) => (
                       <div key={i} className="flex items-center gap-2 p-2 rounded-lg hover:bg-white/[0.03] transition-colors cursor-pointer">
                         <div className="w-1.5 h-1.5 rounded-full" style={{ background: "#FCD34D" }} />
                         <span className="text-sm text-white">{item.title}</span>
-                        <span className="ml-auto mono text-xs" style={{ color: "#FCD34D" }}>{item.category}</span>
+                        <span className="ml-auto mono text-xs px-1.5 py-0.5 rounded" style={{ background: "rgba(252,211,77,0.1)", color: "#FCD34D" }}>{item.badge}</span>
                       </div>
                     ))}
                   </div>
@@ -682,18 +848,18 @@ export default function Home() {
                 <div className="glass rounded-xl p-5">
                   <h3 className="font-semibold text-white mb-3 flex items-center gap-2" style={{ fontFamily: "Space Grotesk, sans-serif" }}>
                     <Award className="w-4 h-4" style={{ color: "#A78BFA" }} />
-                    Öne Çıkan Makaleler
+                    En Çok Okunanlar
                   </h3>
                   <div className="space-y-2">
                     {[
-                      { title: "RAG Mimarisi: Enterprise AI için Derinlemesine İnceleme", views: "12.4K" },
-                      { title: "AI Kod Asistanları: Cursor, Copilot, Windsurf Karşılaştırması", views: "8.7K" },
-                      { title: "Çok Modlu Yapay Zekâ: Metin, Görüntü ve Ses Birleştirme", views: "6.2K" },
+                      { title: "RAG Mimarisi: Enterprise AI için Derinlemesine İnceleme", views: "12.4K", badge: "Bugün" },
+                      { title: "AI Kod Asistanları: Cursor, Copilot, Windsurf Karşılaştırması", views: "8.7K", badge: "2 gün" },
+                      { title: "Çok Modlu Yapay Zekâ: Metin, Görüntü ve Ses Birleştirme", views: "6.2K", badge: "5 gün" },
                     ].map((article, i) => (
                       <div key={i} className="flex items-center gap-2 p-2 rounded-lg hover:bg-white/[0.03] transition-colors cursor-pointer">
                         <span className="mono text-xs" style={{ color: "#A78BFA" }}>#{i + 1}</span>
                         <span className="text-sm text-white flex-1">{article.title}</span>
-                        <span className="text-xs" style={{ color: "#475569" }}>{article.views}</span>
+                        <span className="mono text-xs px-1.5 py-0.5 rounded" style={{ background: "rgba(167,139,250,0.1)", color: "#A78BFA" }}>{article.badge}</span>
                       </div>
                     ))}
                   </div>
@@ -782,29 +948,83 @@ export default function Home() {
                 subtitle="02 — Teknoloji & Yazılım Dünyası"
                 accent="#A78BFA"
               />
-              <div className="space-y-3 mb-8">
-                {techStack.map((item, i) => (
-                  <div key={i} className="glass rounded-xl p-4 flex items-start gap-4 hover:border-purple-500/30 transition-colors duration-300 card-glow cursor-pointer focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#A78BFA]/30">
-                    <div className="p-2 rounded-lg flex-shrink-0 mt-0.5" style={{ background: "rgba(167,139,250,0.15)", color: "#A78BFA" }}>
-                      {item.icon}
+              {/* Dijital Ekosistem Kategorileri */}
+              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3 mb-6">
+                {[
+                  { title: "Yazılım Dünyası", desc: "Geliştirme araçları, framework'ler, açık kaynak projeler", color: "#A78BFA", icon: <Code2 className="w-4 h-4" />, count: "2.5M+ repo" },
+                  { title: "Mobil Ekosistem", desc: "iOS, Android, cross-platform uygulamalar ve market trendleri", color: "#38BDF8", icon: <Smartphone className="w-4 h-4" />, count: "8M+ uygulama" },
+                  { title: "Bulut Teknolojileri", desc: "AWS, Azure, GCP, serverless, container teknolojileri", color: "#00E5A0", icon: <Server className="w-4 h-4" />, count: "$180B pazar" },
+                  { title: "Dijital Girişimler", desc: "Startup ekosistemi, yatırım trendleri, unicorn şirketler", color: "#F97316", icon: <Zap className="w-4 h-4" />, count: "50K+ startup" },
+                  { title: "Web3 & Blockchain", desc: "DeFi, NFT, akıllı kontratlar, decentralized uygulamalar", color: "#FCD34D", icon: <Database className="w-4 h-4" />, count: "$2.1T piyasa" },
+                  { title: "IoT & Robotik", desc: "Akıllı cihazlar, otonom sistemler, endüstri 4.0", color: "#FB7185", icon: <Cpu className="w-4 h-4" />, count: "15B+ cihaz" },
+                ].map((cat, i) => (
+                  <div key={i} className="glass rounded-xl p-4 hover:scale-[1.02] transition-all duration-300 card-glow cursor-pointer">
+                    <div className="flex items-center gap-2 mb-2">
+                      <div className="p-1.5 rounded-lg" style={{ background: `${cat.color}15`, color: cat.color }}>{cat.icon}</div>
+                      <span className="text-sm font-semibold text-white" style={{ fontFamily: "Space Grotesk, sans-serif" }}>{cat.title}</span>
                     </div>
-                    <div className="flex-1 min-w-0">
-                      <div className="flex flex-wrap items-center gap-2 mb-1">
-                        <span className="font-medium text-white text-sm" style={{ fontFamily: "Space Grotesk, sans-serif" }}>{item.layer}</span>
-                        <span className="mono text-xs px-2 py-0.5 rounded" style={{ background: "rgba(167,139,250,0.1)", color: "#A78BFA" }}>{item.tech}</span>
-                      </div>
-                      <p className="text-xs" style={{ color: "#64748B" }}>{item.reason}</p>
-                    </div>
-                    <span className="mono text-xs flex-shrink-0" style={{ color: "#334155" }}>#{String(i + 1).padStart(2, "0")}</span>
+                    <p className="text-xs mb-2" style={{ color: "#64748B" }}>{cat.desc}</p>
+                    <span className="mono text-xs px-1.5 py-0.5 rounded" style={{ background: `${cat.color}10`, color: cat.color }}>{cat.count}</span>
                   </div>
                 ))}
+              </div>
+
+              {/* Dijital Dünya Haberleri */}
+              <div className="grid md:grid-cols-2 gap-4 mb-6">
+                <div className="glass rounded-xl p-5">
+                  <h3 className="font-semibold text-white mb-3 flex items-center gap-2" style={{ fontFamily: "Space Grotesk, sans-serif" }}>
+                    <TrendingUp className="w-4 h-4" style={{ color: "#A78BFA" }} />
+                    Dijital Dünya Haberleri
+                  </h3>
+                  <div className="space-y-2.5">
+                    {[
+                      { title: "React 20 ile Server Components Yaygınlaşıyor", category: "Frontend", time: "2 saat önce", color: "#38BDF8" },
+                      { title: "Rust: Sistem Programlamanın Yeni Standardı", category: "Dil", time: "5 saat önce", color: "#F97316" },
+                      { title: "Bun.js vs Node.js: 2026 Karşılaştırması", category: "Runtime", time: "1 gün önce", color: "#00E5A0" },
+                    ].map((news, i) => (
+                      <div key={i} className="flex items-start gap-3 p-2.5 rounded-lg hover:bg-white/[0.03] transition-colors duration-200 cursor-pointer">
+                        <div className="w-1.5 h-1.5 rounded-full mt-2 flex-shrink-0" style={{ background: news.color }} />
+                        <div className="flex-1 min-w-0">
+                          <div className="text-sm font-medium text-white">{news.title}</div>
+                          <div className="flex items-center gap-2 mt-0.5">
+                            <span className="mono text-xs px-1.5 py-0.5 rounded" style={{ background: `${news.color}10`, color: news.color }}>{news.category}</span>
+                            <span className="text-xs" style={{ color: "#475569" }}>{news.time}</span>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+                <div className="glass rounded-xl p-5">
+                  <h3 className="font-semibold text-white mb-3 flex items-center gap-2" style={{ fontFamily: "Space Grotesk, sans-serif" }}>
+                    <Zap className="w-4 h-4" style={{ color: "#FCD34D" }} />
+                    Popüler Teknolojiler
+                  </h3>
+                  <div className="space-y-2.5">
+                    {[
+                      { name: "TypeScript", usage: "Tip güvenli JavaScript", badge: "#1 Dil", color: "#38BDF8" },
+                      { name: "Next.js", usage: "React full-stack framework", badge: "#1 Framework", color: "#A78BFA" },
+                      { name: "Vite", usage: "Ultra hızlı build aracı", badge: "#1 Tool", color: "#F97316" },
+                      { name: "TailwindCSS", usage: "Utility-first CSS framework", badge: "#1 CSS", color: "#00E5A0" },
+                    ].map((tech, i) => (
+                      <div key={i} className="flex items-center gap-3 p-2.5 rounded-lg hover:bg-white/[0.03] transition-colors duration-200 cursor-pointer">
+                        <div className="w-8 h-8 rounded-lg flex items-center justify-center text-xs font-bold" style={{ background: `${tech.color}15`, color: tech.color }}>{tech.name[0]}</div>
+                        <div className="flex-1 min-w-0">
+                          <span className="text-sm font-medium text-white">{tech.name}</span>
+                          <div className="text-xs" style={{ color: "#64748B" }}>{tech.usage}</div>
+                        </div>
+                        <span className="mono text-xs px-1.5 py-0.5 rounded" style={{ background: `${tech.color}10`, color: tech.color }}>{tech.badge}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
               </div>
 
               {/* Klasör Yapısı */}
               <div className="glass rounded-xl p-6">
                 <h3 className="font-semibold text-white mb-4 flex items-center gap-2" style={{ fontFamily: "Space Grotesk, sans-serif" }}>
                   <FileCode className="w-4 h-4" style={{ color: "#A78BFA" }} />
-                  Klasör Yapısı (MVP)
+                  MVP Proje Mimarisi
                 </h3>
                 <pre className="mono text-xs leading-relaxed overflow-x-auto" style={{ color: "#64748B" }}>
 {`aipusula/
@@ -879,17 +1099,65 @@ export default function Home() {
                 ))}
               </div>
 
+              {/* Editör Favorileri & Kısa İncelemeler */}
+              <div className="grid md:grid-cols-2 gap-4 mb-6">
+                <div className="glass rounded-xl p-5">
+                  <h3 className="font-semibold text-white mb-3 flex items-center gap-2" style={{ fontFamily: "Space Grotesk, sans-serif" }}>
+                    <Star className="w-4 h-4" style={{ color: "#FCD34D" }} />
+                    Editör Favorileri
+                  </h3>
+                  <div className="space-y-2.5">
+                    {[
+                      { name: "Cursor", reason: "2026'nın en iyi AI kod editörü", badge: "En İyi", color: "#38BDF8" },
+                      { name: "Claude", reason: "En güvenli ve uzun bağlamlı AI asistan", badge: "Güvenli", color: "#A78BFA" },
+                      { name: "Perplexity", reason: "Araştırma için en hızlı AI arama motoru", badge: "Hızlı", color: "#00E5A0" },
+                    ].map((fav, i) => (
+                      <div key={i} className="flex items-center gap-3 p-2.5 rounded-lg hover:bg-white/[0.03] transition-colors duration-200 cursor-pointer">
+                        <div className="w-8 h-8 rounded-lg flex items-center justify-center text-xs font-bold" style={{ background: `${fav.color}15`, color: fav.color }}>{fav.name[0]}</div>
+                        <div className="flex-1 min-w-0">
+                          <span className="text-sm font-medium text-white">{fav.name}</span>
+                          <div className="text-xs" style={{ color: "#64748B" }}>{fav.reason}</div>
+                        </div>
+                        <span className="mono text-xs px-1.5 py-0.5 rounded" style={{ background: `${fav.color}10`, color: fav.color }}>{fav.badge}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+                <div className="glass rounded-xl p-5">
+                  <h3 className="font-semibold text-white mb-3 flex items-center gap-2" style={{ fontFamily: "Space Grotesk, sans-serif" }}>
+                    <BarChart2 className="w-4 h-4" style={{ color: "#FB7185" }} />
+                    Kısa İncelemeler
+                  </h3>
+                  <div className="space-y-2.5">
+                    {[
+                      { name: "ChatGPT", verdict: "Genel amaçlı en iyi seçim", score: "9.2/10", color: "#74AA9C" },
+                      { name: "Gemini", verdict: "Google ekosisteminde güçlü", score: "8.5/10", color: "#4285F4" },
+                      { name: "ElevenLabs", verdict: "Ses kalitesi rakipsiz", score: "9.0/10", color: "#F97316" },
+                    ].map((review, i) => (
+                      <div key={i} className="flex items-center gap-3 p-2.5 rounded-lg hover:bg-white/[0.03] transition-colors duration-200 cursor-pointer">
+                        <div className="w-8 h-8 rounded-lg flex items-center justify-center text-xs font-bold" style={{ background: `${review.color}15`, color: review.color }}>{review.name[0]}</div>
+                        <div className="flex-1 min-w-0">
+                          <span className="text-sm font-medium text-white">{review.name}</span>
+                          <div className="text-xs" style={{ color: "#64748B" }}>{review.verdict}</div>
+                        </div>
+                        <span className="mono text-xs font-semibold" style={{ color: review.color }}>{review.score}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
               {/* AI Araç Kategorileri */}
               <div className="glass rounded-xl p-6">
                 <h3 className="font-semibold text-white mb-4" style={{ fontFamily: "Space Grotesk, sans-serif" }}>AI Araç Kategorileri</h3>
                 <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
                   {[
-                    { title: "Yazı & İçerik", desc: "AI writing assistants, blog generators, content optimizers", color: "#00E5A0", icon: <FileCode className="w-4 h-4" /> },
-                    { title: "Kod & Geliştirme", desc: "AI code assistants, debuggers, automated testing tools", color: "#38BDF8", icon: <Code2 className="w-4 h-4" /> },
-                    { title: "Tasarım & Görsel", desc: "AI image generators, design tools, logo makers", color: "#A78BFA", icon: <Cpu className="w-4 h-4" /> },
-                    { title: "Video & Ses", desc: "AI video editors, voice synthesis, podcast generators", color: "#F97316", icon: <Zap className="w-4 h-4" /> },
-                    { title: "Veri & Analiz", desc: "AI data analysts, chart generators, insight tools", color: "#FCD34D", icon: <BarChart2 className="w-4 h-4" /> },
-                    { title: "Otomasyon", desc: "Workflow automation, scheduling, task management AI", color: "#FB7185", icon: <Database className="w-4 h-4" /> },
+                    { title: "Yazı & İçerik", desc: "AI metin üreticiler, blog yazıcıları, içerik optimize ediciler", color: "#00E5A0", icon: <FileCode className="w-4 h-4" /> },
+                    { title: "Kod & Geliştirme", desc: "AI kod asistanları, hata ayıklayıcılar, otomatik test araçları", color: "#38BDF8", icon: <Code2 className="w-4 h-4" /> },
+                    { title: "Tasarım & Görsel", desc: "AI görsel üreticiler, tasarım araçları, logo oluşturucular", color: "#A78BFA", icon: <Cpu className="w-4 h-4" /> },
+                    { title: "Video & Ses", desc: "AI video düzenleyiciler, ses sentezi, podcast üreticiler", color: "#F97316", icon: <Zap className="w-4 h-4" /> },
+                    { title: "Veri & Analiz", desc: "AI veri analistleri, grafik oluşturucular, içgörü araçları", color: "#FCD34D", icon: <BarChart2 className="w-4 h-4" /> },
+                    { title: "Otomasyon", desc: "İş akışı otomasyonu, zamanlama, görev yönetimi AI", color: "#FB7185", icon: <Database className="w-4 h-4" /> },
                   ].map((cat, i) => (
                     <div key={i} className="glass rounded-xl p-4 hover:scale-[1.02] transition-all duration-300 card-glow cursor-pointer">
                       <div className="flex items-center gap-2 mb-2">
