@@ -155,6 +155,11 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
+    overflow-x: hidden;
+  }
+  ::selection {
+    background: #00E5FF;
+    color: #0A0C0D;
   }
   h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-display);
