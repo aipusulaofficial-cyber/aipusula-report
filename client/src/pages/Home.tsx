@@ -251,7 +251,7 @@ function SystemStatusBar() {
     { label: "CVE FEED", value: "LIVE", color: "#38BDF8" },
   ];
   return (
-    <div className="flex flex-wrap items-center gap-4 py-2 px-4 border-b" style={{ borderColor: "rgba(0,229,160,0.08)", background: "rgba(0,229,160,0.02)" }}>
+    <div className="flex flex-wrap items-center gap-3 py-1.5 px-2 border-b" style={{ borderColor: "rgba(0,229,160,0.08)", background: "rgba(0,229,160,0.02)" }}>
       <span className="mono text-xs" style={{ color: "#334155" }}>SYS://AIPUSULA-v1.0</span>
       <div className="h-3 w-px" style={{ background: "rgba(0,229,160,0.15)" }} />
       {statuses.map((s, i) => (
@@ -300,17 +300,17 @@ export default function Home() {
       {isDark && <CyberBackground />}
       {/* ── Top Navigation ── */}
       <header className="sticky top-0 z-50 border-b glass" style={{ borderColor: isDark ? "rgba(0,229,160,0.2)" : "rgba(0,229,160,0.15)" }}>
-        <div className="container flex items-center justify-between py-2">
-          <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-lg flex items-center justify-center pulse-dot" style={{ background: "linear-gradient(135deg, #00E5A0, #38BDF8)", color: "#00E5A0" }}>
-              <Shield className="w-4 h-4 text-black" />
+        <div className="container flex items-center justify-between py-1.5">
+          <div className="flex items-center gap-2">
+            <div className="w-7 h-7 rounded-lg flex items-center justify-center pulse-dot" style={{ background: "linear-gradient(135deg, #00E5A0, #38BDF8)", color: "#00E5A0" }}>
+              <Shield className="w-3.5 h-3.5 text-black" />
             </div>
             <div>
-              <span className="font-bold" style={{ fontFamily: "Space Grotesk, sans-serif", fontSize: "1.1rem", color: isDark ? "#FFFFFF" : "#0F172A" }}>AIPUSULA</span>
-              <span className="ml-2 text-xs px-2 py-0.5 rounded-full mono" style={{ background: "rgba(0,229,160,0.15)", color: "#00E5A0" }}>MVP Raporu</span>
+              <span className="font-bold" style={{ fontFamily: "Space Grotesk, sans-serif", fontSize: "1rem", color: isDark ? "#FFFFFF" : "#0F172A" }}>AIPUSULA</span>
+              <span className="ml-1.5 text-xs px-1.5 py-0.5 rounded-full mono" style={{ background: "rgba(0,229,160,0.15)", color: "#00E5A0" }}>MVP</span>
             </div>
           </div>
-          <div className="hidden md:flex items-center gap-1">
+          <div className="hidden xl:flex items-center gap-0.5">
             {navItems.slice(0, 5).map(item => (
               <button
                 key={item.id}
@@ -318,7 +318,7 @@ export default function Home() {
                   setActiveTab(item.id);
                   document.getElementById(item.id)?.scrollIntoView({ behavior: "smooth" });
                 }}
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-md text-sm transition-all duration-200"
+                className="flex items-center gap-1 px-2.5 py-1 rounded-md text-xs transition-all duration-200"
                 style={{
                   color: activeTab === item.id ? "#00E5A0" : (isDark ? "#94A3B8" : "#64748B"),
                   background: activeTab === item.id ? "rgba(0,229,160,0.1)" : "transparent",
@@ -343,60 +343,19 @@ export default function Home() {
       <SystemStatusBar />
 
       {/* ── Hero Section ── */}
-      <section className="relative overflow-hidden hex-bg hero-glow" style={{ minHeight: "220px" }}>
-        <div className="absolute inset-0" style={{ background: "radial-gradient(ellipse at 15% 60%, rgba(0,229,160,0.12) 0%, transparent 55%), radial-gradient(ellipse at 85% 20%, rgba(56,189,248,0.09) 0%, transparent 45%), radial-gradient(ellipse at 50% 100%, rgba(0,0,0,0.8) 0%, transparent 60%), radial-gradient(ellipse at 30% 30%, rgba(167,139,250,0.04) 0%, transparent 40%)" }} />
-        <div className="container relative z-10 py-5">
-          <div className="flex flex-col lg:flex-row items-start lg:items-center gap-4">
-            {/* Left: Text */}
+      <section className="relative overflow-hidden" style={{ minHeight: "80px" }}>
+        <div className="container relative z-10 py-2">
+          <div className="flex items-end justify-between">
             <div className="flex-1">
-              <div className="flex items-center gap-2 mb-2">
+              <div className="flex items-center gap-2 mb-0.5">
                 <div className="h-px w-8" style={{ background: "#00E5A0" }} />
                 <span className="mono text-xs uppercase tracking-widest" style={{ color: "#00E5A0" }}>// YAPAY ZEKÂ & SİBER GÜVENLİK PLATFORMU</span>
               </div>
-              <h1 className="font-black leading-none mb-1" style={{ fontFamily: "Space Grotesk, sans-serif", fontSize: "clamp(3rem, 7vw, 5rem)", letterSpacing: "-0.02em" }}>
+              <h1 className="font-black leading-none" style={{ fontFamily: "Space Grotesk, sans-serif", fontSize: "clamp(2.2rem, 5.5vw, 3.5rem)", letterSpacing: "-0.02em" }}>
                 <span className="text-white">AI</span><span style={{ color: "#00E5A0", textShadow: "0 0 40px rgba(0,229,160,0.4)" }}>PUSULA</span>
               </h1>
-              <div className="mono text-sm mb-2" style={{ color: "#38BDF8", letterSpacing: "0.15em" }}>
+              <div className="mono text-xs mt-1" style={{ color: "#38BDF8", letterSpacing: "0.15em" }}>
                 GÜVENLİĞİN YAPAY ZEKÂ PUSULASI
-              </div>
-              <p className="text-sm mb-3" style={{ color: "#94A3B8" }}>
-                Yapay zekâ yeteneklerini siber güvenlik uzmanlığıyla birleştiren <strong style={{ color: "#E2E8F0" }}>mimari, strateji ve geliştirme planı</strong>.
-              </p>
-
-              <div className="flex flex-wrap gap-1.5 mb-2">
-                {[
-                  { label: "Proje Mimarisi", color: "#00E5A0" },
-                  { label: "Güvenlik Tasarımı", color: "#38BDF8" },
-                  { label: "Rakip Analizi", color: "#A78BFA" },
-                  { label: "12 Ay Yol Haritası", color: "#F97316" },
-                  { label: "Gelir Modeli", color: "#FCD34D" },
-                ].map(tag => (
-                  <span key={tag.label} className="px-3 py-1 rounded text-xs mono" style={{ borderLeft: `2px solid ${tag.color}`, color: tag.color, background: `${tag.color}08` }}>
-                    {tag.label}
-                  </span>
-                ))}
-              </div>
-              <div className="grid grid-cols-3 gap-1.5">
-                {[
-                  { label: "Bölüm", value: "9" },
-                  { label: "Sayfa", value: "6" },
-                  { label: "Kontrol", value: "16" },
-                ].map((s, i) => (
-                  <div key={i} className="text-center p-2 rounded-lg glass" style={{ borderColor: "rgba(0,229,160,0.15)" }}>
-                    <div className="text-2xl font-bold" style={{ fontFamily: "Space Grotesk, sans-serif", color: "#00E5A0", textShadow: "0 0 20px rgba(0,229,160,0.3)" }}>{s.value}</div>
-                    <div className="mono text-xs mt-1" style={{ color: "#64748B" }}>{s.label}</div>
-                  </div>
-                ))}
-              </div>
-            </div>
-            {/* Right: Radar */}
-              <div className="hidden xl:flex flex-col items-center gap-2">
-              <RadarCompass />
-              <div className="glass rounded-lg px-4 py-2">
-                <div className="mono text-xs text-center" style={{ color: "#475569" }}>
-                  THREAT DETECTION RADAR<br />
-                  <span style={{ color: "#00E5A0", textShadow: "0 0 10px rgba(0,229,160,0.5)" }}>3 ACTIVE SIGNALS</span>
-                </div>
               </div>
             </div>
           </div>
@@ -404,9 +363,9 @@ export default function Home() {
       </section>
 
       {/* ── AI-Powered Platform Capabilities ── */}
-      <section className="container pb-4">
-        <div className="mb-4">
-          <div className="flex items-center gap-2 mb-2">
+      <section className="container pb-2">
+        <div className="mb-2">
+          <div className="flex items-center gap-2 mb-1">
             <div className="h-px w-8" style={{ background: "#00E5A0" }} />
             <span className="mono text-xs uppercase tracking-widest" style={{ color: "#00E5A0" }}>CORE CAPABILITIES</span>
           </div>
@@ -485,13 +444,13 @@ export default function Home() {
       </section>
 
       {/* ── Sidebar + Content Layout ── */}
-      <div className="container pb-8">
-        <div className="flex gap-5">
+      <div className="container pb-6">
+        <div className="flex gap-4">
           {/* Sidebar Navigation */}
-          <aside className="hidden lg:block w-56 flex-shrink-0">
-            <div className="sticky top-20">
+          <aside className="hidden lg:block w-52 flex-shrink-0">
+            <div className="sticky top-16">
               <div className="glass rounded p-0 overflow-hidden animated-border">
-                <div className="px-3 py-2 flex items-center gap-2" style={{ background: "rgba(0,229,160,0.05)", borderBottom: "1px solid rgba(0,229,160,0.1)" }}>
+                <div className="px-3 py-1.5 flex items-center gap-2" style={{ background: "rgba(0,229,160,0.05)", borderBottom: "1px solid rgba(0,229,160,0.1)" }}>
                   <div className="flex gap-1">
                     <div className="w-2 h-2 rounded-full" style={{ background: "#EF4444" }} />
                     <div className="w-2 h-2 rounded-full" style={{ background: "#FCD34D" }} />
@@ -499,9 +458,9 @@ export default function Home() {
                   </div>
                   <span className="mono text-xs" style={{ color: "#334155" }}>navigation.sys</span>
                 </div>
-                <div className="p-3">
-                <p className="mono text-xs uppercase tracking-widest mb-3 px-1" style={{ color: "#334155" }}>// INDEX</p>
-                <nav className="space-y-1">
+                <div className="p-2">
+                <p className="mono text-xs uppercase tracking-widest mb-2 px-1" style={{ color: "#334155" }}>// INDEX</p>
+                <nav className="space-y-0.5">
                   {navItems.map(item => (
                     <button
                       key={item.id}
@@ -509,13 +468,13 @@ export default function Home() {
                         setActiveTab(item.id);
                         document.getElementById(item.id)?.scrollIntoView({ behavior: "smooth" });
                       }}
-                      className="w-full flex items-center gap-2.5 px-3 py-2 rounded text-sm transition-all duration-200 text-left"
+                      className="w-full flex items-center gap-2 px-2.5 py-1.5 rounded text-sm transition-all duration-200 text-left"
                       style={{
                         color: activeTab === item.id ? "#00E5A0" : (isDark ? "#64748B" : "#475569"),
                         background: activeTab === item.id ? "rgba(0,229,160,0.08)" : "transparent",
                         borderLeft: activeTab === item.id ? "2px solid #00E5A0" : "2px solid transparent",
                         fontFamily: activeTab === item.id ? "JetBrains Mono, monospace" : "inherit",
-                        fontSize: "0.8rem",
+                        fontSize: "0.75rem",
                       }}
                     >
                       {item.icon}
@@ -523,7 +482,7 @@ export default function Home() {
                     </button>
                   ))}
                 </nav>
-                <div className="mt-4 pt-3 border-t" style={{ borderColor: "rgba(0,229,160,0.08)" }}>
+                <div className="mt-2 pt-2 border-t" style={{ borderColor: "rgba(0,229,160,0.08)" }}>
                   <div className="mono text-xs px-1" style={{ color: "#1E3A2F" }}>
                     <div>AIPUSULA-MVP-v1.0</div>
                     <div style={{ color: "#00E5A0" }}>● SYSTEM READY</div>
@@ -535,7 +494,7 @@ export default function Home() {
           </aside>
 
           {/* Main Content */}
-          <main className="flex-1 min-w-0 space-y-10">
+          <main className="flex-1 min-w-0 space-y-8">
 
             {/* ── Enterprise Dashboard (New) ── */}
             <section id="dashboard">
