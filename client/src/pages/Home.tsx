@@ -117,7 +117,7 @@ const competitors = [
 // ─── Radar Compass SVG ───────────────────────────────────────────────────────
 function RadarCompass() {
   return (
-    <div className="relative w-56 h-56 flex-shrink-0">
+    <div className="relative w-44 h-44 flex-shrink-0">
       {/* Outer glow */}
       <div className="absolute inset-0 rounded-full" style={{
         background: "radial-gradient(circle, rgba(0,229,160,0.08) 0%, transparent 70%)",
@@ -345,28 +345,27 @@ export default function Home() {
       <SystemStatusBar />
 
       {/* ── Hero Section ── */}
-      <section className="relative overflow-hidden hex-bg hero-glow" style={{ minHeight: "380px" }}>
+      <section className="relative overflow-hidden hex-bg hero-glow" style={{ minHeight: "220px" }}>
         <div className="absolute inset-0" style={{ background: "radial-gradient(ellipse at 15% 60%, rgba(0,229,160,0.12) 0%, transparent 55%), radial-gradient(ellipse at 85% 20%, rgba(56,189,248,0.09) 0%, transparent 45%), radial-gradient(ellipse at 50% 100%, rgba(0,0,0,0.8) 0%, transparent 60%), radial-gradient(ellipse at 30% 30%, rgba(167,139,250,0.04) 0%, transparent 40%)" }} />
-        <div className="container relative z-10 py-8">
-          <div className="flex flex-col lg:flex-row items-start lg:items-center gap-6">
+        <div className="container relative z-10 py-5">
+          <div className="flex flex-col lg:flex-row items-start lg:items-center gap-4">
             {/* Left: Text */}
             <div className="flex-1">
-              <div className="flex items-center gap-3 mb-3">
+              <div className="flex items-center gap-2 mb-2">
                 <div className="h-px w-8" style={{ background: "#00E5A0" }} />
                 <span className="mono text-xs uppercase tracking-widest" style={{ color: "#00E5A0" }}>// YAPAY ZEKÂ & SİBER GÜVENLİK PLATFORMU</span>
               </div>
-              <h1 className="font-black leading-none mb-2" style={{ fontFamily: "Space Grotesk, sans-serif", fontSize: "clamp(3.5rem, 8vw, 6rem)", letterSpacing: "-0.02em" }}>
+              <h1 className="font-black leading-none mb-1" style={{ fontFamily: "Space Grotesk, sans-serif", fontSize: "clamp(3rem, 7vw, 5rem)", letterSpacing: "-0.02em" }}>
                 <span className="text-white">AI</span><span style={{ color: "#00E5A0", textShadow: "0 0 40px rgba(0,229,160,0.4)" }}>PUSULA</span>
               </h1>
-              <div className="mono text-sm mb-4" style={{ color: "#38BDF8", letterSpacing: "0.15em" }}>
+              <div className="mono text-sm mb-2" style={{ color: "#38BDF8", letterSpacing: "0.15em" }}>
                 GÜVENLİĞİN YAPAY ZEKÂ PUSULASI
               </div>
-              <div className="mb-4 p-3 rounded" style={{ background: "rgba(0,229,160,0.04)", borderLeft: "3px solid #00E5A0" }}>
-                <p className="text-base leading-relaxed" style={{ color: "#94A3B8" }}>
-                  Yapay zekâ yeteneklerini siber güvenlik uzmanlığıyla birleştiren dünya standartlarında bir platform için kapsamlı <strong style={{ color: "#E2E8F0" }}>mimari, strateji ve geliştirme planı</strong>.
-                </p>
-              </div>
-              <div className="flex flex-wrap gap-2 mb-4">
+              <p className="text-sm mb-3" style={{ color: "#94A3B8" }}>
+                Yapay zekâ yeteneklerini siber güvenlik uzmanlığıyla birleştiren <strong style={{ color: "#E2E8F0" }}>mimari, strateji ve geliştirme planı</strong>.
+              </p>
+
+              <div className="flex flex-wrap gap-1.5 mb-2">
                 {[
                   { label: "Proje Mimarisi", color: "#00E5A0" },
                   { label: "Güvenlik Tasarımı", color: "#38BDF8" },
@@ -379,13 +378,13 @@ export default function Home() {
                   </span>
                 ))}
               </div>
-              <div className="grid grid-cols-3 gap-2">
+              <div className="grid grid-cols-3 gap-1.5">
                 {[
                   { label: "Bölüm", value: "9" },
                   { label: "Sayfa", value: "6" },
                   { label: "Kontrol", value: "16" },
                 ].map((s, i) => (
-                  <div key={i} className="text-center p-3 rounded-lg glass" style={{ borderColor: "rgba(0,229,160,0.15)" }}>
+                  <div key={i} className="text-center p-2 rounded-lg glass" style={{ borderColor: "rgba(0,229,160,0.15)" }}>
                     <div className="text-2xl font-bold" style={{ fontFamily: "Space Grotesk, sans-serif", color: "#00E5A0", textShadow: "0 0 20px rgba(0,229,160,0.3)" }}>{s.value}</div>
                     <div className="mono text-xs mt-1" style={{ color: "#64748B" }}>{s.label}</div>
                   </div>
@@ -407,16 +406,16 @@ export default function Home() {
       </section>
 
       {/* ── KPI Cards ── */}
-      <section className="container pb-8">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <section className="container pb-4">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
           {[
             { label: "Pazar Büyüklüğü (2026)", value: 39.2, suffix: "B$", icon: <Globe className="w-5 h-5" />, color: "#00E5A0", desc: "AI Siber Güvenlik" },
             { label: "CAGR Büyüme Oranı", value: 27.8, suffix: "%", icon: <TrendingUp className="w-5 h-5" />, color: "#38BDF8", desc: "2025-2026 arası" },
             { label: "Hedef Kullanıcı", value: 50000, suffix: "+", icon: <Users className="w-5 h-5" />, color: "#A78BFA", desc: "12. Ayda" },
             { label: "Geliştirme Süresi", value: 12, suffix: " Ay", icon: <Clock className="w-5 h-5" />, color: "#F97316", desc: "MVP → Tam Sürüm" },
           ].map((kpi, i) => (
-            <div key={i} className="glass card-glow p-5 rounded-xl">
-              <div className="flex items-start justify-between mb-3">
+            <div key={i} className="glass card-glow p-3 rounded-xl">
+              <div className="flex items-start justify-between mb-2">
                 <div className="p-2 rounded-lg" style={{ background: `${kpi.color}15`, color: kpi.color }}>
                   {kpi.icon}
                 </div>
@@ -433,13 +432,13 @@ export default function Home() {
       </section>
 
       {/* ── Sidebar + Content Layout ── */}
-      <div className="container pb-12">
-        <div className="flex gap-8">
+      <div className="container pb-8">
+        <div className="flex gap-5">
           {/* Sidebar Navigation */}
-          <aside className="hidden lg:block w-60 flex-shrink-0">
+          <aside className="hidden lg:block w-56 flex-shrink-0">
             <div className="sticky top-20">
               <div className="glass rounded p-0 overflow-hidden animated-border">
-                <div className="px-4 py-3 flex items-center gap-2" style={{ background: "rgba(0,229,160,0.05)", borderBottom: "1px solid rgba(0,229,160,0.1)" }}>
+                <div className="px-3 py-2 flex items-center gap-2" style={{ background: "rgba(0,229,160,0.05)", borderBottom: "1px solid rgba(0,229,160,0.1)" }}>
                   <div className="flex gap-1">
                     <div className="w-2 h-2 rounded-full" style={{ background: "#EF4444" }} />
                     <div className="w-2 h-2 rounded-full" style={{ background: "#FCD34D" }} />
@@ -483,7 +482,7 @@ export default function Home() {
           </aside>
 
           {/* Main Content */}
-          <main className="flex-1 min-w-0 space-y-14">
+          <main className="flex-1 min-w-0 space-y-10">
 
             {/* ── Enterprise Dashboard (New) ── */}
             <section id="dashboard">
