@@ -256,22 +256,22 @@ export default function Home() {
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-3">
           {categoryCards.map((cat) => (
             <Link key={cat.id} href={cat.path}>
-              <div className="glass rounded-lg p-3 cursor-pointer group transition-all duration-300 hover:scale-[1.02]"
+              <div className="glass rounded-lg p-3 cursor-pointer group transition-all duration-300 hover:scale-[1.02] flex flex-col h-full"
                 style={{ borderLeft: `3px solid ${cat.color}` }}>
                 <div className="flex items-start justify-between mb-1.5">
                   <div className="p-1 rounded-md" style={{ background: `${cat.color}10` }}>
                     <div style={{ color: cat.color }}>{cat.icon}</div>
                   </div>
-                  <span className="mono text-[9px] px-1.5 py-0.5 rounded-full" style={{ background: `${cat.color}10`, color: cat.color }}>
+                  <span className="mono text-[9px] px-1.5 py-0.5 rounded-full flex-shrink-0" style={{ background: `${cat.color}10`, color: cat.color }}>
                     {cat.stat}
                   </span>
                 </div>
-                <h3 className="font-semibold text-white text-sm mb-0.5" style={{ fontFamily: "Space Grotesk, sans-serif" }}>
+                <h3 className="font-semibold text-white text-sm mb-0.5 leading-snug" style={{ fontFamily: "Space Grotesk, sans-serif" }}>
                   {cat.label}
                 </h3>
                 <p className="text-[11px] mb-0.5" style={{ color: cat.color }}>{cat.subtitle}</p>
-                <p className="text-[11px] leading-relaxed line-clamp-2" style={{ color: "#64748B" }}>{cat.description}</p>
-                <div className="flex items-center gap-1 mt-1.5 text-[11px]" style={{ color: cat.color, opacity: 0.7 }}>
+                <p className="text-[11px] leading-relaxed line-clamp-2 flex-grow" style={{ color: "#64748B" }}>{cat.description}</p>
+                <div className="flex items-center gap-1 mt-2 pt-2 border-t text-[11px]" style={{ color: cat.color, borderColor: `rgba(255,255,255,0.04)` }}>
                   <span>Keşfet</span>
                   <ChevronRight className="w-3 h-3 group-hover:translate-x-1 transition-transform" />
                 </div>

@@ -177,20 +177,29 @@ export function AppShell({ children }: { children: React.ReactNode }) {
 
           {/* Desktop Nav */}
           <nav className="hidden xl:flex items-center gap-0.5">
-            {categories.slice(1).map(cat => (
-              <Link key={cat.id} href={cat.path}>
-                <button
-                  className="flex items-center gap-1 px-2.5 py-1 rounded-md text-xs transition-all duration-200 ease-out cursor-pointer active:scale-[0.97] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#00E5A0]/30"
-                  style={{
-                    color: location.startsWith(cat.path) ? cat.color : (isDark ? "#94A3B8" : "#64748B"),
-                    background: location.startsWith(cat.path) ? `${cat.color}10` : "transparent",
-                  }}
-                >
-                  {cat.icon}
-                  {cat.label}
-                </button>
-              </Link>
-            ))}
+            {categories.map(cat => {
+              const isActive = cat.id === 'home'
+                ? location === '/' || location === ''
+                : location.startsWith(cat.path);
+              return (
+                <Link key={cat.id} href={cat.path}>
+                  <div
+                    className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-md text-xs transition-all duration-200 ease-out cursor-pointer active:scale-[0.97] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#00E5A0]/30"
+                    style={{
+                      color: isActive ? cat.color : (isDark ? "#94A3B8" : "#64748B"),
+                      background: isActive ? `${cat.color}10` : "transparent",
+                      border: isActive ? `1px solid ${cat.color}30` : '1px solid transparent',
+                      fontWeight: isActive ? 600 : 400,
+                      boxShadow: isActive ? `0 0 12px ${cat.color}15` : 'none',
+                    }}
+                  >
+                    <span style={{ opacity: isActive ? 1 : 0.7 }}>{cat.icon}</span>
+                    <span>{cat.label}</span>
+                    {isActive && <span className="w-1 h-1 rounded-full ml-0.5 animate-pulse" style={{ background: cat.color }} />}
+                  </div>
+                </Link>
+              );
+            })}
           </nav>
 
           {/* Right side */}
@@ -212,25 +221,32 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         </div>
       </header>
 
-      {/* Mobile Nav Overlay */}
-      {mobileNavOpen && (
+          {/* Mobile Nav Overlay */}
+          {mobileNavOpen && (
         <div className="fixed inset-0 z-40 lg:hidden" style={{ background: "rgba(0,0,0,0.8)", backdropFilter: "blur(8px)" }}>
           <nav className="container py-6 space-y-1">
-            {categories.map(cat => (
+            {categories.map(cat => {
+              const isActive = cat.id === 'home'
+                ? location === '/' || location === ''
+                : location.startsWith(cat.path);
+              return (
               <Link key={cat.id} href={cat.path}>
-                <button
-                  className="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm transition-all duration-200 text-left"
+                <div
+                  className="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm transition-all duration-200 text-left cursor-pointer"
                   style={{
-                    color: location.startsWith(cat.path) ? cat.color : (isDark ? "#E2E8F0" : "#1E293B"),
-                    background: location.startsWith(cat.path) ? `${cat.color}08` : "transparent",
+                    color: isActive ? cat.color : (isDark ? "#E2E8F0" : "#1E293B"),
+                    background: isActive ? `${cat.color}10` : "transparent",
+                    border: isActive ? `1px solid ${cat.color}30` : '1px solid transparent',
                   }}
                 >
                   {cat.icon}
-                  {cat.label}
-                  <ChevronRight className="w-4 h-4 ml-auto" />
-                </button>
+                  <span className="flex-1 font-medium">{cat.label}</span>
+                  {isActive && <span className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: cat.color }} />}
+                  <ChevronRight className="w-4 h-4" />
+                </div>
               </Link>
-            ))}
+              );
+            })}
           </nav>
         </div>
       )}
