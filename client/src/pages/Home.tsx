@@ -1,1616 +1,277 @@
-import { useState, useEffect, useRef } from "react";
+/**
+ * AIPUSULA Ana Sayfa
+ * Design: Cyber Noir — Dark Brutalism meets Cyberpunk Professionalism
+ * Color: #00E5A0 (neon green signature), #38BDF8 (info), #F97316/#EF4444 (threats)
+ * Typography: Space Grotesk (display), JetBrains Mono (data), Inter (body)
+ */
+import { useState, useEffect } from "react";
+import { Link } from "wouter";
 import {
-  AreaChart, Area, BarChart, Bar, RadarChart, Radar, PolarGrid, PolarAngleAxis,
-  LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
-  PieChart, Pie, Cell, Legend
-} from "recharts";
-import {
-  Shield, Brain, Smartphone, TrendingUp, DollarSign, Users, Code2,
-  Lock, Zap, CheckSquare, AlertTriangle, Globe, ChevronRight, Star,
-  Database, Server, Layers, GitBranch, Target, Award, BarChart2,
-  ArrowRight, ExternalLink, Clock, Cpu, Eye, FileCode, Search,
-  Building2, BookOpen
+  Brain, Cpu, DollarSign, Globe, Shield, TrendingUp,
+  ChevronRight, Zap, Clock, ArrowRight
 } from "lucide-react";
 import { CyberBackground } from "@/components/CyberBackground";
-import { AttackMap } from "@/components/AttackMap";
-import { LiveThreatCounter, AIRiskScore } from "@/components/EnterpriseWidgets";
-import { CVEFeed } from "@/components/CVEFeed";
-import { SecurityNews } from "@/components/SecurityNews";
-import { NotificationCenter } from "@/components/NotificationCenter";
-import { AdvancedSearch } from "@/components/AdvancedSearch";
-import { ThemeToggle } from "@/components/ThemeToggle";
-import { useIsMobile } from "@/hooks/useMobile";
+import { AppShell } from "@/components/AppShell";
 import { useTheme } from "@/contexts/ThemeContext";
 
-// ─── Data ────────────────────────────────────────────────────────────────────
-
-const marketGrowthData = [
-  { year: "2022", market: 14.2, ai_cyber: 10.5 },
-  { year: "2023", market: 18.7, ai_cyber: 15.8 },
-  { year: "2024", market: 25.4, ai_cyber: 22.6 },
-  { year: "2025", market: 30.7, ai_cyber: 29.6 },
-  { year: "2026", market: 39.2, ai_cyber: 38.5 },
-  { year: "2027", market: 50.1, ai_cyber: 49.2 },
-  { year: "2028", market: 63.8, ai_cyber: 63.0 },
-  { year: "2030", market: 93.8, ai_cyber: 93.0 },
+// ─── Category Overview Cards ─────────────────────────────────────────────────
+const categoryCards = [
+  {
+    id: "yapay-zeka",
+    path: "/yapay-zeka",
+    label: "Yapay Zekâ",
+    subtitle: "Haberler, Modeller & Trendler",
+    description: "GPT-5, Claude 4, Gemini 2.0 ve sektörün en güncel gelişmeleri",
+    color: "#06B6D4",
+    icon: <Brain className="w-5 h-5" />,
+    stat: "247+ Makale",
+    statLabel: "Bu hafta",
+  },
+  {
+    id: "ai-araclari",
+    path: "/ai-araclari",
+    label: "AI Araçları",
+    subtitle: "Katalog & Karşılaştırma",
+    description: "500+ AI araç kataloğu, detaylı karşılaştırmalar ve kullanım rehberleri",
+    color: "#38BDF8",
+    icon: <Cpu className="w-5 h-5" />,
+    stat: "512 Araç",
+    statLabel: "Katalogda",
+  },
+  {
+    id: "ai-ile-kazanc",
+    path: "/ai-ile-kazanc",
+    label: "AI ile Kazanç",
+    subtitle: "Rehberler & İş Fikirleri",
+    description: "Freelancing, SaaS, YouTube, affiliate — AI ile gelir üretme yolları",
+    color: "#FCD34D",
+    icon: <DollarSign className="w-5 h-5" />,
+    stat: "38 Rehber",
+    statLabel: "Hazır",
+  },
+  {
+    id: "dijital-dunya",
+    path: "/dijital-dunya",
+    label: "Dijital Dünya",
+    subtitle: "Teknoloji & Yazılım",
+    description: "Yazılım ekosistemi, bulut teknolojileri, Web3 ve dijital girişimler",
+    color: "#A78BFA",
+    icon: <Globe className="w-5 h-5" />,
+    stat: "1.2K+ İçerik",
+    statLabel: "Arşivde",
+  },
+  {
+    id: "siber-guvenlik",
+    path: "/siber-guvenlik",
+    label: "Siber Güvenlik",
+    subtitle: "Tehdit Analizi & Koruması",
+    description: "Gerçek zamanlı tehdit izleme, CVE analizi ve güvenlik araçları",
+    color: "#F97316",
+    icon: <Shield className="w-5 h-5" />,
+    stat: "12 Canlı",
+    statLabel: "Tehdit uyarısı",
+  },
 ];
 
-const competitorData = [
-  { subject: "AI Yetenekleri", ChatGPT: 95, Claude: 88, Gemini: 87, Perplexity: 72, AIPUSULA: 82 },
-  { subject: "Güvenlik Odağı", ChatGPT: 40, Claude: 50, Gemini: 48, Perplexity: 38, AIPUSULA: 98 },
-  { subject: "Fiyat/Değer", ChatGPT: 70, Claude: 68, Gemini: 80, Perplexity: 62, AIPUSULA: 82 },
-  { subject: "Mobil Deneyim", ChatGPT: 62, Claude: 52, Gemini: 72, Perplexity: 60, AIPUSULA: 90 },
-  { subject: "Veri Gizliliği", ChatGPT: 50, Claude: 72, Gemini: 42, Perplexity: 58, AIPUSULA: 92 },
-  { subject: "Gerçek Zamanlı", ChatGPT: 55, Claude: 48, Gemini: 60, Perplexity: 85, AIPUSULA: 88 },
+// ─── Recent Activity ─────────────────────────────────────────────────────────
+const recentActivity = [
+  { title: "OpenAI GPT-5: Multimodal Reasoning & Agentic AI", category: "Yapay Zekâ", time: "2 saat önce", color: "#06B6D4" },
+  { title: "Cursor 2.0 — AI Kod Asistanı Güncellemesi", category: "AI Araçları", time: "4 saat önce", color: "#38BDF8" },
+  { title: "AI Freelancing ile Aylık $5K Kazanç Rehberi", category: "AI ile Kazanç", time: "6 saat önce", color: "#FCD34D" },
+  { title: "React 20 ile Server Components Yaygınlaşıyor", category: "Dijital Dünya", time: "8 saat önce", color: "#A78BFA" },
+  { title: "CVE-2026-12847: Linux Kernel Yetki Yükseltme", category: "Siber Güvenlik", time: "12 saat önce", color: "#F97316" },
 ];
 
-const revenueData = [
-  { month: "Ay 1", free: 500, pro: 0, enterprise: 0 },
-  { month: "Ay 3", free: 2000, pro: 800, enterprise: 0 },
-  { month: "Ay 6", free: 5000, pro: 3500, enterprise: 1200 },
-  { month: "Ay 9", free: 8000, pro: 8000, enterprise: 5000 },
-  { month: "Ay 12", free: 12000, pro: 18000, enterprise: 15000 },
-];
-
-const revenueShareData = [
-  { name: "Abonelik", value: 55, color: "#00E5A0" },
-  { name: "Kurumsal", value: 30, color: "#38BDF8" },
-  { name: "API Kullanımı", value: 15, color: "#F97316" },
-];
-
-const roadmapData = [
-  { month: "Ay 1-2", phase: "Temel Altyapı", tasks: ["Kimlik doğrulama sistemi", "CI/CD işlem hattı", "Kontrol paneli arayüzü", "Veritabanı şeması"], color: "#00E5A0", status: "critical" },
-  { month: "Ay 3-4", phase: "AI Entegrasyonu", tasks: ["Sohbet motoru", "AI araçları kataloğu", "Phishing analizörü", "Kod tarayıcı"], color: "#38BDF8", status: "high" },
-  { month: "Ay 5-6", phase: "Güvenlik Motoru", tasks: ["URL/IP tarayıcı", "CVE takibi", "Haber akışı", "Tehdit haritası"], color: "#F97316", status: "high" },
-  { month: "Ay 7-8", phase: "Mobil Uygulama", tasks: ["React Native geliştirme", "Anlık bildirimler", "Çevrimdışı destek", "Mağaza hazırlığı"], color: "#A78BFA", status: "medium" },
-  { month: "Ay 9-10", phase: "Entegrasyon ve Test", tasks: ["Uçtan uca testler", "Performans optimizasyonu", "Sızma testi", "Beta kullanıcıları"], color: "#FB7185", status: "medium" },
-  { month: "Ay 11-12", phase: "Lansman", tasks: ["Mağaza yayını", "Pazarlama kampanyası", "Kurumsal satış", "Yatırımcı sunumu"], color: "#FCD34D", status: "launch" },
-];
-
-const techStack = [
-  { layer: "Frontend Web", tech: "React + TypeScript + TailwindCSS", reason: "Tip güvenliği, geniş ekosistem, hızlı geliştirme", icon: <Code2 className="w-4 h-4" /> },
-  { layer: "Mobil Uygulama", tech: "React Native (Expo)", reason: "iOS + Android tek kod tabanı, Play Store uyumlu", icon: <Smartphone className="w-4 h-4" /> },
-  { layer: "Backend API", tech: "Node.js (NestJS)", reason: "Modüler mimari, TypeScript, WebSocket desteği", icon: <Server className="w-4 h-4" /> },
-  { layer: "AI Servisleri", tech: "Python (FastAPI)", reason: "ML kütüphaneleri, async, otomatik API dokümantasyonu", icon: <Brain className="w-4 h-4" /> },
-  { layer: "Veritabanı", tech: "PostgreSQL + Redis + Neo4j", reason: "İlişkisel + önbellek + grafik (tehdit ilişkileri)", icon: <Database className="w-4 h-4" /> },
-  { layer: "DevOps", tech: "Docker + Kubernetes (AWS EKS)", reason: "Container orchestration, sıfır kesinti deployment", icon: <Layers className="w-4 h-4" /> },
-  { layer: "CI/CD", tech: "GitHub Actions + Terraform", reason: "Otomatik build, test, deployment ve altyapı kodu", icon: <GitBranch className="w-4 h-4" /> },
-  { layer: "Güvenlik", tech: "HashiCorp Vault + WAF + OAuth 2.0", reason: "Sır yönetimi, DDoS koruması, kimlik doğrulama", icon: <Lock className="w-4 h-4" /> },
-];
-
-const securityLayers = [
-  { layer: "Ağ Katmanı", tech: "Cloudflare WAF + DDoS Koruması", level: 95, color: "#00E5A0" },
-  { layer: "Kimlik Doğrulama", tech: "OAuth 2.0 + JWT + MFA", level: 98, color: "#38BDF8" },
-  { layer: "Veri Şifreleme", tech: "AES-256 + TLS 1.3", level: 100, color: "#A78BFA" },
-  { layer: "AI Güvenliği", tech: "Prompt Injection Koruması + Guardrails", level: 88, color: "#F97316" },
-  { layer: "Sır Yönetimi", tech: "HashiCorp Vault", level: 96, color: "#FCD34D" },
-  { layer: "İzleme/SIEM", tech: "Prometheus + Grafana + IDS/IPS", level: 85, color: "#FB7185" },
-];
-
-const checklistItems = [
-  { id: 1, task: "Proje deposu (GitHub/GitLab) oluşturuldu", priority: "P0", category: "Altyapı" },
-  { id: 2, task: "CI/CD pipeline kuruldu (GitHub Actions)", priority: "P0", category: "Altyapı" },
-  { id: 3, task: "Docker ve Kubernetes altyapısı hazırlandı", priority: "P0", category: "Altyapı" },
-  { id: 4, task: "OAuth 2.0 + MFA kimlik doğrulama uygulandı", priority: "P0", category: "Güvenlik" },
-  { id: 5, task: "Zero-Trust güvenlik mimarisi kuruldu", priority: "P0", category: "Güvenlik" },
-  { id: 6, task: "Dashboard sayfası tamamlandı", priority: "P1", category: "UI/UX" },
-  { id: 7, task: "AI Chat motoru entegre edildi", priority: "P1", category: "AI" },
-  { id: 8, task: "AI Tools kataloğu oluşturuldu", priority: "P1", category: "AI" },
-  { id: 9, task: "Security Scanner motoru geliştirildi", priority: "P1", category: "Güvenlik" },
-  { id: 10, task: "News/CVE akışı kuruldu", priority: "P2", category: "İçerik" },
-  { id: 11, task: "Profile ve abonelik yönetimi tamamlandı", priority: "P2", category: "UI/UX" },
-  { id: 12, task: "Mobil uygulama (iOS + Android) geliştirildi", priority: "P2", category: "Mobil" },
-  { id: 13, task: "Play Store ve App Store uyumluluk kontrolleri yapıldı", priority: "P2", category: "Mobil" },
-  { id: 14, task: "Penetrasyon testi ve güvenlik denetimi tamamlandı", priority: "P3", category: "Güvenlik" },
-  { id: 15, task: "Beta test geri bildirimleri işlendi", priority: "P3", category: "Test" },
-  { id: 16, task: "Lansman planı ve pazarlama materyalleri hazırlandı", priority: "P3", category: "Pazarlama" },
-];
-
-const competitors = [
-  { name: "ChatGPT", company: "OpenAI", price: "$20/ay", ai: 95, security: 40, privacy: 50, mobile: 62, value: 70, total: 63, color: "#74AA9C" },
-  { name: "Claude", company: "Anthropic", price: "$20/ay", ai: 88, security: 50, privacy: 72, mobile: 52, value: 68, total: 66, color: "#CC785C" },
-  { name: "Gemini", company: "Google", price: "$20/ay", ai: 87, security: 48, privacy: 42, mobile: 72, value: 80, total: 66, color: "#4285F4" },
-  { name: "Perplexity", company: "Perplexity AI", price: "$20/ay", ai: 72, security: 38, privacy: 58, mobile: 60, value: 62, total: 58, color: "#1FB8CD" },
-  { name: "AIPUSULA", company: "AIPUSULA", price: "$19.99/ay", ai: 82, security: 98, privacy: 92, mobile: 90, value: 82, total: 89, color: "#00E5A0" },
-];
-
-// ─── Animated Counter ────────────────────────────────────────────────────────
-// ─── Radar Compass SVG ───────────────────────────────────────────────────────
-function RadarCompass() {
-  return (
-    <div className="relative w-44 h-44 flex-shrink-0">
-      {/* Outer glow */}
-      <div className="absolute inset-0 rounded-full" style={{
-        background: "radial-gradient(circle, rgba(0,229,160,0.08) 0%, transparent 70%)",
-        animation: "radarPulseBg 3s ease-in-out infinite"
-      }} />
-      <svg viewBox="0 0 240 240" className="w-full h-full relative" style={{ opacity: 0.85 }}>
-        {/* Outer rings */}
-        {[110, 90, 70, 50, 30, 12].map((r, i) => (
-          <circle key={i} cx="120" cy="120" r={r} fill="none" 
-            stroke={i === 0 ? "rgba(0,229,160,0.12)" : "rgba(0,229,160,0.15)"} 
-            strokeWidth="1" 
-            strokeDasharray={i % 2 === 0 ? "4 6" : "2 4"} />
-        ))}
-        {/* Cross hairs */}
-        <line x1="120" y1="10" x2="120" y2="230" stroke="rgba(0,229,160,0.1)" strokeWidth="0.5" />
-        <line x1="10" y1="120" x2="230" y2="120" stroke="rgba(0,229,160,0.1)" strokeWidth="0.5" />
-        <line x1="43" y1="43" x2="197" y2="197" stroke="rgba(0,229,160,0.06)" strokeWidth="0.5" />
-        <line x1="197" y1="43" x2="43" y2="197" stroke="rgba(0,229,160,0.06)" strokeWidth="0.5" />
-        {/* Sweep cone */}
-        <path d="M120 120 L120 14 A106 106 0 0 1 150 20 Z" fill="rgba(0,229,160,0.1)" />
-        {/* Sweep line */}
-        <line x1="120" y1="120" x2="120" y2="14" stroke="#00E5A0" strokeWidth="2" opacity="0.9" strokeLinecap="round" />
-        <line x1="120" y1="120" x2="150" y2="20" stroke="#00E5A0" strokeWidth="1" opacity="0.5" strokeLinecap="round" />
-        {/* Blips */}
-        <circle cx="155" cy="75" r="4" fill="#00E5A0" opacity="0.9">
-          <animate attributeName="opacity" values="0.9;0.15;0.9" dur="2s" repeatCount="indefinite" />
-        </circle>
-        <circle cx="80" cy="95" r="3" fill="#38BDF8" opacity="0.7">
-          <animate attributeName="opacity" values="0.7;0.1;0.7" dur="3s" repeatCount="indefinite" />
-        </circle>
-        <circle cx="170" cy="140" r="3.5" fill="#F97316" opacity="0.8">
-          <animate attributeName="opacity" values="0.8;0.15;0.8" dur="1.5s" repeatCount="indefinite" />
-        </circle>
-        <circle cx="90" cy="160" r="2.5" fill="#A78BFA" opacity="0.6">
-          <animate attributeName="opacity" values="0.6;0.1;0.6" dur="2.5s" repeatCount="indefinite" />
-        </circle>
-        {/* Center dot */}
-        <circle cx="120" cy="120" r="5" fill="#00E5A0" />
-        <circle cx="120" cy="120" r="10" fill="none" stroke="#00E5A0" strokeWidth="1" opacity="0.4" />
-        <circle cx="120" cy="120" r="15" fill="none" stroke="#00E5A0" strokeWidth="0.5" opacity="0.2">
-          <animate attributeName="r" values="15;25;15" dur="2s" repeatCount="indefinite" />
-          <animate attributeName="opacity" values="0.2;0;0.2" dur="2s" repeatCount="indefinite" />
-        </circle>
-        {/* Labels */}
-        <text x="118" y="8" fill="rgba(0,229,160,0.6)" fontSize="9" fontFamily="JetBrains Mono" fontWeight="bold">N</text>
-        <text x="118" y="238" fill="rgba(0,229,160,0.5)" fontSize="8" fontFamily="JetBrains Mono">S</text>
-        <text x="4" y="124" fill="rgba(0,229,160,0.5)" fontSize="8" fontFamily="JetBrains Mono">W</text>
-        <text x="228" y="124" fill="rgba(0,229,160,0.5)" fontSize="8" fontFamily="JetBrains Mono">E</text>
-      </svg>
-      {/* Rotating sweep animation */}
-      <div className="absolute inset-0 flex items-center justify-center">
-        <div className="w-full h-full" style={{ animation: "radarSpin 6s linear infinite", transformOrigin: "center" }}>
-          <svg viewBox="0 0 240 240" className="w-full h-full">
-            <defs>
-              <linearGradient id="sweepGrad" x1="0" y1="0" x2="1" y2="0">
-                <stop offset="0%" stopColor="rgba(0,229,160,0)" />
-                <stop offset="100%" stopColor="rgba(0,229,160,0.15)" />
-              </linearGradient>
-            </defs>
-            <path d="M120 120 L120 14 A106 106 0 0 1 165 30 Z" fill="url(#sweepGrad)" />
-          </svg>
-        </div>
-      </div>
-      <style>{`@keyframes radarSpin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }`}</style>
-      <style>{`@keyframes radarPulseBg { 0%, 100% { opacity: 0.5; } 50% { opacity: 1; } }`}</style>
-    </div>
-  );
-}
-
-function AnimatedCounter({ target, suffix = "", prefix = "" }: { target: number; suffix?: string; prefix?: string }) {
-  const [count, setCount] = useState(0);
-  const ref = useRef<HTMLSpanElement>(null);
-  const started = useRef(false);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting && !started.current) {
-          started.current = true;
-          const duration = 1800;
-          const steps = 60;
-          const increment = target / steps;
-          let current = 0;
-          const timer = setInterval(() => {
-            current += increment;
-            if (current >= target) {
-              setCount(target);
-              clearInterval(timer);
-            } else {
-              setCount(Math.floor(current));
-            }
-          }, duration / steps);
-        }
-      },
-      { threshold: 0.3 }
-    );
-    if (ref.current) observer.observe(ref.current);
-    return () => observer.disconnect();
-  }, [target]);
-
-  return <span ref={ref}>{prefix}{count.toLocaleString()}{suffix}</span>;
-}
-
-// ─── Section Header ──────────────────────────────────────────────────────────
-function SectionHeader({ icon, title, subtitle, accent = "#00E5A0" }: { icon: React.ReactNode; title: string; subtitle: string; accent?: string }) {
-  return (
-    <div className="mb-8 relative" style={{
-      paddingTop: "1rem",
-    }}>
-      {/* Compass tick marks */}
-      <div className="absolute top-0 left-0 right-0 h-px" style={{ background: `linear-gradient(90deg, transparent, ${accent}30 20%, ${accent}30 80%, transparent)` }} />
-      <div className="flex items-center gap-3 mb-3">
-        <div className="p-2.5 rounded-lg" style={{ background: `${accent}08`, border: `1px solid ${accent}20`, boxShadow: `0 0 20px ${accent}10` }}>
-          <div style={{ color: accent }}>{icon}</div>
-        </div>
-        <span className="mono text-xs uppercase tracking-[0.25em]" style={{ color: accent, textShadow: `0 0 16px ${accent}40` }}>
-          {subtitle}
-        </span>
-        {/* Compass direction markers */}
-        <div className="ml-auto flex items-center gap-1 opacity-30">
-          <div className="w-1 h-1 rounded-full" style={{ background: accent }} />
-          <span className="mono text-[10px]" style={{ color: accent }}>00</span>
-          <div className="w-px h-3" style={{ background: accent }} />
-        </div>
-      </div>
-      <h2 className="text-[1.75rem] font-bold leading-tight" style={{ 
-        fontFamily: "Space Grotesk, sans-serif", 
-        color: "#FFFFFF",
-        textShadow: `0 0 40px ${accent}15`,
-        letterSpacing: "-0.02em",
-      }}>
-        {title}
-      </h2>
-      <div className="mt-3 h-px w-32" style={{ background: `linear-gradient(90deg, ${accent}, ${accent}60, transparent)` }} />
-    </div>
-  );
-}
-
-
-// ─── System Status Bar ───────────────────────────────────────────────────────
-function SystemStatusBar() {
-  const statuses = [
-    { label: "PLATFORM", value: "ÇALIŞIYOR", color: "#00E5A0" },
-    { label: "AI MOTORU", value: "ÇEVRİMİÇİ", color: "#00E5A0" },
-    { label: "TEHDİT İZLEME", value: "AKTİF", color: "#F97316" },
-    { label: "İÇERİK AKIŞI", value: "CANLI", color: "#38BDF8" },
-  ];
-  return (
-    <div className="flex flex-wrap items-center gap-3 py-1.5 px-2 border-b" style={{ borderColor: "rgba(0,229,160,0.08)", background: "rgba(0,229,160,0.02)" }}>
-      <span className="mono text-xs" style={{ color: "#334155" }}>SYS://AIPUSULA-v1.0</span>
-      <div className="h-3 w-px" style={{ background: "rgba(0,229,160,0.15)" }} />
-      {statuses.map((s, i) => (
-        <div key={i} className="flex items-center gap-1.5">
-          <div className="w-1.5 h-1.5 rounded-full" style={{ background: s.color, boxShadow: `0 0 4px ${s.color}` }} />
-          <span className="mono text-xs" style={{ color: "#475569" }}>{s.label}:</span>
-          <span className="mono text-xs font-medium" style={{ color: s.color }}>{s.value}</span>
-        </div>
-      ))}
-      <div className="ml-auto mono text-xs" style={{ color: "#334155" }}>
-        {new Date().toISOString().slice(0, 19).replace("T", " ")} UTC
-      </div>
-    </div>
-  );
-}
-
-// ─── Main Component ───────────────────────────────────────────────────────────
 export default function Home() {
-  const [activeTab, setActiveTab] = useState("ai-world");
-  const [checkedItems, setCheckedItems] = useState<number[]>([]);
-  const [activeCompetitor, setActiveCompetitor] = useState<string | null>(null);
-  const isMobile = useIsMobile();
   const { theme } = useTheme();
   const isDark = theme === "dark";
+  const [currentTime, setCurrentTime] = useState(new Date());
 
-  const toggleCheck = (id: number) => {
-    setCheckedItems(prev => prev.includes(id) ? prev.filter(i => i !== id) : [...prev, id]);
-  };
-
-  // Scroll-spy: IntersectionObserver ile aktif sekme otomatik güncellenir
   useEffect(() => {
-    const sectionIds = navItems.map(n => n.id);
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setActiveTab(entry.target.id);
-          }
-        });
-      },
-      { rootMargin: "-20% 0px -70% 0px", threshold: 0 }
-    );
-    sectionIds.forEach((id) => {
-      const el = document.getElementById(id);
-      if (el) observer.observe(el);
-    });
-    return () => observer.disconnect();
+    const timer = setInterval(() => setCurrentTime(new Date()), 1000);
+    return () => clearInterval(timer);
   }, []);
-
-  const [scrollProgress, setScrollProgress] = useState(0);
-
-  // Scroll progress tracking
-  useEffect(() => {
-    const handleScroll = () => {
-      const scrollTop = window.scrollY;
-      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-      setScrollProgress(docHeight > 0 ? (scrollTop / docHeight) * 100 : 0);
-    };
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    handleScroll();
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
-  const navItems = [
-    { id: "ai-world", label: "AI Dünyası", icon: <Brain className="w-4 h-4" /> },
-    { id: "digital-world", label: "Dijital Dünya", icon: <Globe className="w-4 h-4" /> },
-    { id: "ai-tools", label: "AI Araçları", icon: <Cpu className="w-4 h-4" /> },
-    { id: "ai-monetize", label: "AI ile Kazanç", icon: <DollarSign className="w-4 h-4" /> },
-    { id: "ux", label: "UI/UX", icon: <Eye className="w-4 h-4" /> },
-    { id: "competitors", label: "Rakip Analizi", icon: <Target className="w-4 h-4" /> },
-    { id: "roadmap", label: "Yol Haritası", icon: <GitBranch className="w-4 h-4" /> },
-    { id: "cybersecurity", label: "Siber Güvenlik", icon: <Shield className="w-4 h-4" /> },
-    { id: "checklist", label: "Kontrol Listesi", icon: <CheckSquare className="w-4 h-4" /> },
-  ];
 
   return (
-    <div className="min-h-screen" style={{ background: isDark ? "#0A0C0D" : "#F8FAFC", fontFamily: "Inter, sans-serif" }}>
-      {/* ── Scroll Progress Indicator ── */}
-      <div className="fixed top-0 left-0 right-0 z-[60] h-px" style={{ background: "transparent" }}>
-        <div
-          className="h-full transition-all duration-150 ease-out"
-          style={{
-            width: `${scrollProgress}%`,
-            background: "linear-gradient(90deg, #00E5A0, #38BDF8, #A78BFA)",
-            boxShadow: "0 0 8px rgba(0,229,160,0.4)",
-          }}
-        />
-      </div>
-      {/* ── Cyber Background (reference architecture) ── */}
+    <AppShell>
       {isDark && <CyberBackground />}
-      {/* ── Top Navigation ── */}
-      <header className="sticky top-0 z-50 border-b glass" style={{ borderColor: isDark ? "rgba(0,229,160,0.2)" : "rgba(0,229,160,0.15)" }}>
-        <div className="container flex items-center justify-between py-1.5">
-          <div className="flex items-center gap-2">
-            <div className="w-7 h-7 rounded-lg flex items-center justify-center pulse-dot" style={{ background: "linear-gradient(135deg, #00E5A0, #38BDF8)", color: "#00E5A0" }}>
-              <Shield className="w-3.5 h-3.5 text-black" />
+
+      {/* ── Hero Section ── */}
+      <section className="relative overflow-hidden py-8 intel-grid-bg intel-scanline">
+        {/* Background accent */}
+        <div className="absolute inset-0 pointer-events-none" style={{
+          background: "radial-gradient(ellipse at 20% 50%, rgba(0,229,160,0.06) 0%, transparent 60%), radial-gradient(ellipse at 80% 30%, rgba(56,189,248,0.04) 0%, transparent 50%)",
+        }} />
+
+        <div className="relative z-10">
+          {/* Breadcrumb-style label */}
+          <div className="flex items-center gap-2 mb-3">
+            <div className="h-px w-8" style={{ background: "#00E5A0" }} />
+            <span className="mono text-xs uppercase tracking-[0.25em]" style={{ color: "#00E5A0" }}>
+              // YAPAY ZEKÂ & DİJİTAL DÜNYA
+            </span>
+          </div>
+
+          {/* Main Title */}
+          <h1 className="font-black leading-none" style={{
+            fontFamily: "Space Grotesk, sans-serif",
+            fontSize: "clamp(2.5rem, 6vw, 4rem)",
+            letterSpacing: "-0.04em",
+            color: "#FFFFFF",
+          }}>
+            <span>AI</span><span style={{ color: "#00E5A0", textShadow: "0 0 60px rgba(0,229,160,0.5), 0 0 120px rgba(0,229,160,0.2)" }}>PUSULA</span>
+          </h1>
+
+          <div className="mono text-[0.85rem] mt-3" style={{
+            color: "#38BDF8",
+            letterSpacing: "0.2em",
+            textShadow: "0 0 20px rgba(56,189,248,0.3)",
+          }}>
+            YAPAY ZEKÂ & DİJİTAL DÜNYA'NIN PUSULASI
+          </div>
+
+          <p className="text-sm mt-3 max-w-xl leading-relaxed" style={{ color: "#64748B" }}>
+            Yapay zekâ, dijital araçlar ve siber güvenliği birleştiren premium platform.
+            Her kategori kendi uzmanlığıyla öne çıkan bağımsız bir içerik merkezi olarak tasarlandı.
+          </p>
+
+          {/* Intel Data Strip */}
+          <div className="flex flex-wrap gap-3 mt-6">
+            <div className="data-strip">
+              KATEGORİ: 5 AKTİF
             </div>
-            <div>
-              <span className="font-bold" style={{ fontFamily: "Space Grotesk, sans-serif", fontSize: "1rem", color: isDark ? "#FFFFFF" : "#0F172A" }}>AIPUSULA</span>
-              <span className="ml-1.5 text-xs px-1.5 py-0.5 rounded-full mono" style={{ background: "rgba(0,229,160,0.15)", color: "#00E5A0" }}>MVP</span>
+            <div className="data-strip">
+              İÇERİK: 1,247 PARÇA
+            </div>
+            <div className="data-strip">
+              GÜNCELLEME: {currentTime.toLocaleTimeString('tr-TR')}
             </div>
           </div>
-          <nav className="hidden xl:flex items-center gap-0.5">
-            {navItems.slice(0, 5).map((item, idx) => (
-              <button
-                key={item.id}
-                onClick={() => {
-                  setActiveTab(item.id);
-                  document.getElementById(item.id)?.scrollIntoView({ behavior: "smooth" });
-                }}
-                className="flex items-center gap-1 px-2.5 py-1 rounded-md text-xs transition-all duration-200 ease-out cursor-pointer active:scale-[0.97] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#00E5A0]/30"
-                style={{
-                  color: activeTab === item.id ? "#00E5A0" : (isDark ? "#94A3B8" : "#64748B"),
-                  background: activeTab === item.id ? "rgba(0,229,160,0.1)" : "transparent",
-                }}
-              >
-                {item.icon}
-                {item.label}
-              </button>
+
+          {/* Stats Row */}
+          <div className="flex flex-wrap gap-6 mt-5">
+            {[
+              { value: "5", label: "Kategori", color: "#00E5A0" },
+              { value: "512", label: "AI Araç", color: "#38BDF8" },
+              { value: "247", label: "Makale", color: "#A78BFA" },
+              { value: "24/7", label: "Tehdit İzleme", color: "#F97316" },
+            ].map((s, i) => (
+              <div key={i} className="flex flex-col">
+                <span className="font-bold" style={{ fontFamily: "Space Grotesk, sans-serif", fontSize: "1.25rem", color: s.color }}>
+                  {s.value}
+                </span>
+                <span className="mono text-xs" style={{ color: "#475569" }}>{s.label}</span>
+              </div>
             ))}
-          </nav>
-          <nav className="hidden lg:flex items-center gap-0.5">
-            {navItems.slice(5, 9).map((item, idx) => (
-              <button
-                key={item.id}
-                onClick={() => {
-                  setActiveTab(item.id);
-                  document.getElementById(item.id)?.scrollIntoView({ behavior: "smooth" });
-                }}
-                className="flex items-center gap-1 px-2 py-0.5 rounded-md text-[10px] transition-all duration-200 ease-out cursor-pointer active:scale-[0.97] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#00E5A0]/30"
-                style={{
-                  color: activeTab === item.id ? "#00E5A0" : (isDark ? "#64748B" : "#94A3B8"),
-                  background: activeTab === item.id ? "rgba(0,229,160,0.1)" : "transparent",
-                }}
-              >
-                {item.icon}
-                {item.label}
-              </button>
-            ))}
-          </nav>
-          <div className="flex items-center gap-2">
-            <ThemeToggle />
-            <AdvancedSearch />
-            <NotificationCenter />
-            <span className="hidden sm:inline text-xs mono" style={{ color: "#94A3B8" }}>Temmuz 2026</span>
-            <div className="w-2 h-2 rounded-full animate-pulse" style={{ background: "#00E5A0" }} />
           </div>
         </div>
-      </header>
-
-      {/* ── System Status Bar ── */}
-      <SystemStatusBar />
-
-      {/* ── Hero Section (Two-Column) ── */}
-      <section className="relative overflow-hidden" style={{ minHeight: "120px" }}>
-        {/* Wireframe Earth - positioned in section, not in container */}
-        <div
-          className="hidden lg:block absolute right-0 top-1/2 pointer-events-none"
-          style={{
-            transform: "translateY(-50%)",
-            width: "380px",
-            height: "380px",
-            zIndex: 0,
-            opacity: 0.55,
-          }}
-        >
-          {/* Ambient Glow Core */}
-          <div
-            className="absolute inset-0 rounded-full"
-            style={{ background: "#00E5FF", filter: "blur(60px)", opacity: 0.09 }}
-          />
-
-          {/* Earth Sphere with Float Animation */}
-          <div
-            className="absolute inset-0 flex items-center justify-center"
-            style={{ animation: "heroFloat 24s ease-in-out infinite" }}
-          >
-            <div
-              className="relative overflow-hidden"
-              style={{
-                width: "170px",
-                height: "170px",
-                borderRadius: "50%",
-                border: "1px solid rgba(42,59,79,0.5)",
-                boxShadow: "0 0 30px rgba(0,229,255,0.04), inset 0 0 40px rgba(0,229,255,0.02)",
-                background: "rgba(10,12,13,0.5)",
-                backdropFilter: "blur(10px)",
-              }}
-            >
-              {/* Optical Precision Grid */}
-              <div
-                className="absolute inset-0"
-                style={{
-                  backgroundImage:
-                    "linear-gradient(transparent 49.8%, rgba(42,59,79,0.28) 50%, transparent 50.2%), linear-gradient(90deg, transparent 49.8%, rgba(42,59,79,0.28) 50%, transparent 50.2%)",
-                  backgroundSize: "16px 16px",
-                }}
-              />
-
-              {/* Geometric Neural Framework - SVG */}
-              <svg className="absolute inset-0 w-full h-full" viewBox="0 0 170 170">
-                <path d="M42,42 L128,42 L148,85 L128,128 L42,128 L22,85 Z" fill="none" stroke="rgba(0,229,255,0.16)" strokeWidth="0.5" />
-                <path d="M58,58 L112,58 L122,85 L112,112 L58,112 L48,85 Z" fill="none" stroke="rgba(0,229,255,0.12)" strokeWidth="0.4" />
-                <path d="M42,42 L128,128 M128,42 L42,128 M22,85 L148,85 M85,15 L85,155" fill="none" stroke="rgba(0,229,255,0.1)" strokeWidth="0.4" />
-                <path d="M58,58 L112,112 M112,58 L58,112" fill="none" stroke="rgba(0,229,255,0.08)" strokeWidth="0.3" />
-                <circle cx="85" cy="85" r="30" fill="none" stroke="rgba(0,229,255,0.08)" strokeWidth="0.3" />
-                <circle cx="85" cy="85" r="50" fill="none" stroke="rgba(0,229,255,0.05)" strokeWidth="0.3" />
-                <circle cx="85" cy="85" r="3.5" fill="#00E5FF" opacity="0.9" />
-                <circle cx="42" cy="42" r="1.8" fill="#00E5FF" opacity="0.55" />
-                <circle cx="128" cy="42" r="2.2" fill="#00D9A6" opacity="0.75" />
-                <circle cx="148" cy="85" r="1.8" fill="#00E5FF" opacity="0.6" />
-                <circle cx="128" cy="128" r="1.8" fill="#00E5FF" opacity="0.55" />
-                <circle cx="42" cy="128" r="2.2" fill="#00FF9C" opacity="0.7" />
-                <circle cx="22" cy="85" r="1.8" fill="#00E5FF" opacity="0.55" />
-                <circle cx="58" cy="58" r="1.2" fill="#00E5FF" opacity="0.45" />
-                <circle cx="112" cy="58" r="1.2" fill="#00D9A6" opacity="0.45" />
-                <circle cx="112" cy="112" r="1.2" fill="#00E5FF" opacity="0.45" />
-                <circle cx="58" cy="112" r="1.2" fill="#00FF9C" opacity="0.45" />
-                <line x1="85" y1="85" x2="42" y2="42" stroke="rgba(0,229,255,0.12)" strokeWidth="0.3" />
-                <line x1="85" y1="85" x2="128" y2="42" stroke="rgba(0,229,255,0.12)" strokeWidth="0.3" />
-                <line x1="85" y1="85" x2="148" y2="85" stroke="rgba(0,229,255,0.12)" strokeWidth="0.3" />
-                <line x1="85" y1="85" x2="128" y2="128" stroke="rgba(0,229,255,0.12)" strokeWidth="0.3" />
-                <line x1="85" y1="85" x2="42" y2="128" stroke="rgba(0,229,255,0.12)" strokeWidth="0.3" />
-                <line x1="85" y1="85" x2="22" y2="85" stroke="rgba(0,229,255,0.12)" strokeWidth="0.3" />
-              </svg>
-
-              {/* GPU-Optimized Scanner Line */}
-              <div
-                className="absolute top-0 bottom-0"
-                style={{
-                  width: "1px",
-                  background: "rgba(0,229,255,0.35)",
-                  boxShadow: "0 0 6px #00E5FF",
-                  willChange: "transform, opacity",
-                  animation: "heroScanner 10s cubic-bezier(0.4, 0, 0.2, 1) infinite",
-                  left: "30px",
-                }}
-              />
-            </div>
-          </div>
-
-          {/* Orbit Ring System */}
-          <div className="absolute inset-0 flex items-center justify-center">
-            <div
-              className="rounded-full"
-              style={{
-                width: "230px",
-                height: "230px",
-                border: "1px solid rgba(42,59,79,0.35)",
-                animation: "heroOrbit 90s linear infinite",
-                willChange: "transform",
-              }}
-            />
-            <div
-              className="absolute rounded-full"
-              style={{
-                width: "270px",
-                height: "270px",
-                border: "1px solid rgba(0,229,255,0.06)",
-                animation: "heroOrbit 120s linear infinite",
-                willChange: "transform",
-              }}
-            />
-            <div
-              className="absolute rounded-full"
-              style={{
-                width: "320px",
-                height: "320px",
-                border: "1px solid rgba(0,229,255,0.04)",
-                animation: "heroOrbit 150s linear infinite",
-                willChange: "transform",
-              }}
-            />
-          </div>
-
-          {/* Subtle network extension dots outside sphere */}
-          <div className="absolute inset-0">
-            <div className="absolute" style={{ top: "8%", right: "3%", width: "2px", height: "2px", borderRadius: "50%", background: "#00E5FF", opacity: 0.35 }} />
-            <div className="absolute" style={{ top: "22%", right: "-2%", width: "1.5px", height: "1.5px", borderRadius: "50%", background: "#00D9A6", opacity: 0.3 }} />
-            <div className="absolute" style={{ bottom: "12%", right: "6%", width: "2px", height: "2px", borderRadius: "50%", background: "#00FF9C", opacity: 0.3 }} />
-            <div className="absolute" style={{ bottom: "28%", right: "-4%", width: "1.5px", height: "1.5px", borderRadius: "50%", background: "#00E5FF", opacity: 0.25 }} />
-            <div className="absolute" style={{ top: "38%", right: "-6%", width: "1px", height: "1px", borderRadius: "50%", background: "#00E5FF", opacity: 0.2 }} />
-            <div className="absolute" style={{ top: "55%", right: "-3%", width: "1px", height: "1px", borderRadius: "50%", background: "#00D9A6", opacity: 0.2 }} />
-          </div>
-        </div>
-
-        <div className="container relative z-10 py-3">
-          <div className="flex items-center gap-8">
-            {/* LEFT: Title + Subtitle + Description (45-50%) */}
-            <div className="flex-1 max-w-[58%] relative z-10">
-              <div className="flex items-center gap-2 mb-1">
-                <div className="h-px w-6" style={{ background: "#00E5A0" }} />
-                <span className="mono text-xs uppercase tracking-widest" style={{ color: "#00E5A0" }}>// YAPAY ZEKÂ & DİJİTAL DÜNYA</span>
-              </div>
-              <h1 className="font-black leading-none" style={{ fontFamily: "Space Grotesk, sans-serif", fontSize: "clamp(2.5rem, 6vw, 4rem)", letterSpacing: "-0.04em" }}>
-                <span className="text-white">AI</span><span style={{ color: "#00E5A0", textShadow: "0 0 60px rgba(0,229,160,0.5), 0 0 120px rgba(0,229,160,0.2)" }}>PUSULA</span>
-              </h1>
-              <div className="mono text-[0.8rem] mt-2" style={{ color: "#38BDF8", letterSpacing: "0.2em", textShadow: "0 0 20px rgba(56,189,248,0.3)" }}>
-                YAPAY ZEKÂ & DİJİTAL DÜNYA'NIN PUSULASI
-              </div>
-              <p className="text-sm mt-2 leading-relaxed max-w-md" style={{ color: "#64748B", fontFamily: "Inter, sans-serif" }}>
-                Yapay zekâ, dijital araçlar ve siber güvenliği birleştiren premium platform. AI araçlarını keşfedin, AI ile kazanmayı öğrenin ve dijital dünyada güvende kalın.
-              </p>
-              {/* CTA Buttons */}
-              <div className="flex flex-wrap gap-2 mt-3">
-                <button
-                  onClick={() => { setActiveTab("ai-tools"); document.getElementById("ai-tools")?.scrollIntoView({ behavior: "smooth" }); }}
-                  className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all duration-200 ease-out cursor-pointer active:scale-[0.97] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#00E5A0]/30"
-                  style={{ background: "rgba(0,229,160,0.15)", color: "#00E5A0", border: "1px solid rgba(0,229,160,0.25)" }}
-                >
-                  <Cpu className="w-3.5 h-3.5" /> AI Araçlarını Keşfet
-                </button>
-                <button
-                  onClick={() => { setActiveTab("ai-world"); document.getElementById("ai-world")?.scrollIntoView({ behavior: "smooth" }); }}
-                  className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all duration-200 ease-out cursor-pointer active:scale-[0.97] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#38BDF8]/30"
-                  style={{ background: "rgba(56,189,248,0.1)", color: "#38BDF8", border: "1px solid rgba(56,189,248,0.2)" }}
-                >
-                  <TrendingUp className="w-3.5 h-3.5" /> Son Haberleri Gör
-                </button>
-                <button
-                  onClick={() => { setActiveTab("ai-monetize"); document.getElementById("ai-monetize")?.scrollIntoView({ behavior: "smooth" }); }}
-                  className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all duration-200 ease-out cursor-pointer active:scale-[0.97] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#F97316]/30"
-                  style={{ background: "rgba(249,115,22,0.1)", color: "#F97316", border: "1px solid rgba(249,115,22,0.2)" }}
-                >
-                  <DollarSign className="w-3.5 h-3.5" /> AI ile Kazanmaya Başla
-                </button>
-              </div>
-            </div>
-
-
-          </div>
-        </div>
-        {/* Enterprise gradient subtle overlay */}
-        <div
-          className="absolute inset-0 pointer-events-none"
-          style={{
-            background: "linear-gradient(135deg, rgba(0,229,160,0.02) 0%, transparent 40%, rgba(0,229,255,0.02) 100%)",
-            zIndex: 0,
-          }}
-        />
       </section>
 
-
-      {/* ── Sidebar + Content Layout ── */}
-      <div className="container pb-4">
-        <div className="flex gap-3">
-          {/* Sidebar Navigation */}
-          <aside className="hidden lg:block w-52 flex-shrink-0">
-            <div className="sticky top-16">
-              <div className="glass rounded p-0 overflow-hidden animated-border">
-                {/* Window chrome */}
-                <div className="px-3 py-1.5 flex items-center gap-2" style={{ background: "rgba(0,229,160,0.05)", borderBottom: "1px solid rgba(0,229,160,0.1)" }}>
-                  <div className="flex gap-1">
-                    <div className="w-2 h-2 rounded-full" style={{ background: "#EF4444" }} />
-                    <div className="w-2 h-2 rounded-full" style={{ background: "#FCD34D" }} />
-                    <div className="w-2 h-2 rounded-full" style={{ background: "#00E5A0" }} />
-                  </div>
-                  <span className="mono text-xs" style={{ color: "#334155" }}>navigation.sys</span>
-                  <span className="ml-auto mono text-[10px]" style={{ color: "#475569" }}>{Math.round(scrollProgress)}%</span>
-                </div>
-
-                {/* Scroll progress bar */}
-                <div className="h-0.5" style={{ background: "rgba(255,255,255,0.04)" }}>
-                  <div className="h-full transition-all duration-150 ease-out" style={{
-                    width: `${scrollProgress}%`,
-                    background: "linear-gradient(90deg, #00E5A0, #38BDF8)",
-                    boxShadow: "0 0 6px rgba(0,229,160,0.3)",
-                  }} />
-                </div>
-
-                <div className="p-2">
-                <p className="mono text-xs uppercase tracking-widest mb-2 px-1" style={{ color: "#334155" }}>// INDEX</p>
-                <nav className="space-y-0.5">
-                  {navItems.map((item, idx) => (
-                    <button
-                      key={item.id}
-                      onClick={() => {
-                        setActiveTab(item.id);
-                        document.getElementById(item.id)?.scrollIntoView({ behavior: "smooth" });
-                      }}
-                      className={`w-full flex items-center gap-2 px-2.5 py-1.5 rounded text-sm transition-all duration-200 ease-out text-left cursor-pointer active:scale-[0.98] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#00E5A0]/30 border-l-2 ${activeTab === item.id ? "border-l-[#00E5A0]" : "border-l-transparent"}`}
-                      style={{
-                        color: activeTab === item.id ? "#00E5A0" : (isDark ? "#64748B" : "#475569"),
-                        background: activeTab === item.id ? "rgba(0,229,160,0.08)" : "transparent",
-                        fontFamily: activeTab === item.id ? "JetBrains Mono, monospace" : "inherit",
-                        fontSize: "0.75rem",
-                      }}
-                    >
-                      {item.icon}
-                      {item.label}
-                      {activeTab === item.id && (
-                        <div className="ml-auto w-1 h-1 rounded-full" style={{ background: "#00E5A0", boxShadow: "0 0 6px #00E5A0" }} />
-                      )}
-                    </button>
-                  ))}
-                </nav>
-                <div className="mt-3 pt-2 border-t" style={{ borderColor: "rgba(0,229,160,0.08)" }}>
-                  {/* Mini compass motif */}
-                  <div className="flex items-center justify-center py-2">
-                    <svg viewBox="0 0 40 40" className="w-8 h-8" style={{ opacity: 0.4 }}>
-                      <circle cx="20" cy="20" r="18" fill="none" stroke="#00E5A0" strokeWidth="0.5" strokeDasharray="2 4" />
-                      <circle cx="20" cy="20" r="12" fill="none" stroke="#00E5A0" strokeWidth="0.3" strokeDasharray="1 3" />
-                      <circle cx="20" cy="20" r="2" fill="#00E5A0" opacity="0.8" />
-                      <line x1="20" y1="2" x2="20" y2="38" stroke="#00E5A0" strokeWidth="0.3" opacity="0.3" />
-                      <line x1="2" y1="20" x2="38" y2="20" stroke="#00E5A0" strokeWidth="0.3" opacity="0.3" />
-                    </svg>
-                  </div>
-                  <div className="mono text-xs px-1" style={{ color: "#1E3A2F" }}>
-                    <div>AIPUSULA-MVP-v1.0</div>
-                    <div style={{ color: "#00E5A0" }}>● SİSTEM HAZIR</div>
-                  </div>
-                </div>
-                </div>
-              </div>
-            </div>
-          </aside>
-
-          {/* Main Content */}
-          <main className="flex-1 min-w-0 space-y-6">
-
-            {/* ── Sütun 1: AI Dünyası ── */}
-            <section id="ai-world">
-              <SectionHeader
-                icon={<Brain className="w-5 h-5" />}
-                title="AI Dünyası"
-                subtitle="01 — Yapay Zekâ Haberleri, Modeller & Trendler"
-                accent="#00E5A0"
-              />
-              {/* Son AI Haberleri */}
-              <div className="grid lg:grid-cols-3 gap-4 mb-6">
-                <div className="lg:col-span-2 glass rounded-xl p-6">
-                  <h3 className="font-semibold text-white mb-4 flex items-center gap-2" style={{ fontFamily: "Space Grotesk, sans-serif" }}>
-                    <span className="w-2 h-2 rounded-full" style={{ background: "#00E5A0", boxShadow: "0 0 8px #00E5A0" }} />
-                    Son AI Haberleri
-                  </h3>
-                  <div className="space-y-3">
-                    {[
-                      { title: "OpenAI GPT-5: Multimodal Reasoning & Agentic AI", tag: "Yeni Model", date: "2 saat önce", color: "#00E5A0" },
-                      { title: "Anthropic Claude 4: Uzun Bağlam Penceresi ve Tool Use", tag: "Güncelleme", date: "6 saat önce", color: "#38BDF8" },
-                      { title: "Google DeepMind: AlphaFold 3 Protein Yapı Tahmini", tag: "Araştırma", date: "12 saat önce", color: "#A78BFA" },
-                      { title: "Meta Llama 4: Açık Kaynak LLM Geliştirmeleri", tag: "Açık Kaynak", date: "1 gün önce", color: "#F97316" },
-                      { title: "AI Agent Ekosistemi: Otonom Görev Yürütme", tag: "Trend", date: "1 gün önce", color: "#FB7185" },
-                    ].map((news, i) => (
-                      <div key={i} className="flex items-start gap-3 p-3 rounded-lg hover:bg-white/[0.03] transition-colors duration-200 cursor-pointer focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#00E5A0]/30">
-                        <div className="w-1.5 h-1.5 rounded-full mt-2 flex-shrink-0" style={{ background: news.color }} />
-                        <div className="flex-1 min-w-0">
-                          <div className="flex items-center gap-2 mb-1">
-                            <span className="font-medium text-white text-sm" style={{ fontFamily: "Space Grotesk, sans-serif" }}>{news.title}</span>
-                          </div>
-                          <div className="flex items-center gap-2">
-                            <span className="mono text-xs px-1.5 py-0.5 rounded" style={{ background: `${news.color}15`, color: news.color }}>{news.tag}</span>
-                            <span className="text-xs" style={{ color: "#475569" }}>{news.date}</span>
-                          </div>
-                        </div>
-                        <ChevronRight className="w-4 h-4 flex-shrink-0 mt-2" style={{ color: "#334155" }} />
-                      </div>
-                    ))}
-                  </div>
-                </div>
-                <div className="space-y-4">
-                  {/* Yeni AI Modelleri */}
-                  <div className="glass rounded-xl p-5">
-                    <h4 className="font-semibold text-white mb-3 flex items-center gap-2 text-sm" style={{ fontFamily: "Space Grotesk, sans-serif" }}>
-                      <Cpu className="w-4 h-4" style={{ color: "#38BDF8" }} />
-                      Yeni AI Modelleri
-                    </h4>
-                    <div className="space-y-2.5">
-                      {[
-                        { name: "GPT-5", provider: "OpenAI", desc: "Otonom AI, Çok Modlu", color: "#00E5A0" },
-                        { name: "Claude 4", provider: "Anthropic", desc: "200K bağlam, Araç kullanımı", color: "#38BDF8" },
-                        { name: "Gemini 2.0", provider: "Google", desc: "Çok modlu, Uzun bağlam", color: "#A78BFA" },
-                        { name: "Llama 4", provider: "Meta", desc: "Açık kaynak, 405B parametre", color: "#F97316" },
-                      ].map((m, i) => (
-                        <div key={i} className="flex items-center gap-3 p-2 rounded-lg hover:bg-white/[0.03] transition-colors cursor-pointer">
-                          <div className="w-8 h-8 rounded-lg flex items-center justify-center text-xs font-bold" style={{ background: `${m.color}15`, color: m.color }}>{m.name[0]}</div>
-                          <div>
-                            <div className="text-sm font-medium text-white">{m.name}</div>
-                            <div className="text-xs" style={{ color: "#64748B" }}>{m.provider} · {m.desc}</div>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                  {/* AI Trendleri */}
-                  <div className="glass rounded-xl p-5">
-                    <h4 className="font-semibold text-white mb-3 flex items-center gap-2 text-sm" style={{ fontFamily: "Space Grotesk, sans-serif" }}>
-                      <TrendingUp className="w-4 h-4" style={{ color: "#FB7185" }} />
-                      AI Trendleri
-                    </h4>
-                    <div className="space-y-2">
-                      {["AI Ajanlar & Otonom Sistemler", "Çok Modlu Yapay Zekâ", "Kenar AI & Cihaz Üzeri ML", "AI Destekli Kodlama Asistanları", "RAG & Bilgi Grafikleri"].map((trend, i) => (
-                        <div key={i} className="flex items-center gap-2">
-                          <span className="mono text-xs" style={{ color: "#334155" }}>{String(i + 1).padStart(2, "0")}</span>
-                          <span className="text-xs" style={{ color: "#94A3B8" }}>{trend}</span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              </div>
-              {/* Editör Seçimi & Öne Çıkan */}
-              {/* AI Şirketleri & AI Araştırmaları */}
-              <div className="grid md:grid-cols-2 gap-4 mb-6">
-                <div className="glass rounded-xl p-5">
-                  <h3 className="font-semibold text-white mb-3 flex items-center gap-2" style={{ fontFamily: "Space Grotesk, sans-serif" }}>
-                    <Building2 className="w-4 h-4" style={{ color: "#00E5A0" }} />
-                    Öne Çıkan AI Şirketleri
-                  </h3>
-                  <div className="space-y-2.5">
-                    {[
-                      { name: "OpenAI", focus: "GPT-4o, ChatGPT, DALL-E", valuation: "$300B", tag: "Lider", color: "#00E5A0" },
-                      { name: "Anthropic", focus: "Claude, Güvenli AI", valuation: "$60B", tag: "Güvenlik", color: "#38BDF8" },
-                      { name: "Google DeepMind", focus: "Gemini, AlphaGo", valuation: "Alphabet", tag: "Araştırma", color: "#A78BFA" },
-                      { name: "Meta AI", focus: "Llama, Açık Kaynak", valuation: "Meta", tag: "Açık Kaynak", color: "#F97316" },
-                    ].map((company, i) => (
-                      <div key={i} className="flex items-center gap-3 p-2.5 rounded-lg hover:bg-white/[0.03] transition-colors duration-200 cursor-pointer">
-                        <div className="w-8 h-8 rounded-lg flex items-center justify-center text-xs font-bold" style={{ background: `${company.color}15`, color: company.color }}>{company.name[0]}</div>
-                        <div className="flex-1 min-w-0">
-                          <div className="flex items-center gap-2">
-                            <span className="text-sm font-medium text-white">{company.name}</span>
-                            <span className="mono text-xs px-1.5 py-0.5 rounded" style={{ background: `${company.color}10`, color: company.color }}>{company.tag}</span>
-                          </div>
-                          <div className="text-xs" style={{ color: "#64748B" }}>{company.focus}</div>
-                        </div>
-                        <span className="mono text-xs" style={{ color: "#475569" }}>{company.valuation}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-                <div className="glass rounded-xl p-5">
-                  <h3 className="font-semibold text-white mb-3 flex items-center gap-2" style={{ fontFamily: "Space Grotesk, sans-serif" }}>
-                    <BookOpen className="w-4 h-4" style={{ color: "#FB7185" }} />
-                    AI Araştırmaları & Etkinlikler
-                  </h3>
-                  <div className="space-y-2.5">
-                    {[
-                      { title: "Agentic AI Frameworks: 2026 Eğilimleri", type: "Araştırma", date: "Bugün", color: "#FB7185" },
-                      { title: "NeurIPS 2026: Başvuru Dönemi", type: "Etkinlik", date: "2 hafta", color: "#38BDF8" },
-                      { title: "AI Safety & Alignment Summit", type: "Etkinlik", date: "1 ay", color: "#A78BFA" },
-                      { title: "RAG 2.0: Enterprise Uygulamalar", type: "Araştırma", date: "3 gün önce", color: "#00E5A0" },
-                    ].map((item, i) => (
-                      <div key={i} className="flex items-start gap-3 p-2.5 rounded-lg hover:bg-white/[0.03] transition-colors duration-200 cursor-pointer">
-                        <div className="w-1.5 h-1.5 rounded-full mt-2 flex-shrink-0" style={{ background: item.color }} />
-                        <div className="flex-1 min-w-0">
-                          <div className="text-sm font-medium text-white">{item.title}</div>
-                          <div className="flex items-center gap-2 mt-0.5">
-                            <span className="mono text-xs px-1.5 py-0.5 rounded" style={{ background: `${item.color}10`, color: item.color }}>{item.type}</span>
-                            <span className="text-xs" style={{ color: "#475569" }}>{item.date}</span>
-                          </div>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-
-              {/* Editör Seçimi & Öne Çıkan */}
-              <div className="grid md:grid-cols-2 gap-4 mb-8">
-                <div className="glass rounded-xl p-5">
-                  <h3 className="font-semibold text-white mb-3 flex items-center gap-2" style={{ fontFamily: "Space Grotesk, sans-serif" }}>
-                    <Star className="w-4 h-4" style={{ color: "#FCD34D" }} />
-                    Editörün Seçimi
-                  </h3>
-                  <div className="space-y-2">
-                    {[
-                      { title: "AI ile Üretkenlik: 2026 Rehberi", category: "Rehber", badge: "Yeni" },
-                      { title: "OpenAI vs Anthropic vs Google: Karşılaştırma", category: "Analiz", badge: "Popüler" },
-                      { title: "Kendi AI Agent'ınızı Oluşturma", category: "Eğitim", badge: "Güncellendi" },
-                    ].map((item, i) => (
-                      <div key={i} className="flex items-center gap-2 p-2 rounded-lg hover:bg-white/[0.03] transition-colors cursor-pointer">
-                        <div className="w-1.5 h-1.5 rounded-full" style={{ background: "#FCD34D" }} />
-                        <span className="text-sm text-white">{item.title}</span>
-                        <span className="ml-auto mono text-xs px-1.5 py-0.5 rounded" style={{ background: "rgba(252,211,77,0.1)", color: "#FCD34D" }}>{item.badge}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-                <div className="glass rounded-xl p-5">
-                  <h3 className="font-semibold text-white mb-3 flex items-center gap-2" style={{ fontFamily: "Space Grotesk, sans-serif" }}>
-                    <Award className="w-4 h-4" style={{ color: "#A78BFA" }} />
-                    En Çok Okunanlar
-                  </h3>
-                  <div className="space-y-2">
-                    {[
-                      { title: "RAG Mimarisi: Enterprise AI için Derinlemesine İnceleme", views: "12.4K", badge: "Bugün" },
-                      { title: "AI Kod Asistanları: Cursor, Copilot, Windsurf Karşılaştırması", views: "8.7K", badge: "2 gün" },
-                      { title: "Çok Modlu Yapay Zekâ: Metin, Görüntü ve Ses Birleştirme", views: "6.2K", badge: "5 gün" },
-                    ].map((article, i) => (
-                      <div key={i} className="flex items-center gap-2 p-2 rounded-lg hover:bg-white/[0.03] transition-colors cursor-pointer">
-                        <span className="mono text-xs" style={{ color: "#A78BFA" }}>#{i + 1}</span>
-                        <span className="text-sm text-white flex-1">{article.title}</span>
-                        <span className="mono text-xs px-1.5 py-0.5 rounded" style={{ background: "rgba(167,139,250,0.1)", color: "#A78BFA" }}>{article.badge}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-
-            {/* Sayfa Planlaması */}
-            <h3 className="text-xl font-semibold text-white mb-5" style={{ fontFamily: "Space Grotesk, sans-serif" }}>Sayfa Planlaması</h3>
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-              {[
-                { name: "AI Dünyası", icon: <Brain className="w-5 h-5" />, desc: "AI eğitim içerikleri, rehberler, yeni teknoloji analizleri ve yapay zekâ trendleri", color: "#00E5A0" },
-                { name: "AI Araçları", icon: <Cpu className="w-5 h-5" />, desc: "500+ AI araç kataloğu, karşılaştırma, puanlama ve kullanım rehberleri", color: "#38BDF8" },
-                { name: "AI ile Kazanç", icon: <DollarSign className="w-5 h-5" />, desc: "AI ile kazanç yolları, iş fikirleri, gelir modelleri ve pasif gelir stratejileri", color: "#F97316" },
-                { name: "Dijital Dünya", icon: <Globe className="w-5 h-5" />, desc: "Teknoloji haberleri, yazılım dünyası, dijital dönüşüm ve yenilikçi projeler", color: "#A78BFA" },
-                { name: "Siber Güvenlik", icon: <Shield className="w-5 h-5" />, desc: "Tehdit analizi, zafiyet tarama, güvenlik tavsiyeleri ve kurumsal koruma", color: "#FB7185" },
-                { name: "Profil", icon: <Users className="w-5 h-5" />, desc: "Kullanıcı profili, abonelik yönetimi, MFA ayarları, API anahtarı yönetimi", color: "#FCD34D" },
-              ].map((page, i) => (
-                <div key={i} className="glass rounded-xl p-5 hover:scale-[1.02] transition-all duration-300 card-glow cursor-pointer">
-                  <div className="flex items-center gap-3 mb-3">
-                    <div className="p-2.5 rounded-lg" style={{ background: `${page.color}15`, color: page.color, boxShadow: `0 0 15px ${page.color}20` }}>
-                      {page.icon}
-                    </div>
-                    <span className="font-semibold text-white" style={{ fontFamily: "Space Grotesk, sans-serif" }}>{page.name}</span>
-                    <span className="ml-auto mono text-xs" style={{ color: page.color }}>0{i + 1}</span>
-                  </div>
-                  <p className="text-xs leading-relaxed" style={{ color: "#64748B" }}>{page.desc}</p>
-                  <div className="mt-3 h-px" style={{ background: `linear-gradient(90deg, ${page.color}40, transparent)` }} />
-                </div>
-              ))}
-            </div>
-
-            {/* Pazar Analizi - AI Dünyası altında */}
-            <div className="mt-8">
-              <h3 className="text-xl font-semibold text-white mb-5" style={{ fontFamily: "Space Grotesk, sans-serif" }}>Pazar Analizi</h3>
-              <div className="grid md:grid-cols-3 gap-4 mb-8">
-                {[
-                  { label: "AI Siber Güvenlik Pazarı (2026)", value: "$39.2B", change: "+27.8%", color: "#00E5A0" },
-                  { label: "Toplam Siber Güvenlik Pazarı", value: "$248B", change: "+13.4%", color: "#38BDF8" },
-                  { label: "2030 Hedef Pazar Büyüklüğü", value: "$93.8B", change: "CAGR 22%", color: "#A78BFA" },
-                ].map((stat, i) => (
-                  <div key={i} className="glass rounded-xl p-5">
-                    <div className="text-2xl font-bold text-white mb-1" style={{ fontFamily: "Space Grotesk, sans-serif" }}>{stat.value}</div>
-                    <div className="text-sm mb-2" style={{ color: "#94A3B8" }}>{stat.label}</div>
-                    <div className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs" style={{ background: `${stat.color}15`, color: stat.color }}>
-                      <TrendingUp className="w-3 h-3" />
-                      {stat.change}
-                    </div>
-                  </div>
-                ))}
-              </div>
-              <div className="glass rounded-xl p-6">
-                <h3 className="font-semibold text-white mb-6" style={{ fontFamily: "Space Grotesk, sans-serif" }}>AI Siber Güvenlik Pazar Büyümesi (Milyar $)</h3>
-                <ResponsiveContainer width="100%" height={280}>
-                  <AreaChart data={marketGrowthData}>
-                    <defs>
-                      <linearGradient id="greenGrad" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="5%" stopColor="#00E5A0" stopOpacity={0.3} />
-                        <stop offset="95%" stopColor="#00E5A0" stopOpacity={0} />
-                      </linearGradient>
-                      <linearGradient id="blueGrad" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="5%" stopColor="#38BDF8" stopOpacity={0.2} />
-                        <stop offset="95%" stopColor="#38BDF8" stopOpacity={0} />
-                      </linearGradient>
-                    </defs>
-                    <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" />
-                    <XAxis dataKey="year" stroke="#475569" tick={{ fill: "#64748B", fontSize: 12 }} />
-                    <YAxis stroke="#475569" tick={{ fill: "#64748B", fontSize: 12 }} />
-                    <Tooltip
-                      contentStyle={{ background: "#0D1B2A", border: "1px solid rgba(0,229,160,0.2)", borderRadius: "8px", color: "#E2E8F0" }}
-                      formatter={(v: number) => [`$${v}B`, ""]}
-                    />
-                    <Legend wrapperStyle={{ color: "#94A3B8" }} />
-                    <Area type="monotone" dataKey="market" name="Toplam Pazar" stroke="#38BDF8" fill="url(#blueGrad)" strokeWidth={2} />
-                    <Area type="monotone" dataKey="ai_cyber" name="AI Siber Güvenlik" stroke="#00E5A0" fill="url(#greenGrad)" strokeWidth={2} />
-                  </AreaChart>
-                </ResponsiveContainer>
-              </div>
-            </div>
-            </section>
-
-            {/* ── Sütun 2: Dijital Dünya ── */}
-            <section id="digital-world">
-              <SectionHeader
-                icon={<Globe className="w-5 h-5" />}
-                title="Dijital Dünya"
-                subtitle="02 — Teknoloji & Yazılım Dünyası"
-                accent="#A78BFA"
-              />
-              {/* Dijital Ekosistem Kategorileri */}
-              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3 mb-6">
-                {[
-                  { title: "Yazılım Dünyası", desc: "Geliştirme araçları, framework'ler, açık kaynak projeler", color: "#A78BFA", icon: <Code2 className="w-4 h-4" />, count: "2.5M+ repo" },
-                  { title: "Mobil Ekosistem", desc: "iOS, Android, cross-platform uygulamalar ve market trendleri", color: "#38BDF8", icon: <Smartphone className="w-4 h-4" />, count: "8M+ uygulama" },
-                  { title: "Bulut Teknolojileri", desc: "AWS, Azure, GCP, serverless, container teknolojileri", color: "#00E5A0", icon: <Server className="w-4 h-4" />, count: "$180B pazar" },
-                  { title: "Dijital Girişimler", desc: "Startup ekosistemi, yatırım trendleri, unicorn şirketler", color: "#F97316", icon: <Zap className="w-4 h-4" />, count: "50K+ startup" },
-                  { title: "Web3 & Blockchain", desc: "DeFi, NFT, akıllı kontratlar, decentralized uygulamalar", color: "#FCD34D", icon: <Database className="w-4 h-4" />, count: "$2.1T piyasa" },
-                  { title: "IoT & Robotik", desc: "Akıllı cihazlar, otonom sistemler, endüstri 4.0", color: "#FB7185", icon: <Cpu className="w-4 h-4" />, count: "15B+ cihaz" },
-                ].map((cat, i) => (
-                  <div key={i} className="glass rounded-xl p-4 hover:scale-[1.02] transition-all duration-300 card-glow cursor-pointer">
-                    <div className="flex items-center gap-2 mb-2">
-                      <div className="p-1.5 rounded-lg" style={{ background: `${cat.color}15`, color: cat.color }}>{cat.icon}</div>
-                      <span className="text-sm font-semibold text-white" style={{ fontFamily: "Space Grotesk, sans-serif" }}>{cat.title}</span>
-                    </div>
-                    <p className="text-xs mb-2" style={{ color: "#64748B" }}>{cat.desc}</p>
-                    <span className="mono text-xs px-1.5 py-0.5 rounded" style={{ background: `${cat.color}10`, color: cat.color }}>{cat.count}</span>
-                  </div>
-                ))}
-              </div>
-
-              {/* Dijital Dünya Haberleri */}
-              <div className="grid md:grid-cols-2 gap-4 mb-6">
-                <div className="glass rounded-xl p-5">
-                  <h3 className="font-semibold text-white mb-3 flex items-center gap-2" style={{ fontFamily: "Space Grotesk, sans-serif" }}>
-                    <TrendingUp className="w-4 h-4" style={{ color: "#A78BFA" }} />
-                    Dijital Dünya Haberleri
-                  </h3>
-                  <div className="space-y-2.5">
-                    {[
-                      { title: "React 20 ile Server Components Yaygınlaşıyor", category: "Frontend", time: "2 saat önce", color: "#38BDF8" },
-                      { title: "Rust: Sistem Programlamanın Yeni Standardı", category: "Dil", time: "5 saat önce", color: "#F97316" },
-                      { title: "Bun.js vs Node.js: 2026 Karşılaştırması", category: "Runtime", time: "1 gün önce", color: "#00E5A0" },
-                    ].map((news, i) => (
-                      <div key={i} className="flex items-start gap-3 p-2.5 rounded-lg hover:bg-white/[0.03] transition-colors duration-200 cursor-pointer">
-                        <div className="w-1.5 h-1.5 rounded-full mt-2 flex-shrink-0" style={{ background: news.color }} />
-                        <div className="flex-1 min-w-0">
-                          <div className="text-sm font-medium text-white">{news.title}</div>
-                          <div className="flex items-center gap-2 mt-0.5">
-                            <span className="mono text-xs px-1.5 py-0.5 rounded" style={{ background: `${news.color}10`, color: news.color }}>{news.category}</span>
-                            <span className="text-xs" style={{ color: "#475569" }}>{news.time}</span>
-                          </div>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-                <div className="glass rounded-xl p-5">
-                  <h3 className="font-semibold text-white mb-3 flex items-center gap-2" style={{ fontFamily: "Space Grotesk, sans-serif" }}>
-                    <Zap className="w-4 h-4" style={{ color: "#FCD34D" }} />
-                    Popüler Teknolojiler
-                  </h3>
-                  <div className="space-y-2.5">
-                    {[
-                      { name: "TypeScript", usage: "Tip güvenli JavaScript", badge: "#1 Dil", color: "#38BDF8" },
-                      { name: "Next.js", usage: "React full-stack framework", badge: "#1 Framework", color: "#A78BFA" },
-                      { name: "Vite", usage: "Ultra hızlı build aracı", badge: "#1 Tool", color: "#F97316" },
-                      { name: "TailwindCSS", usage: "Utility-first CSS framework", badge: "#1 CSS", color: "#00E5A0" },
-                    ].map((tech, i) => (
-                      <div key={i} className="flex items-center gap-3 p-2.5 rounded-lg hover:bg-white/[0.03] transition-colors duration-200 cursor-pointer">
-                        <div className="w-8 h-8 rounded-lg flex items-center justify-center text-xs font-bold" style={{ background: `${tech.color}15`, color: tech.color }}>{tech.name[0]}</div>
-                        <div className="flex-1 min-w-0">
-                          <span className="text-sm font-medium text-white">{tech.name}</span>
-                          <div className="text-xs" style={{ color: "#64748B" }}>{tech.usage}</div>
-                        </div>
-                        <span className="mono text-xs px-1.5 py-0.5 rounded" style={{ background: `${tech.color}10`, color: tech.color }}>{tech.badge}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-
-              {/* Klasör Yapısı */}
-              <div className="glass rounded-xl p-6">
-                <h3 className="font-semibold text-white mb-4 flex items-center gap-2" style={{ fontFamily: "Space Grotesk, sans-serif" }}>
-                  <FileCode className="w-4 h-4" style={{ color: "#A78BFA" }} />
-                  MVP Proje Mimarisi
-                </h3>
-                <pre className="mono text-xs leading-relaxed overflow-x-auto" style={{ color: "#64748B" }}>
-{`aipusula/
-├── frontend-web/          # React + TailwindCSS
-│   └── src/
-│       ├── components/    # Reusable UI bileşenleri
-│       ├── pages/         # Dashboard, Chat, Scanner vb.
-│       ├── services/      # API client katmanı
-│       ├── hooks/         # Custom React hooks
-│       └── store/         # State management (Zustand)
-├── mobile-app/            # React Native (Expo)
-│   └── src/
-│       ├── screens/       # Her sayfa için ekran
-│       ├── navigation/    # React Navigation
-│       └── components/    # Mobil UI bileşenleri
-├── backend/               # NestJS
-│   └── src/modules/
-│       ├── auth/          # Kimlik doğrulama
-│       ├── ai-tools/      # AI araçları
-│       ├── chat/          # Sohbet motoru
-│       ├── scanner/       # Güvenlik tarayıcı
-│       └── news/          # Haber akışı
-├── ai-services/           # Python FastAPI
-│   ├── models/            # AI modelleri
-│   └── scanners/          # Güvenlik tarayıcı mantığı
-└── infra/                 # Terraform, Docker`}
-                </pre>
-              </div>
-            </section>
-
-            {/* ── Sütun 2: AI Araçları ── */}
-            <section id="ai-tools">
-              <SectionHeader
-                icon={<Cpu className="w-5 h-5" />}
-                title="AI Araçları"
-                subtitle="03 — AI Araçları Kataloğu & Karşılaştırma"
-                accent="#38BDF8"
-              />
-              {/* Öne Çıkan AI Araçları */}
-              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3 mb-6">
-                {[
-                  { name: "ChatGPT", provider: "OpenAI", category: "Sohbet & İçerik", desc: "GPT-4o ile multimodal AI asistanı. Yazı, kod, analiz ve görsel üretme.", rating: 4.8, color: "#74AA9C" },
-                  { name: "Claude", provider: "Anthropic", category: "Sohbet & Analiz", desc: "Uzun bağlam penceresi ve güvenli AI asistanı. Araştırma ve kodlama.", rating: 4.7, color: "#CC785C" },
-                  { name: "Gemini", provider: "Google", desc: "Google'ın multimodal AI modeli. Arama entegrasyonu ve gerçek zamanlı bilgi.", category: "Sohbet & Arama", rating: 4.5, color: "#4285F4" },
-                  { name: "Cursor", provider: "Cursor Inc.", category: "Kod Geliştirme", desc: "AI destekli kod editörü. Otomatik tamamlama, yeniden düzenleme ve kod incelemesi.", rating: 4.9, color: "#38BDF8" },
-                  { name: "Perplexity", provider: "Perplexity AI", category: "Araştırma & Arama", desc: "AI destekli arama motoru. Gerçek zamanlı yanıtlar ve kaynaklar.", rating: 4.6, color: "#1FB8CD" },
-                  { name: "Runway", provider: "Runway ML", category: "Video & Görsel", desc: "AI video oluşturma, düzenleme ve görsel efektler. Gen-3 Alpha modeli.", rating: 4.4, color: "#A78BFA" },
-                  { name: "Midjourney", provider: "Midjourney", category: "Görsel Üretim", desc: "AI görsel oluşturma. Sanatsal ve fotogerçekçi görseller.", rating: 4.7, color: "#FB7185" },
-                  { name: "ElevenLabs", provider: "ElevenLabs", category: "Ses & Konuşma", desc: "AI ses klonlama, metinden konuşmaya ve ses üretimi.", rating: 4.5, color: "#F97316" },
-                  { name: "Manus", provider: "Manus AI", category: "Otonom AI Ajanı", desc: "Tam otonom AI ajanları. Araştırma, kodlama ve otomasyon.", rating: 4.6, color: "#FCD34D" },
-                ].map((tool, i) => (
-                  <div key={i} className="glass rounded-xl p-4 hover:scale-[1.02] transition-all duration-300 card-glow cursor-pointer focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#38BDF8]/30">
-                    <div className="flex items-center gap-3 mb-2">
-                      <div className="w-9 h-9 rounded-lg flex items-center justify-center text-xs font-bold" style={{ background: `${tool.color}15`, color: tool.color }}>{tool.name[0]}</div>
-                      <div className="flex-1 min-w-0">
-                        <div className="flex items-center gap-2">
-                          <span className="font-semibold text-white text-sm" style={{ fontFamily: "Space Grotesk, sans-serif" }}>{tool.name}</span>
-                          <span className="mono text-xs" style={{ color: "#475569" }}>#{i + 1}</span>
-                        </div>
-                        <div className="text-xs" style={{ color: "#64748B" }}>{tool.provider}</div>
-                      </div>
-                    </div>
-                    <span className="mono text-xs px-1.5 py-0.5 rounded mb-2 inline-block" style={{ background: `${tool.color}10`, color: tool.color }}>{tool.category}</span>
-                    <p className="text-xs leading-relaxed" style={{ color: "#94A3B8" }}>{tool.desc}</p>
-                    <div className="mt-2 flex items-center gap-1">
-                      {Array.from({ length: 5 }).map((_, j) => (
-                        <Star key={j} className="w-3 h-3" style={{ color: j < Math.floor(tool.rating) ? "#FCD34D" : "#334155", fill: j < Math.floor(tool.rating) ? "#FCD34D" : "none" }} />
-                      ))}
-                      <span className="ml-1 text-xs" style={{ color: "#64748B" }}>{tool.rating}</span>
-                    </div>
-                  </div>
-                ))}
-              </div>
-
-              {/* Editör Favorileri & Kısa İncelemeler */}
-              <div className="grid md:grid-cols-2 gap-4 mb-6">
-                <div className="glass rounded-xl p-5">
-                  <h3 className="font-semibold text-white mb-3 flex items-center gap-2" style={{ fontFamily: "Space Grotesk, sans-serif" }}>
-                    <Star className="w-4 h-4" style={{ color: "#FCD34D" }} />
-                    Editör Favorileri
-                  </h3>
-                  <div className="space-y-2.5">
-                    {[
-                      { name: "Cursor", reason: "2026'nın en iyi AI kod editörü", badge: "En İyi", color: "#38BDF8" },
-                      { name: "Claude", reason: "En güvenli ve uzun bağlamlı AI asistan", badge: "Güvenli", color: "#A78BFA" },
-                      { name: "Perplexity", reason: "Araştırma için en hızlı AI arama motoru", badge: "Hızlı", color: "#00E5A0" },
-                    ].map((fav, i) => (
-                      <div key={i} className="flex items-center gap-3 p-2.5 rounded-lg hover:bg-white/[0.03] transition-colors duration-200 cursor-pointer">
-                        <div className="w-8 h-8 rounded-lg flex items-center justify-center text-xs font-bold" style={{ background: `${fav.color}15`, color: fav.color }}>{fav.name[0]}</div>
-                        <div className="flex-1 min-w-0">
-                          <span className="text-sm font-medium text-white">{fav.name}</span>
-                          <div className="text-xs" style={{ color: "#64748B" }}>{fav.reason}</div>
-                        </div>
-                        <span className="mono text-xs px-1.5 py-0.5 rounded" style={{ background: `${fav.color}10`, color: fav.color }}>{fav.badge}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-                <div className="glass rounded-xl p-5">
-                  <h3 className="font-semibold text-white mb-3 flex items-center gap-2" style={{ fontFamily: "Space Grotesk, sans-serif" }}>
-                    <BarChart2 className="w-4 h-4" style={{ color: "#FB7185" }} />
-                    Kısa İncelemeler
-                  </h3>
-                  <div className="space-y-2.5">
-                    {[
-                      { name: "ChatGPT", verdict: "Genel amaçlı en iyi seçim", score: "9.2/10", color: "#74AA9C" },
-                      { name: "Gemini", verdict: "Google ekosisteminde güçlü", score: "8.5/10", color: "#4285F4" },
-                      { name: "ElevenLabs", verdict: "Ses kalitesi rakipsiz", score: "9.0/10", color: "#F97316" },
-                    ].map((review, i) => (
-                      <div key={i} className="flex items-center gap-3 p-2.5 rounded-lg hover:bg-white/[0.03] transition-colors duration-200 cursor-pointer">
-                        <div className="w-8 h-8 rounded-lg flex items-center justify-center text-xs font-bold" style={{ background: `${review.color}15`, color: review.color }}>{review.name[0]}</div>
-                        <div className="flex-1 min-w-0">
-                          <span className="text-sm font-medium text-white">{review.name}</span>
-                          <div className="text-xs" style={{ color: "#64748B" }}>{review.verdict}</div>
-                        </div>
-                        <span className="mono text-xs font-semibold" style={{ color: review.color }}>{review.score}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-
-              {/* AI Araç Kategorileri */}
-              <div className="glass rounded-xl p-6">
-                <h3 className="font-semibold text-white mb-4" style={{ fontFamily: "Space Grotesk, sans-serif" }}>AI Araç Kategorileri</h3>
-                <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                  {[
-                    { title: "Yazı & İçerik", desc: "AI metin üreticiler, blog yazıcıları, içerik optimize ediciler", color: "#00E5A0", icon: <FileCode className="w-4 h-4" /> },
-                    { title: "Kod & Geliştirme", desc: "AI kod asistanları, hata ayıklayıcılar, otomatik test araçları", color: "#38BDF8", icon: <Code2 className="w-4 h-4" /> },
-                    { title: "Tasarım & Görsel", desc: "AI görsel üreticiler, tasarım araçları, logo oluşturucular", color: "#A78BFA", icon: <Cpu className="w-4 h-4" /> },
-                    { title: "Video & Ses", desc: "AI video düzenleyiciler, ses sentezi, podcast üreticiler", color: "#F97316", icon: <Zap className="w-4 h-4" /> },
-                    { title: "Veri & Analiz", desc: "AI veri analistleri, grafik oluşturucular, içgörü araçları", color: "#FCD34D", icon: <BarChart2 className="w-4 h-4" /> },
-                    { title: "Otomasyon", desc: "İş akışı otomasyonu, zamanlama, görev yönetimi AI", color: "#FB7185", icon: <Database className="w-4 h-4" /> },
-                  ].map((cat, i) => (
-                    <div key={i} className="glass rounded-xl p-4 hover:scale-[1.02] transition-all duration-300 card-glow cursor-pointer">
-                      <div className="flex items-center gap-2 mb-2">
-                        <div className="p-1.5 rounded-lg" style={{ background: `${cat.color}15`, color: cat.color }}>{cat.icon}</div>
-                        <span className="text-sm font-semibold text-white" style={{ fontFamily: "Space Grotesk, sans-serif" }}>{cat.title}</span>
-                      </div>
-                      <p className="text-xs" style={{ color: "#64748B" }}>{cat.desc}</p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </section>
-
-            {/* ── Sütun 3: AI ile Kazanç ── */}
-            <section id="ai-monetize">
-              <SectionHeader
-                icon={<DollarSign className="w-5 h-5" />}
-                title="AI ile Kazanç"
-                subtitle="04 — AI ile Gelir Üretme Yolları & Eğitimi"
-                accent="#F97316"
-              />
-              {/* Kazanç Yolları */}
-              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
-                {[
-                  { title: "AI Freelancing", desc: "AI araçlarıyla içerik yazma, kod geliştirme ve tasarım hizmetleri sunarak gelir elde edin.", icon: <Users className="w-5 h-5" />, color: "#F97316", examples: ["AI İçerik Yazarı", "AI Kod Geliştirici", "AI Grafik Tasarımcı"] },
-                  { title: "Prompt Mühendisliği", desc: "Etkili prompt yazma becerisi kazanın. Enterprise firmalar bu hizmeti yüksek ücretlerle satın alıyor.", icon: <Code2 className="w-5 h-5" />, color: "#00E5A0", examples: ["Prompt Şablon Satışı", "LLM İnce Ayar", "Enterprise Danışmanlık"] },
-                  { title: "AI SaaS Ürünleri", desc: "Niş AI araçları geliştirin ve abonelik bazlı gelir modeliyle sürdürülebilir kazanç yaratın.", icon: <Layers className="w-5 h-5" />, color: "#38BDF8", examples: ["AI Yazma Aracı", "AI CV Oluşturucu", "AI Görsel Düzenleyici"] },
-                  { title: "YouTube & TikTok AI", desc: "AI araçlarıyla içerik üretin. Video senaryo, kapak, ses ve edit işlemlerini otomatikleştirin.", icon: <Eye className="w-5 h-5" />, color: "#A78BFA", examples: ["AI Senaryo Oluşturucu", "AI Kapak Tasarımı", "AI Ses Klonlama"] },
-                  { title: "Affiliate Marketing", desc: "AI araçlarını tanıtın ve affiliate programlarıyla pasif gelir oluşturun.", icon: <ExternalLink className="w-5 h-5" />, color: "#FCD34D", examples: ["ChatGPT Plus Yönlendirme", "AI Araç İncelemeleri", "Karşılaştırma Siteleri"] },
-                  { title: "AI Otomasyon Danışmanlığı", desc: "İşletmelere AI otomasyon çözümleri sunarak yüksek değerli danışmanlık hizmetleri verin.", icon: <Zap className="w-5 h-5" />, color: "#FB7185", examples: ["İş Akışı Otomasyonu", "Chatbot Kurulumu", "Veri Hattı AI"] },
-                ].map((item, i) => (
-                  <div key={i} className="glass rounded-xl p-5 hover:scale-[1.02] transition-all duration-300 card-glow cursor-pointer focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#F97316]/30">
-                    <div className="flex items-center gap-2 mb-3">
-                      <div className="p-2 rounded-lg" style={{ background: `${item.color}15`, color: item.color }}>{item.icon}</div>
-                      <span className="font-semibold text-white text-sm" style={{ fontFamily: "Space Grotesk, sans-serif" }}>{item.title}</span>
-                    </div>
-                    <p className="text-xs leading-relaxed mb-3" style={{ color: "#94A3B8" }}>{item.desc}</p>
-                    <div className="space-y-1">
-                      {item.examples.map((ex, j) => (
-                        <div key={j} className="flex items-center gap-1.5">
-                          <div className="w-1 h-1 rounded-full" style={{ background: item.color }} />
-                          <span className="text-xs" style={{ color: "#64748B" }}>{ex}</span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                ))}
-              </div>
-
-              {/* Başarı Hikayeleri & Vaka Analizleri */}
-              <div className="grid md:grid-cols-2 gap-4 mb-8">
-                <div className="glass rounded-xl p-5">
-                  <h3 className="font-semibold text-white mb-3 flex items-center gap-2" style={{ fontFamily: "Space Grotesk, sans-serif" }}>
-                    <Award className="w-4 h-4" style={{ color: "#F97316" }} />
-                    Başarı Hikayeleri
-                  </h3>
-                  <div className="space-y-3">
-                    {[
-                      { person: "Freelance Yazar", income: "$4,200/ay", method: "ChatGPT + Jasper ile AI destekli içerik yazma", tag: "İçerik" },
-                      { person: "Bağımsız Geliştirici", income: "$12,800/ay", method: "AI SaaS: Otomatik CV oluşturucu + ATS optimizasyonu", tag: "SaaS" },
-                      { person: "YouTube Kanalı", income: "$6,500/ay", method: "AI ile günlük video içerik üretimi ve gelir elde etme", tag: "Video" },
-                    ].map((story, i) => (
-                      <div key={i} className="p-3 rounded-lg hover:bg-white/[0.03] transition-colors cursor-pointer">
-                        <div className="flex items-center justify-between mb-1">
-                          <span className="text-sm font-medium text-white">{story.person}</span>
-                          <span className="mono text-xs px-2 py-0.5 rounded" style={{ background: "rgba(249,115,22,0.1)", color: "#F97316" }}>{story.income}</span>
-                        </div>
-                        <p className="text-xs" style={{ color: "#94A3B8" }}>{story.method}</p>
-                        <span className="mono text-xs mt-1 inline-block" style={{ color: "#475569" }}>{story.tag}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-                <div className="glass rounded-xl p-5">
-                  <h3 className="font-semibold text-white mb-3 flex items-center gap-2" style={{ fontFamily: "Space Grotesk, sans-serif" }}>
-                    <Target className="w-4 h-4" style={{ color: "#38BDF8" }} />
-                    Vaka Analizleri
-                  </h3>
-                  <div className="space-y-3">
-                    {[
-                      { title: "AI ile E-ticaret: Otomatik Ürün Açıklamaları", revenue: "+340%", metric: "Dönüşüm oranı artışı" },
-                      { title: "Prompt Mühendisliği ile AI Agent Gelir Modeli", revenue: "$28K", metric: "İlk 6 ay gelir" },
-                      { title: "AI Video Üretimi: Pasif Gelir Stratejisi", revenue: "12 ay", metric: "Başabaş süresi" },
-                    ].map((cs, i) => (
-                      <div key={i} className="p-3 rounded-lg hover:bg-white/[0.03] transition-colors cursor-pointer">
-                        <div className="flex items-center justify-between mb-1">
-                          <span className="text-sm font-medium text-white">{cs.title}</span>
-                          <span className="mono text-xs font-bold" style={{ color: "#00E5A0" }}>{cs.revenue}</span>
-                        </div>
-                        <span className="text-xs" style={{ color: "#475569" }}>{cs.metric}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </section>
-
-            {/* ── 5. UI/UX Tasarım ── */}
-            <section id="ux">
-              <SectionHeader
-                icon={<Eye className="w-5 h-5" />}
-                title="UI/UX Tasarım Sistemi"
-                subtitle="05 — Renk, Tipografi ve Bileşenler"
-                accent="#FCD34D"
-              />
-              <div className="grid md:grid-cols-2 gap-6 mb-6">
-                {/* Renk Paleti */}
-                <div className="glass rounded-xl p-6">
-                  <h3 className="font-semibold text-white mb-4" style={{ fontFamily: "Space Grotesk, sans-serif" }}>Renk Paleti</h3>
-                  <div className="space-y-3">
-                    {[
-                      { name: "Ana Arka Plan", hex: "#050B14", role: "Sayfa arkaplanı" },
-                      { name: "Kart Arka Plan", hex: "#112240", role: "Kart ve panel" },
-                      { name: "Vurgu (Neon Yeşil)", hex: "#00E5A0", role: "Butonlar, başarı" },
-                      { name: "Bilgi (Elektrik Mavi)", hex: "#38BDF8", role: "Bilgi mesajları" },
-                      { name: "Uyarı (Turuncu)", hex: "#F97316", role: "Tehdit uyarıları" },
-                      { name: "Hata (Kırmızı)", hex: "#EF4444", role: "Kritik zafiyetler" },
-                    ].map((c, i) => (
-                      <div key={i} className="flex items-center gap-3">
-                        <div className="w-8 h-8 rounded-lg flex-shrink-0 border" style={{ background: c.hex, borderColor: "rgba(255,255,255,0.1)" }} />
-                        <div className="flex-1">
-                          <div className="text-sm text-white">{c.name}</div>
-                          <div className="text-xs mono" style={{ color: "#475569" }}>{c.hex} — {c.role}</div>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-                {/* Tipografi */}
-                <div className="glass rounded-xl p-6">
-                  <h3 className="font-semibold text-white mb-4" style={{ fontFamily: "Space Grotesk, sans-serif" }}>Tipografi Sistemi</h3>
-                  <div className="space-y-4">
-                    <div>
-                      <div className="text-3xl font-bold text-white mb-1" style={{ fontFamily: "Space Grotesk, sans-serif" }}>Space Grotesk</div>
-                      <div className="text-xs mono" style={{ color: "#475569" }}>Başlıklar — Kalın 700 / Yarı Kalın 600</div>
-                    </div>
-                    <div>
-                      <div className="text-lg text-white mb-1" style={{ fontFamily: "Inter, sans-serif" }}>Inter Regular</div>
-                      <div className="text-xs mono" style={{ color: "#475569" }}>Gövde metni — Normal 400 / Orta 500</div>
-                    </div>
-                    <div>
-                      <div className="text-sm mb-1 mono" style={{ color: "#00E5A0" }}>JetBrains Mono</div>
-                      <div className="text-xs mono" style={{ color: "#475569" }}>Kod, veri, teknik içerik — 400/500</div>
-                    </div>
-                    <div className="mt-4 p-3 rounded-lg" style={{ background: "rgba(0,229,160,0.05)", border: "1px solid rgba(0,229,160,0.1)" }}>
-                      <div className="text-xs" style={{ color: "#94A3B8" }}>
-                        Tüm etkileşimli öğeler minimum <strong style={{ color: "#00E5A0" }}>44×44px</strong> dokunma alanına sahiptir (WCAG 2.1 AA standardı).
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Performans Optimizasyonları */}
-              <div className="glass rounded-xl p-6">
-                <h3 className="font-semibold text-white mb-5 flex items-center gap-2" style={{ fontFamily: "Space Grotesk, sans-serif" }}>
-                  <Zap className="w-4 h-4" style={{ color: "#FCD34D" }} />
-                  Performans Optimizasyonları
-                </h3>
-                <div className="grid sm:grid-cols-2 gap-4">
-                  {[
-                    { title: "Redis Önbellekleme", desc: "Sık kullanılan AI yanıtları ve tarama sonuçları önbellekte tutulur. API yükü %60 azalır.", metric: "60% ↓ API Yükü" },
-                    { title: "CDN Entegrasyonu", desc: "Statik dosyalar ve model ağırlıkları Cloudflare CDN üzerinden düşük gecikmeyle sunulur.", metric: "<50ms Gecikme" },
-                    { title: "Tembel Yükleme", desc: "Yalnızca aktif modüller yüklenir. Kod bölme ile ilk yükleme süresi minimuma indirilir.", metric: "%40 ↓ Paket" },
-                    { title: "WebSocket Akışı", desc: "AI yanıtları parçalı biçimde iletilir. Kullanıcı ilk token'ı 200ms içinde görür.", metric: "<200ms İlk Token" },
-                    { title: "Veritabanı Optimizasyonu", desc: "PostgreSQL'de sorgu plan analizi, indeksleme ve PgBouncer bağlantı havuzu.", metric: "10x Sorgu Hızı" },
-                    { title: "Eşzamanlısız İşleme", desc: "Uzun süren taramalar RabbitMQ üzerinden arka planda çalışır, arayüz tıkanmaz.", metric: "0ms Arayüz Tıkanıklığı" },
-                  ].map((opt, i) => (
-                    <div key={i} className="p-4 rounded-lg" style={{ background: "rgba(252,211,77,0.03)", border: "1px solid rgba(252,211,77,0.1)" }}>
-                      <div className="flex items-start justify-between mb-2">
-                        <span className="text-sm font-medium text-white">{opt.title}</span>
-                        <span className="mono text-xs px-2 py-0.5 rounded" style={{ background: "rgba(252,211,77,0.1)", color: "#FCD34D" }}>{opt.metric}</span>
-                      </div>
-                      <p className="text-xs" style={{ color: "#64748B" }}>{opt.desc}</p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </section>
-
-            {/* ── 6. Rakip Analizi ── */}
-            <section id="competitors">
-              <SectionHeader
-                icon={<Target className="w-5 h-5" />}
-                title="Rakip Analizi"
-                subtitle="06 — Pazar Konumlandırma"
-                accent="#FB7185"
-              />
-              {/* Rakip Karşılaştırma Tablosu */}
-              <div className="glass rounded-xl overflow-hidden mb-6">
-                <div className="overflow-x-auto">
-                  <table className="w-full text-sm">
-                    <thead>
-                      <tr style={{ borderBottom: "1px solid rgba(255,255,255,0.05)" }}>
-                        <th className="text-left p-4 font-semibold" style={{ color: "#94A3B8", fontFamily: "Space Grotesk, sans-serif" }}>Platform</th>
-                        <th className="text-center p-4 font-semibold" style={{ color: "#94A3B8" }}>AI Yetenekleri</th>
-                        <th className="text-center p-4 font-semibold" style={{ color: "#94A3B8" }}>Güvenlik</th>
-                        <th className="text-center p-4 font-semibold" style={{ color: "#94A3B8" }}>Gizlilik</th>
-                        <th className="text-center p-4 font-semibold" style={{ color: "#94A3B8" }}>Mobil</th>
-                        <th className="text-center p-4 font-semibold" style={{ color: "#94A3B8" }}>Fiyat</th>
-                        <th className="text-center p-4 font-semibold" style={{ color: "#94A3B8" }}>Toplam</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {competitors.map((c, i) => (
-                        <tr
-                          key={i}
-                          className="transition-colors duration-150 cursor-pointer focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-inset focus-visible:ring-[#00E5A0]/30"
-                          style={{
-                            borderBottom: "1px solid rgba(255,255,255,0.03)",
-                            background: c.name === "AIPUSULA" ? "rgba(0,229,160,0.05)" : (activeCompetitor === c.name ? "rgba(255,255,255,0.03)" : "transparent"),
-                          }}
-                          onMouseEnter={() => setActiveCompetitor(c.name)}
-                          onMouseLeave={() => setActiveCompetitor(null)}
-                        >
-                          <td className="p-4">
-                            <div className="flex items-center gap-2">
-                              <div className="w-2 h-2 rounded-full" style={{ background: c.color }} />
-                              <div>
-                                <div className="font-medium" style={{ color: c.name === "AIPUSULA" ? "#00E5A0" : "#E2E8F0" }}>{c.name}</div>
-                                <div className="text-xs" style={{ color: "#475569" }}>{c.company}</div>
-                              </div>
-                            </div>
-                          </td>
-                          {[c.ai, c.security, c.privacy, c.mobile].map((score, j) => (
-                            <td key={j} className="p-4 text-center">
-                              <div className="flex flex-col items-center gap-1">
-                                <span className="font-mono text-sm" style={{ color: score >= 80 ? "#00E5A0" : score >= 60 ? "#FCD34D" : "#FB7185" }}>{score}</span>
-                                <div className="w-12 h-1 rounded-full" style={{ background: "rgba(255,255,255,0.05)" }}>
-                                  <div className="h-1 rounded-full" style={{ width: `${score}%`, background: score >= 80 ? "#00E5A0" : score >= 60 ? "#FCD34D" : "#FB7185" }} />
-                                </div>
-                              </div>
-                            </td>
-                          ))}
-                          <td className="p-4 text-center mono text-xs" style={{ color: "#64748B" }}>{c.price}</td>
-                          <td className="p-4 text-center">
-                            <span className="font-bold mono" style={{ color: c.name === "AIPUSULA" ? "#00E5A0" : "#E2E8F0", fontSize: "1rem" }}>{c.total}</span>
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-
-              {/* Radar Chart */}
-              <div className="glass rounded-xl p-6">
-                <h3 className="font-semibold text-white mb-4" style={{ fontFamily: "Space Grotesk, sans-serif" }}>Çok Boyutlu Rakip Karşılaştırma</h3>
-                <ResponsiveContainer width="100%" height={320}>
-                  <RadarChart data={competitorData}>
-                    <PolarGrid stroke="rgba(255,255,255,0.08)" />
-                    <PolarAngleAxis dataKey="subject" tick={{ fill: "#64748B", fontSize: 11 }} />
-                    <Radar name="AIPUSULA" dataKey="AIPUSULA" stroke="#00E5A0" fill="#00E5A0" fillOpacity={0.15} strokeWidth={2} />
-                    <Radar name="ChatGPT" dataKey="ChatGPT" stroke="#74AA9C" fill="#74AA9C" fillOpacity={0.05} strokeWidth={1.5} />
-                    <Radar name="Claude" dataKey="Claude" stroke="#CC785C" fill="#CC785C" fillOpacity={0.05} strokeWidth={1.5} />
-                    <Radar name="Gemini" dataKey="Gemini" stroke="#4285F4" fill="#4285F4" fillOpacity={0.05} strokeWidth={1.5} />
-                    <Legend wrapperStyle={{ color: "#94A3B8", fontSize: "12px" }} />
-                    <Tooltip contentStyle={{ background: "#0D1B2A", border: "1px solid rgba(0,229,160,0.2)", borderRadius: "8px", color: "#E2E8F0" }} />
-                  </RadarChart>
-                </ResponsiveContainer>
-              </div>
-            </section>
-
-            {/* ── 7. Yol Haritası ── */}
-            <section id="roadmap">
-              <SectionHeader
-                icon={<GitBranch className="w-5 h-5" />}
-                title="12 Aylık Geliştirme Yol Haritası"
-                subtitle="07 — MVP'den Tam Sürüme"
-                accent="#A78BFA"
-              />
-              <div className="space-y-4">
-                {roadmapData.map((phase, i) => (
-                  <div key={i} className="glass rounded-xl p-5 hover:scale-[1.01] transition-all duration-300 card-glow cursor-pointer" style={{ borderLeft: `3px solid ${phase.color}` }}>
-                    <div className="flex flex-wrap items-start justify-between gap-3 mb-3">
-                      <div>
-                        <div className="flex items-center gap-2 mb-1">
-                          <span className="mono text-xs" style={{ color: phase.color }}>{phase.month}</span>
-                          <span className="px-2 py-0.5 rounded-full text-xs" style={{ background: `${phase.color}15`, color: phase.color }}>
-                            {phase.status === "critical" ? "KRİTİK" : phase.status === "high" ? "YÜKSEK" : phase.status === "launch" ? "LANSMAN" : "ORTA"}
-                          </span>
-                        </div>
-                        <h4 className="font-semibold text-white" style={{ fontFamily: "Space Grotesk, sans-serif" }}>{phase.phase}</h4>
-                      </div>
-                      <div className="flex flex-wrap gap-2">
-                        {phase.tasks.map((task, j) => (
-                          <span key={j} className="text-xs px-2 py-1 rounded-md" style={{ background: "rgba(255,255,255,0.04)", color: "#64748B", border: "1px solid rgba(255,255,255,0.06)" }}>
-                            {task}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </section>
-
-            {/* ── Sütun 5: Siber Güvenlik ── */}
-            <section id="cybersecurity">
-              <SectionHeader
-                icon={<Shield className="w-5 h-5" />}
-                title="Siber Güvenlik"
-                subtitle="08 — Tehdit Haritası, Zafiyetler & Güvenlik"
-                accent="#FB7185"
-              />
-
-              {/* Global Attack Map + Live Threat Counter */}
-              <div className="grid lg:grid-cols-3 gap-4 mb-6">
-                <div className="lg:col-span-2">
-                  <AttackMap />
-                </div>
-                <div className="space-y-4">
-                  <LiveThreatCounter />
-                </div>
-              </div>
-
-              {/* AI Risk Score + CVE Feed */}
-              <div className="grid lg:grid-cols-2 gap-4 mb-6">
-                <AIRiskScore />
-                <CVEFeed />
-              </div>
-
-              {/* Security News */}
-              <div className="mb-6">
-                <SecurityNews />
-              </div>
-
-              {/* Güvenlik Mimarisi */}
-              <div className="glass rounded-xl p-6 mb-6">
-                <div className="flex items-center gap-3 mb-6">
-                  <AlertTriangle className="w-5 h-5" style={{ color: "#FB7185" }} />
-                  <p className="text-sm" style={{ color: "#94A3B8" }}>
-                    AIPUSULA'nın güvenlik mimarisi <strong style={{ color: "#FB7185" }}>Zero-Trust prensibi</strong> üzerine inşa edilmiştir. Hiçbir bileşen varsayılan olarak güvenilir kabul edilmez; her istek doğrulanır.
-                  </p>
-                </div>
-                <div className="space-y-4">
-                  {securityLayers.map((layer, i) => (
-                    <div key={i}>
-                      <div className="flex items-center justify-between mb-1.5">
-                        <div>
-                          <span className="text-sm font-medium text-white">{layer.layer}</span>
-                          <span className="ml-2 text-xs mono" style={{ color: "#475569" }}>{layer.tech}</span>
-                        </div>
-                        <span className="mono text-sm font-bold" style={{ color: layer.color }}>{layer.level}%</span>
-                      </div>
-                      <div className="h-2 rounded-full" style={{ background: "rgba(255,255,255,0.05)" }}>
-                        <div
-                          className="h-2 rounded-full transition-all duration-1000"
-                          style={{ width: `${layer.level}%`, background: `linear-gradient(90deg, ${layer.color}, ${layer.color}80)`, boxShadow: `0 0 8px ${layer.color}60` }}
-                        />
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              <div className="grid sm:grid-cols-2 gap-4">
-                {[
-                  { title: "Veri Şifreleme", items: ["AES-256 (at-rest)", "TLS 1.3 (in-transit)", "End-to-end şifreleme", "Key rotation politikası"], color: "#00E5A0", icon: <Lock className="w-4 h-4" /> },
-                  { title: "AI Güvenliği (LLM)", items: ["Prompt injection koruması", "Output guardrails", "Hassas veri filtreleme", "Model davranış izleme"], color: "#38BDF8", icon: <Brain className="w-4 h-4" /> },
-                  { title: "Erişim Kontrolü", items: ["RBAC + ABAC modeli", "MFA zorunluluğu", "Session yönetimi", "API rate limiting"], color: "#A78BFA", icon: <Shield className="w-4 h-4" /> },
-                  { title: "İzleme & Yanıt", items: ["IDS/IPS entegrasyonu", "SIEM bağlantısı", "Otomatik tehdit yanıtı", "Penetrasyon testi"], color: "#F97316", icon: <Eye className="w-4 h-4" /> },
-                ].map((sec, i) => (
-                  <div key={i} className="glass rounded-xl p-5 card-glow">
-                    <div className="flex items-center gap-2 mb-3">
-                      <div className="p-1.5 rounded-lg" style={{ background: `${sec.color}15`, color: sec.color }}>{sec.icon}</div>
-                      <span className="font-semibold text-white text-sm" style={{ fontFamily: "Space Grotesk, sans-serif" }}>{sec.title}</span>
-                    </div>
-                    <div className="space-y-1.5">
-                      {sec.items.map((item, j) => (
-                        <div key={j} className="flex items-center gap-2">
-                          <div className="w-1 h-1 rounded-full" style={{ background: sec.color }} />
-                          <span className="text-xs" style={{ color: "#64748B" }}>{item}</span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </section>
-
-            {/* ── MVP Kontrol Listesi ── */}
-            <section id="checklist">
-              <SectionHeader
-                icon={<CheckSquare className="w-5 h-5" />}
-                title="MVP Kontrol Listesi"
-                subtitle="09 — Lansman Öncesi Doğrulama"
-                accent="#FCD34D"
-              />
-              <div className="glass rounded-xl p-6 mb-4">
-                <div className="flex items-center justify-between mb-6">
-                  <p className="text-sm" style={{ color: "#94A3B8" }}>
-                    Tamamlanan: <strong style={{ color: "#00E5A0" }}>{checkedItems.length}</strong> / {checklistItems.length}
-                  </p>
-                  <div className="flex-1 mx-6 h-2 rounded-full" style={{ background: "rgba(255,255,255,0.05)" }}>
-                    <div
-                      className="h-2 rounded-full transition-all duration-500"
-                      style={{ width: `${(checkedItems.length / checklistItems.length) * 100}%`, background: "linear-gradient(90deg, #00E5A0, #38BDF8)" }}
-                    />
-                  </div>
-                  <span className="mono text-sm" style={{ color: "#00E5A0" }}>{Math.round((checkedItems.length / checklistItems.length) * 100)}%</span>
-                </div>
-                <div className="space-y-2">
-                  {checklistItems.map((item) => {
-                    const priorityColors: Record<string, string> = { P0: "#EF4444", P1: "#F97316", P2: "#FCD34D", P3: "#94A3B8" };
-                    const isChecked = checkedItems.includes(item.id);
-                    return (
-                      <div
-                        key={item.id}
-                        className="flex items-center gap-3 p-3 rounded-lg cursor-pointer transition-all duration-150 ease-out focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#00E5A0]/30 active:scale-[0.99]"
-                        style={{ background: isChecked ? "rgba(0,229,160,0.05)" : "rgba(255,255,255,0.02)", border: `1px solid ${isChecked ? "rgba(0,229,160,0.2)" : "rgba(255,255,255,0.04)"}` }}
-                        onClick={() => toggleCheck(item.id)}
-                      >
-                        <div className="w-5 h-5 rounded flex items-center justify-center flex-shrink-0" style={{ background: isChecked ? "#00E5A0" : "rgba(255,255,255,0.05)", border: isChecked ? "none" : "1px solid rgba(255,255,255,0.1)" }}>
-                          {isChecked && <span className="text-black text-xs font-bold">✓</span>}
-                        </div>
-                        <span className="flex-1 text-sm" style={{ color: isChecked ? "#64748B" : "#E2E8F0", textDecoration: isChecked ? "line-through" : "none" }}>
-                          {item.task}
-                        </span>
-                        <div className="flex items-center gap-2 flex-shrink-0">
-                          <span className="mono text-xs px-1.5 py-0.5 rounded" style={{ background: `${priorityColors[item.priority]}15`, color: priorityColors[item.priority] }}>{item.priority}</span>
-                          <span className="text-xs" style={{ color: "#334155" }}>{item.category}</span>
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
-            </section>
-
-          </main>
+      {/* ── Category Hub Grid ── */}
+      <section className="mt-8">
+        <div className="flex items-center gap-3 mb-5">
+          <div className="h-px flex-1" style={{ background: "linear-gradient(90deg, rgba(0,229,160,0.3), rgba(0,229,160,0.1), transparent)" }} />
+          <span className="mono text-xs uppercase tracking-widest" style={{ color: "#00E5A0" }}>İçerik Merkezleri</span>
+          <div className="h-px flex-1" style={{ background: "linear-gradient(270deg, rgba(0,229,160,0.3), rgba(0,229,160,0.1), transparent)" }} />
         </div>
-      </div>
 
-      {/* ── Footer ── */}
-      <footer className="border-t py-8 glass" style={{ borderColor: "rgba(0,229,160,0.15)" }}>
-        <div className="container flex flex-col md:flex-row items-center justify-between gap-4">
-          <div className="flex items-center gap-3">
-            <div className="w-6 h-6 rounded flex items-center justify-center pulse-dot" style={{ background: "linear-gradient(135deg, #00E5A0, #38BDF8)", color: "#00E5A0" }}>
-              <Shield className="w-3 h-3 text-black" />
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {categoryCards.map((cat) => (
+            <Link key={cat.id} href={cat.path}>
+              <div className="glass rounded-xl p-5 h-full cursor-pointer group transition-all duration-300 hover:scale-[1.02]"
+                style={{ borderLeft: `3px solid ${cat.color}` }}>
+                <div className="flex items-start justify-between mb-3">
+                  <div className="p-2 rounded-lg" style={{ background: `${cat.color}10` }}>
+                    <div style={{ color: cat.color }}>{cat.icon}</div>
+                  </div>
+                  <span className="mono text-[10px] px-2 py-0.5 rounded-full" style={{ background: `${cat.color}10`, color: cat.color }}>
+                    {cat.stat}
+                  </span>
+                </div>
+                <h3 className="font-semibold text-white mb-1" style={{ fontFamily: "Space Grotesk, sans-serif" }}>
+                  {cat.label}
+                </h3>
+                <p className="text-xs mb-2" style={{ color: cat.color }}>{cat.subtitle}</p>
+                <p className="text-xs leading-relaxed" style={{ color: "#64748B" }}>{cat.description}</p>
+                <div className="flex items-center gap-1 mt-3 text-xs" style={{ color: cat.color, opacity: 0.7 }}>
+                  <span>Keşfet</span>
+                  <ChevronRight className="w-3 h-3 group-hover:translate-x-1 transition-transform" />
+                </div>
+              </div>
+            </Link>
+          ))}
+        </div>
+      </section>
+
+      {/* ── Recent Activity Feed ── */}
+      <section className="mt-10">
+        <div className="flex items-center gap-3 mb-5">
+          <Clock className="w-4 h-4" style={{ color: "#38BDF8" }} />
+          <span className="mono text-xs uppercase tracking-widest" style={{ color: "#38BDF8" }}>Son Aktivite</span>
+        </div>
+
+        <div className="glass rounded-xl overflow-hidden">
+          {recentActivity.map((item, i) => (
+            <div key={i} className="flex items-center gap-4 px-5 py-3 border-b last:border-b-0 transition-colors hover:bg-white/[0.02]"
+              style={{ borderColor: "rgba(255,255,255,0.04)" }}>
+              <div className="w-2 h-2 rounded-full flex-shrink-0" style={{ background: item.color, boxShadow: `0 0 6px ${item.color}40` }} />
+              <div className="flex-1 min-w-0">
+                <span className="text-sm text-white">{item.title}</span>
+              </div>
+              <span className="text-xs flex-shrink-0 px-2 py-0.5 rounded-full" style={{ background: `${item.color}10`, color: item.color }}>
+                {item.category}
+              </span>
+              <span className="text-xs flex-shrink-0" style={{ color: "#475569" }}>{item.time}</span>
             </div>
-            <span className="text-sm font-semibold text-white" style={{ fontFamily: "Space Grotesk, sans-serif" }}>AIPUSULA</span>
-            <span className="text-xs" style={{ color: "#475569" }}>MVP Platform Raporu — Temmuz 2026</span>
+          ))}
+        </div>
+      </section>
+
+      {/* ── Platform Metrics ── */}
+      <section className="mt-10">
+        <div className="glass rounded-xl p-6">
+          <div className="flex items-center gap-2 mb-5">
+            <TrendingUp className="w-4 h-4" style={{ color: "#00E5A0" }} />
+            <span className="mono text-xs uppercase tracking-widest" style={{ color: "#00E5A0" }}>Platform Metrikleri</span>
           </div>
-          <div className="flex items-center gap-4">
-            <span className="text-xs mono" style={{ color: "#475569" }}>v1.0.0-MVP</span>
-            <div className="flex items-center gap-1.5">
-              <div className="w-1.5 h-1.5 rounded-full pulse-dot" style={{ background: "#00E5A0", color: "#00E5A0" }} />
-              <span className="text-xs" style={{ color: "#475569" }}>Hazır</span>
-            </div>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            {[
+              { label: "Aktif Kullanıcı", value: "12,847", change: "+12.4%", color: "#00E5A0" },
+              { label: "Toplam İçerik", value: "1,247", change: "+28", color: "#38BDF8" },
+              { label: "Günlük Görüntüleme", value: "48.2K", change: "+8.1%", color: "#A78BFA" },
+              { label: "Ortalama Süre", value: "4:32", change: "+0:18", color: "#FCD34D" },
+            ].map((m, i) => (
+              <div key={i} className="p-4 rounded-lg" style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.04)" }}>
+                <div className="text-xs mb-1" style={{ color: "#475569" }}>{m.label}</div>
+                <div className="font-bold" style={{ fontFamily: "Space Grotesk, sans-serif", fontSize: "1.5rem", color: m.color }}>{m.value}</div>
+                <div className="text-xs mt-1" style={{ color: "#00E5A0" }}>{m.change}</div>
+              </div>
+            ))}
           </div>
         </div>
-      </footer>
-    </div>
+      </section>
+
+      {/* ── Quick Access ── */}
+      <section className="mt-10">
+        <div className="grid sm:grid-cols-3 gap-4">
+          {[
+            { label: "AI Araçlarını Keşfet", path: "/ai-araclari", color: "#38BDF8", icon: <Cpu className="w-4 h-4" /> },
+            { label: "Son Güvenlik Uyarıları", path: "/siber-guvenlik", color: "#F97316", icon: <Shield className="w-4 h-4" /> },
+            { label: "AI ile Kazanmaya Başla", path: "/ai-ile-kazanc", color: "#FCD34D", icon: <DollarSign className="w-4 h-4" /> },
+          ].map((cta, i) => (
+            <Link key={i} href={cta.path}>
+              <button className="w-full flex items-center gap-3 px-5 py-4 rounded-xl glass text-left transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] group"
+                style={{ border: `1px solid ${cta.color}20` }}>
+                <div className="p-2 rounded-lg" style={{ background: `${cta.color}10`, color: cta.color }}>
+                  {cta.icon}
+                </div>
+                <span className="text-sm font-medium text-white flex-1">{cta.label}</span>
+                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" style={{ color: cta.color }} />
+              </button>
+            </Link>
+          ))}
+        </div>
+      </section>
+    </AppShell>
   );
 }

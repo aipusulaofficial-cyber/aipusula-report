@@ -1,17 +1,31 @@
-# AIPUSULA Enterprise Features - Todo List
+# AIPUSULA Phase 2 - Multi-Page Platform
 
-- [ ] 1. Global Cyber Attack Map (interactive world map, animated attack indicators)
-- [ ] 2. Live Threat Counter (animated counters, auto-refresh)
-- [ ] 3. AI Risk Score (gauge visualization, risk level, explanation)
-- [ ] 4. Critical CVEs Last 24 Hours (severity badges, CVSS score, searchable)
-- [ ] 5. Real-Time Cyber Security News (category filters, auto refresh)
-- [ ] 6. Smooth Page Transitions (section animations, premium feel)
-- [ ] 7. Advanced Search (search across all content, instant, filter)
-- [ ] 8. Light/Dark Theme (theme switcher, preserve Cyber Noir, remember preference)
-- [ ] 9. Notification Center (bell icon, threat alerts, CVE alerts, unread badge)
+## Architecture
+- 6 top-level pages matching official site map
+- Shared AppShell layout (TopNav + Sidebar + Content)
+- Category-specific sidebars (context-aware)
+- Category color coding (Cyan, Blue, Gold, Purple, Orange/Red)
 
-## Integration Points
-- [ ] All features must integrate into existing Home.tsx without breaking
-- [ ] Preserve CyberBackground, glassmorphism, glow effects
-- [ ] Maintain responsive behavior
-- [ ] No TypeScript errors, no build errors
+## Pages to Build
+- [ ] Ana Sayfa (Home) - Overview with category cards
+- [ ] Yapay Zekâ - Haberler, Modeller, Trendler, Araştırmalar, Etkinlikler
+- [ ] AI Araçları - Katalog, Kategoriler, Karşılaştırmalar, İncelemeler
+- [ ] AI ile Kazanç - Rehberler, İş Fikirleri, Freelance, YouTube, Başarı Hikayeleri
+- [ ] Dijital Dünya - Teknoloji, Yazılım, Mobil, Bulut, Web, Girişimler
+- [ ] Siber Güvenlik - Attack Map, Threat Intel, CVE Feed, Güvenlik Haberleri, Araçlar, Analizler
+
+## Shared Components
+- [ ] AppShell layout (TopNav + Sidebar + Footer)
+- [ ] Context-aware sidebar per category
+- [ ] Category color system
+- [ ] Card variants (Featured, Editorial, News, Tool, Stats)
+- [ ] Dynamic content labels (Yeni, Trend, Popüler, Son Dakika)
+- [ ] Mobile hamburger menu
+
+## Quality
+- [ ] No duplicate content
+- [ ] Unique page identities
+- [ ] Full Turkish interface
+- [ ] Responsive (desktop, tablet, mobile)
+- [ ] No console errors / TypeScript errors
+- [ ] Production build succeeds

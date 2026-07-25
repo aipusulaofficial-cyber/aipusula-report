@@ -442,6 +442,112 @@
     animation: fadeSlideUp 0.6s ease-out forwards;
   }
 
+  /* ─── Intelligence Console Overlays ─── */
+  .intel-grid-bg {
+    position: relative;
+  }
+  .intel-grid-bg::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(0,229,160,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,229,160,0.03) 1px, transparent 1px);
+    background-size: 48px 48px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .intel-scanline::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 3px,
+      rgba(0, 229, 160, 0.012) 3px,
+      rgba(0, 229, 160, 0.012) 6px
+    );
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .intel-corner {
+    position: relative;
+  }
+  .intel-corner::before,
+  .intel-corner::after {
+    content: '';
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    border-color: rgba(0, 229, 160, 0.3);
+    pointer-events: none;
+    z-index: 2;
+  }
+  .intel-corner::before {
+    top: 0;
+    left: 0;
+    border-top: 1px solid;
+    border-left: 1px solid;
+  }
+  .intel-corner::after {
+    bottom: 0;
+    right: 0;
+    border-bottom: 1px solid;
+    border-right: 1px solid;
+  }
+
+  .data-strip {
+    background: rgba(0, 229, 160, 0.04);
+    border: 1px solid rgba(0, 229, 160, 0.1);
+    border-left: 2px solid #00E5A0;
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: #64748B;
+    padding: 0.35rem 0.75rem;
+  }
+
+  .status-indicator {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+  }
+  .status-indicator::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: currentColor;
+    box-shadow: 0 0 6px currentColor;
+  }
+
+  .radar-sweep {
+    position: relative;
+    overflow: hidden;
+  }
+  .radar-sweep::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 200%;
+    height: 200%;
+    background: conic-gradient(from 0deg, transparent 0deg, rgba(0,229,160,0.06) 30deg, transparent 60deg);
+    transform-origin: 0 0;
+    animation: radarSweep 4s linear infinite;
+    pointer-events: none;
+  }
+  @keyframes radarSweep {
+    from { transform: translate(-50%, -50%) rotate(0deg); }
+    to { transform: translate(-50%, -50%) rotate(360deg); }
+  }
+
   /* ─── Noise Texture (matches reference: body::before) ─── */
   .noise-overlay {
     position: fixed;
