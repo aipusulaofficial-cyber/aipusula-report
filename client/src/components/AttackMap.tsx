@@ -87,12 +87,12 @@ export function AttackMap() {
 
   return (
     <div className="glass rounded-xl overflow-hidden">
-      <div className="px-4 py-3 border-b flex items-center justify-between" style={{ borderColor: "rgba(0,229,160,0.1)", background: "rgba(0,229,160,0.02)" }}>
+      <div className="px-3 sm:px-4 py-2.5 sm:py-3 border-b flex flex-wrap items-center gap-2 justify-between" style={{ borderColor: "rgba(0,229,160,0.1)", background: "rgba(0,229,160,0.02)" }}>
         <div className="flex items-center gap-2">
           <div className="w-2 h-2 rounded-full animate-pulse" style={{ background: "#EF4444", boxShadow: "0 0 8px #EF4444" }} />
           <span className="mono text-xs uppercase tracking-widest" style={{ color: "#38BDF8" }}>GLOBAL SALDIRI HARİTASI</span>
         </div>
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2 sm:gap-3 flex-wrap">
           <span className="mono text-[10px]" style={{ color: "#64748B" }}>{attacks.length} AKTİF SALDIRI</span>
           <div className="flex items-center gap-2">
             {Object.entries(severityColors).map(([key, color]) => (
@@ -107,7 +107,7 @@ export function AttackMap() {
 
       {/* SVG World Map */}
       <div className="relative" style={{ background: "radial-gradient(ellipse at center, #0a1a2e 0%, #050B14 100%)" }}>
-        <svg viewBox="0 0 700 400" className="w-full h-[280px]">
+        <svg viewBox="0 0 700 400" className="w-full h-[200px] sm:h-[240px] md:h-[280px]">
           {/* Grid lines */}
           <defs>
             <pattern id="grid" width="35" height="35" patternUnits="userSpaceOnUse">
@@ -212,7 +212,7 @@ export function AttackMap() {
               top: `${(hoveredAttack.y / 400) * 100}%`,
               transform: "translate(-50%, -120%)",
               borderColor: severityColors[hoveredAttack.severity],
-              minWidth: "180px",
+              minWidth: "160px", maxWidth: "220px",
             }}
           >
             <div className="flex items-center gap-2 mb-1">
@@ -230,7 +230,7 @@ export function AttackMap() {
         )}
       </div>
 
-      <div className="px-4 py-2 flex items-center justify-between border-t" style={{ borderColor: "rgba(0,229,160,0.08)", background: "rgba(5,11,20,0.6)" }}>
+      <div className="px-3 sm:px-4 py-2 flex flex-wrap items-center gap-x-2 justify-between border-t" style={{ borderColor: "rgba(0,229,160,0.08)", background: "rgba(5,11,20,0.6)" }}>
         <span className="mono text-[10px]" style={{ color: "#334155" }}>4 saniyede güncellenir · Detaylar için üzerine gelin</span>
         <span className="mono text-[10px]" style={{ color: "#334155" }}>
           Kritik: {attacks.filter(a => a.severity === "critical").length} ·

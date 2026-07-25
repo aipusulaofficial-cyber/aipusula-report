@@ -52,22 +52,22 @@ export function LiveThreatCounter() {
   }, []);
 
   return (
-    <div className="glass rounded-xl p-5">
-      <div className="flex items-center gap-2 mb-4">
+    <div className="glass rounded-xl p-3 sm:p-5">
+      <div className="flex flex-wrap items-center gap-2 mb-4">
         <div className="w-2 h-2 rounded-full animate-pulse" style={{ background: "#EF4444", boxShadow: "0 0 8px #EF4444" }} />
         <span className="mono text-xs uppercase tracking-widest" style={{ color: "#EF4444" }}>
           CANLI TEHDİT İSTATİSTİKLERİ
         </span>
-        <span className="mono text-[10px] ml-auto" style={{ color: "#334155" }}>3 saniyede bir güncellenir</span>
+        <span className="mono text-[10px] ml-auto hidden sm:block" style={{ color: "#334155" }}>3 saniyede bir güncellenir</span>
       </div>
-      <div className="grid grid-cols-2 gap-3">
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3">
         {stats.map((stat, i) => (
-          <div key={i} className="rounded-lg p-3" style={{ background: `${stat.color}08`, border: `1px solid ${stat.color}15` }}>
+          <div key={i} className="rounded-lg p-2.5 sm:p-3" style={{ background: `${stat.color}08`, border: `1px solid ${stat.color}15` }}>
             <div className="flex items-center gap-2 mb-2">
               <div style={{ color: stat.color }}>{stat.icon}</div>
               <span className="text-[10px] uppercase tracking-wider" style={{ color: "#64748B" }}>{stat.label}</span>
             </div>
-            <div className="text-xl font-bold text-white" style={{ fontFamily: "Space Grotesk, sans-serif" }}>
+            <div className="text-lg sm:text-xl font-bold text-white" style={{ fontFamily: "Space Grotesk, sans-serif" }}>
               <AnimatedValue target={Math.max(0, stat.value)} duration={1500} />
             </div>
             <div className="mt-1 h-1 rounded-full" style={{ background: "rgba(255,255,255,0.05)" }}>
@@ -145,10 +145,10 @@ export function AIRiskScore() {
         </span>
       </div>
 
-      <div className="flex items-center gap-6">
+      <div className="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6">
         {/* Gauge */}
         <div className="relative flex-shrink-0">
-          <svg width="120" height="120" viewBox="0 0 100 100">
+          <svg width="100" height="100" viewBox="0 0 100 100" className="sm:w-[120px] sm:h-[120px]">
             <circle cx="50" cy="50" r="42" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="6" />
             <circle
               cx="50" cy="50" r="42" fill="none"

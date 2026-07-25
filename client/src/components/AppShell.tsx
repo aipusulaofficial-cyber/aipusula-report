@@ -1,9 +1,9 @@
 /**
  * AIPUSULA AppShell — Premium Cyber Noir layout
- * Top navigation + Context-aware sidebar + Content area + Footer
- * Each category has its own color identity.
+ * Mobile-responsive: sticky header with safe-area, 44px touch targets,
+ * smooth mobile menu, content offset for sticky nav.
  */
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Link, useLocation } from "wouter";
 import {
   Brain, Cpu, DollarSign, Globe, Shield, Home as HomeIcon,
@@ -116,7 +116,6 @@ export const categories: Category[] = [
 
 export function getCurrentCategory(pathname: string): Category {
   if (pathname === "/") return categories[0];
-  // Match the most specific path (longest match first)
   const cat = [...categories.slice(1)].sort((a, b) => b.path.length - a.path.length).find(c => pathname === c.path || pathname.startsWith(c.path));
   return cat || categories[0];
 }
@@ -145,6 +144,18 @@ export function AppShell({ children }: { children: React.ReactNode }) {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  // Prevent body scroll when mobile nav is open
+  useEffect(() => {
+    if (mobileNavOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => { document.body.style.overflow = ""; };
+  }, [mobileNavOpen]);
+
+  const closeNav = useCallback(() => setMobileNavOpen(false), []);
+
   return (
     <div className="min-h-screen" style={{ background: isDark ? "#0A0C0D" : "#F8FAFC", fontFamily: "Inter, sans-serif" }}>
       {/* Scroll Progress */}
@@ -160,22 +171,29 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       </div>
 
       {/* ── Top Navigation ── */}
-      <header className="sticky top-0 z-50 border-b glass" style={{ borderColor: isDark ? `${currentCat.color}25` : `${currentCat.color}20` }}>
-        <div className="container flex items-center justify-between py-1.5">
+      <header
+        className="sticky top-0 z-50 border-b glass"
+        style={{
+          borderColor: isDark ? `${currentCat.color}25` : `${currentCat.color}20`,
+          /* Safe area offset so notch doesn't cover nav */
+          paddingTop: "env(safe-area-inset-top, 0px)",
+        }}
+      >
+        <div className="flex items-center justify-between px-3 sm:px-4 py-2 sm:py-1.5" style={{ minHeight: "48px" }}>
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-2.5 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#00E5A0]/30">
-            <div className="w-8 h-8 rounded-md flex items-center justify-center" style={{ background: "linear-gradient(135deg, #00E5A0, #00E5A060)", boxShadow: "0 0 12px rgba(0,229,160,0.3)" }}>
+          <Link href="/" className="flex items-center gap-2 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#00E5A0]/30">
+            <div className="w-8 h-8 rounded-md flex items-center justify-center flex-shrink-0" style={{ background: "linear-gradient(135deg, #00E5A0, #00E5A060)", boxShadow: "0 0 12px rgba(0,229,160,0.3)" }}>
               <svg viewBox="0 0 24 24" className="w-4 h-4" fill="none" stroke="#0A0C0D" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                 <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
               </svg>
             </div>
-            <div>
+            <div className="flex items-center gap-1.5">
               <span className="font-bold" style={{ fontFamily: "Space Grotesk, sans-serif", fontSize: "1.05rem", color: isDark ? "#FFFFFF" : "#0F172A", letterSpacing: "0.04em" }}>AIPUSULA</span>
-              <span className="ml-1.5 text-xs px-1.5 py-0.5 rounded mono" style={{ background: "rgba(0,229,160,0.1)", color: "#00E5A0", border: "1px solid rgba(0,229,160,0.2)" }}>MVP</span>
+              <span className="text-xs px-1.5 py-0.5 rounded mono hidden sm:inline" style={{ background: "rgba(0,229,160,0.1)", color: "#00E5A0", border: "1px solid rgba(0,229,160,0.2)" }}>MVP</span>
             </div>
           </Link>
 
-          {/* Desktop Nav */}
+          {/* Desktop Nav — only xl+ */}
           <nav className="hidden xl:flex items-center gap-0.5">
             {categories.map(cat => {
               const isActive = cat.id === 'home'
@@ -202,18 +220,20 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             })}
           </nav>
 
-          {/* Right side */}
-          <div className="flex items-center gap-2">
+          {/* Right side actions */}
+          <div className="flex items-center gap-1 sm:gap-2">
             <ThemeToggle />
             <AdvancedSearch />
             <NotificationCenter />
-            <span className="hidden sm:inline text-xs mono" style={{ color: "#94A3B8" }}>Temmuz 2026</span>
-            <div className="w-2 h-2 rounded-full animate-pulse" style={{ background: "#00E5A0", boxShadow: "0 0 6px #00E5A0" }} />
+            <span className="hidden lg:inline text-xs mono" style={{ color: "#94A3B8" }}>Temmuz 2026</span>
+            <div className="w-2 h-2 rounded-full animate-pulse flex-shrink-0" style={{ background: "#00E5A0", boxShadow: "0 0 6px #00E5A0" }} />
 
-            {/* Mobile hamburger */}
+            {/* Mobile hamburger — 44px touch target */}
             <button
-              className="xl:hidden p-1.5 rounded-md hover:bg-white/5 transition-colors"
+              className="xl:hidden flex items-center justify-center rounded-md transition-colors"
+              style={{ width: "40px", height: "40px", background: "transparent" }}
               onClick={() => setMobileNavOpen(!mobileNavOpen)}
+              aria-label="Menüyü aç/kapat"
             >
               {mobileNavOpen ? <X className="w-5 h-5" style={{ color: currentCat.color }} /> : <Menu className="w-5 h-5" style={{ color: currentCat.color }} />}
             </button>
@@ -221,57 +241,116 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         </div>
       </header>
 
-          {/* Mobile Nav Overlay */}
-          {mobileNavOpen && (
-        <div className="fixed inset-0 z-40 lg:hidden" style={{ background: "rgba(0,0,0,0.8)", backdropFilter: "blur(8px)" }}>
-          <nav className="container py-6 space-y-1">
+      {/* ── Mobile Nav Overlay ── */}
+      {mobileNavOpen && (
+        <div
+          className="fixed inset-0 z-40 xl:hidden"
+          style={{ background: "rgba(0,0,0,0.85)", backdropFilter: "blur(12px)" }}
+          onClick={closeNav}
+        >
+          <nav
+            className="container py-6 space-y-1 max-h-full overflow-y-auto"
+            onClick={(e) => e.stopPropagation()}
+            style={{ paddingTop: "calc(env(safe-area-inset-top, 0px) + 24px)" }}
+          >
+            {/* Current category indicator */}
+            <div className="mb-4 px-4 py-2 rounded-lg" style={{ background: `${currentCat.color}08`, border: `1px solid ${currentCat.color}20` }}>
+              <div className="flex items-center gap-2">
+                <span className="mono text-[10px] uppercase tracking-widest" style={{ color: currentCat.color }}>AKTİF BÖLÜM</span>
+              </div>
+              <div className="flex items-center gap-2 mt-1">
+                {currentCat.icon}
+                <span className="text-sm font-semibold" style={{ color: currentCat.color, fontFamily: "Space Grotesk, sans-serif" }}>{currentCat.label}</span>
+              </div>
+            </div>
+
             {categories.map(cat => {
               const isActive = cat.id === 'home'
                 ? location === '/' || location === ''
                 : location.startsWith(cat.path);
               return (
-              <Link key={cat.id} href={cat.path}>
-                <div
-                  className="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm transition-all duration-200 text-left cursor-pointer"
-                  style={{
-                    color: isActive ? cat.color : (isDark ? "#E2E8F0" : "#1E293B"),
-                    background: isActive ? `${cat.color}10` : "transparent",
-                    border: isActive ? `1px solid ${cat.color}30` : '1px solid transparent',
-                  }}
-                >
-                  {cat.icon}
-                  <span className="flex-1 font-medium">{cat.label}</span>
-                  {isActive && <span className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: cat.color }} />}
-                  <ChevronRight className="w-4 h-4" />
-                </div>
-              </Link>
+                <Link key={cat.id} href={cat.path}>
+                  <div
+                    className="flex items-center gap-3 px-4 py-3.5 rounded-lg transition-all duration-200 cursor-pointer"
+                    style={{
+                      color: isActive ? cat.color : (isDark ? "#E2E8F0" : "#1E293B"),
+                      background: isActive ? `${cat.color}10` : "transparent",
+                      border: isActive ? `1px solid ${cat.color}30` : '1px solid transparent',
+                      minHeight: "44px",
+                    }}
+                  >
+                    <span style={{ opacity: isActive ? 1 : 0.6 }}>{cat.icon}</span>
+                    <span className="flex-1 font-medium text-sm">{cat.label}</span>
+                    {isActive && <span className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: cat.color }} />}
+                    <ChevronRight className="w-4 h-4 flex-shrink-0" style={{ opacity: 0.4 }} />
+                  </div>
+                </Link>
               );
             })}
+
+            {/* Quick links from sidebar */}
+            {currentCat.sidebarItems.length > 0 && (
+              <div className="mt-4 pt-4 border-t" style={{ borderColor: "rgba(255,255,255,0.06)" }}>
+                <p className="mono text-[10px] uppercase tracking-widest px-4 mb-2" style={{ color: "#475569" }}>Bölüm Navigasyonu</p>
+                {currentCat.sidebarItems.map((item, idx) => (
+                  <a
+                    key={idx}
+                    href={item.path}
+                    className="flex items-center gap-2 px-4 py-2.5 rounded-md transition-all hover:bg-white/[0.03]"
+                    style={{ minHeight: "40px", color: "#94A3B8" }}
+                    onClick={(e) => {
+                      const hash = item.path.split('#')[1];
+                      if (hash) {
+                        e.preventDefault();
+                        document.getElementById(hash)?.scrollIntoView({ behavior: "smooth" });
+                        closeNav();
+                      }
+                    }}
+                  >
+                    <div className="w-1.5 h-1.5 rounded-full" style={{ background: currentCat.color, opacity: 0.5 }} />
+                    <span className="text-sm">{item.label}</span>
+                  </a>
+                ))}
+              </div>
+            )}
+
+            {/* Footer in mobile nav */}
+            <div className="mt-6 pt-4 border-t flex items-center gap-2 px-4" style={{ borderColor: "rgba(255,255,255,0.06)" }}>
+              <div className="w-1.5 h-1.5 rounded-full pulse-dot" style={{ background: currentCat.color }} />
+              <span className="mono text-[10px]" style={{ color: "#475569" }}>AIPUSULA MVP v1.0 — Hazır</span>
+            </div>
           </nav>
         </div>
       )}
 
       {/* ── System Status Bar ── */}
-      <div className="flex flex-wrap items-center gap-3 py-0.5 px-3 border-b intel-grid-bg" style={{ borderColor: `rgba(0,229,160,0.06)`, background: `rgba(0,229,160,0.02)` }}>
-        <span className="mono text-xs" style={{ color: "#334155" }}>SYS://AIPUSULA-v1.0</span>
+      <div
+        className="flex flex-wrap items-center gap-2 sm:gap-3 py-1 px-3 border-b intel-grid-bg"
+        style={{
+          borderColor: `rgba(0,229,160,0.06)`,
+          background: `rgba(0,229,160,0.02)`,
+          fontSize: "11px",
+        }}
+      >
+        <span className="mono" style={{ color: "#334155", whiteSpace: "nowrap" }}>SYS://AIPUSULA-v1.0</span>
         <div className="h-3 w-px" style={{ background: `rgba(0,229,160,0.12)` }} />
         <div className="flex items-center gap-1.5">
-          <div className="w-1.5 h-1.5 rounded-full" style={{ background: "#00E5A0", boxShadow: `0 0 4px #00E5A0` }} />
-          <span className="mono text-xs" style={{ color: "#475569" }}>AKTİF BÖLÜM:</span>
-          <span className="mono text-xs font-medium" style={{ color: currentCat.color }}>{currentCat.label}</span>
+          <div className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ background: "#00E5A0", boxShadow: `0 0 4px #00E5A0` }} />
+          <span className="mono" style={{ color: "#475569", whiteSpace: "nowrap" }}>AKTİF BÖLÜM:</span>
+          <span className="mono font-medium" style={{ color: currentCat.color, whiteSpace: "nowrap" }}>{currentCat.label}</span>
         </div>
-        <div className="hidden sm:flex items-center gap-3 ml-auto">
+        <div className="hidden md:flex items-center gap-2 ml-auto">
           <span className="status-indicator" style={{ color: "#00E5A0" }}>ONLINE</span>
-          <span className="mono text-xs" style={{ color: "#334155" }}>|</span>
-          <span className="mono text-xs" style={{ color: "#475569" }}>LAT: 39.9255° N</span>
-          <span className="mono text-xs" style={{ color: "#475569" }}>LON: 32.8662° E</span>
+          <span className="mono" style={{ color: "#334155" }}>|</span>
+          <span className="mono" style={{ color: "#475569" }}>LAT: 39.9255° N</span>
+          <span className="mono" style={{ color: "#475569" }}>LON: 32.8662° E</span>
         </div>
       </div>
 
       {/* ── Content Layout ── */}
       <div className="container pb-6">
         <div className="flex gap-4">
-          {/* Sidebar — context-aware */}
+          {/* Sidebar — desktop only, hidden on mobile */}
           {currentCat.sidebarItems.length > 0 && !isMobile && (
             <aside className="hidden lg:block w-52 flex-shrink-0">
               <div className="sticky top-14">
@@ -300,14 +379,10 @@ export function AppShell({ children }: { children: React.ReactNode }) {
                           key={idx}
                           href={item.path}
                           className="flex items-center gap-2 px-2.5 py-1.5 rounded text-sm transition-all duration-200 ease-out hover:bg-white/[0.03] text-left"
-                          style={{
-                            color: "#64748B",
-                            fontSize: "0.75rem",
-                          }}
+                          style={{ color: "#64748B", fontSize: "0.75rem" }}
                           onClick={(e) => {
-                            // Check if it's a hash navigation on the same page
                             const hash = item.path.split('#')[1];
-                            if (hash && window.location.pathname === item.path.split('#')[0]) {
+                            if (hash) {
                               e.preventDefault();
                               document.getElementById(hash)?.scrollIntoView({ behavior: "smooth" });
                             }
@@ -318,7 +393,6 @@ export function AppShell({ children }: { children: React.ReactNode }) {
                         </a>
                       ))}
                     </nav>
-                    {/* Mini compass */}
                     <div className="mt-3 pt-2 border-t flex items-center justify-center py-2" style={{ borderColor: `${currentCat.color}08` }}>
                       <svg viewBox="0 0 40 40" className="w-8 h-8" style={{ opacity: 0.3 }}>
                         <circle cx="20" cy="20" r="18" fill="none" stroke={currentCat.color} strokeWidth="0.5" strokeDasharray="2 4" />
@@ -328,7 +402,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
                         <line x1="2" y1="20" x2="38" y2="20" stroke={currentCat.color} strokeWidth="0.3" opacity="0.3" />
                       </svg>
                     </div>
-                    <div className="mono text-xs px-1 space-y-0.5" style={{ color: "#1E3A2F" }}>
+                    <div className="mono text-xs px-1 space-y-0.5">
                       <div className="text-[10px]" style={{ color: "#334155" }}>AIPUSULA-MVP-v1.0</div>
                       <div className="flex items-center gap-1.5">
                         <div className="w-1.5 h-1.5 rounded-full" style={{ background: "#00E5A0", boxShadow: "0 0 4px #00E5A0" }} />
@@ -353,7 +427,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       <footer className="border-t py-6 glass" style={{ borderColor: `${currentCat.color}15` }}>
         <div className="container flex flex-col md:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-3">
-            <div className="w-6 h-6 rounded flex items-center justify-center" style={{ background: "linear-gradient(135deg, #00E5A0, #00E5A060)", boxShadow: "0 0 8px rgba(0,229,160,0.25)" }}>
+            <div className="w-6 h-6 rounded flex items-center justify-center flex-shrink-0" style={{ background: "linear-gradient(135deg, #00E5A0, #00E5A060)", boxShadow: "0 0 8px rgba(0,229,160,0.25)" }}>
               <svg viewBox="0 0 24 24" className="w-3 h-3" fill="none" stroke="#0A0C0D" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                 <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
               </svg>

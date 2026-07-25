@@ -104,7 +104,7 @@ export function AdvancedSearch() {
     <>
       <button
         onClick={() => setIsOpen(true)}
-        className="p-2 rounded-lg transition-all duration-200 ease-out hover:scale-105 active:scale-[0.97] cursor-pointer focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#00E5A0]/30"
+        className="p-2 sm:p-2.5 rounded-lg transition-all duration-200 ease-out hover:scale-105 active:scale-[0.97] cursor-pointer focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#00E5A0]/30 touch-target-sm"
         style={{
           background: "rgba(255,255,255,0.04)",
           border: "1px solid rgba(255,255,255,0.06)",
@@ -121,14 +121,14 @@ export function AdvancedSearch() {
 
           {/* Modal */}
           <div
-            className="fixed inset-x-0 top-[15%] mx-auto max-w-lg z-50 glass rounded-xl overflow-hidden"
+            className="fixed inset-x-0 top-[15%] mx-auto max-w-lg z-50 glass rounded-xl overflow-hidden px-3 sm:px-0"
             style={{
               borderColor: "rgba(0,229,160,0.15)",
               boxShadow: "0 25px 80px rgba(0,0,0,0.6), 0 0 40px rgba(0,229,160,0.05)",
             }}
           >
             {/* Search Input */}
-            <div className="flex items-center gap-3 px-4 py-3 border-b" style={{ borderColor: "rgba(0,229,160,0.1)" }}>
+            <div className="flex items-center gap-2 px-3 sm:px-4 py-3 border-b" style={{ borderColor: "rgba(0,229,160,0.1)" }}>
               <Search className="w-4 h-4 flex-shrink-0" style={{ color: "#00E5A0" }} />
               <input
                 type="text"
@@ -136,11 +136,11 @@ export function AdvancedSearch() {
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 autoFocus
-                className="flex-1 bg-transparent text-sm outline-none placeholder:text-gray-600"
+                className="flex-1 bg-transparent text-sm sm:text-base outline-none placeholder:text-gray-600 min-w-0"
                 style={{ color: "#E2E8F0" }}
               />
-              <div className="flex items-center gap-1">
-                <kbd className="px-1.5 py-0.5 rounded mono text-[9px]" style={{ background: "rgba(255,255,255,0.05)", color: "#64748B", border: "1px solid rgba(255,255,255,0.1)" }}>ESC</kbd>
+              <div className="flex items-center gap-1 flex-shrink-0">
+                <kbd className="hidden sm:inline px-1.5 py-0.5 rounded mono text-[9px]" style={{ background: "rgba(255,255,255,0.05)", color: "#64748B", border: "1px solid rgba(255,255,255,0.1)" }}>ESC</kbd>
                 <button onClick={() => { setIsOpen(false); setQuery(""); }} className="p-1 rounded hover:bg-white/5" style={{ color: "#64748B" }}>
                   <X className="w-3.5 h-3.5" />
                 </button>
@@ -166,7 +166,7 @@ export function AdvancedSearch() {
                       <button
                         key={item.id}
                         onClick={() => handleSelect(item)}
-                        className="w-full flex items-center gap-3 px-4 py-2.5 text-left transition-colors hover:bg-white/[0.03]"
+                        className="w-full flex items-center gap-3 px-3 sm:px-4 py-3 text-left transition-colors hover:bg-white/[0.03] touch-target-sm"
                       >
                         <div style={{ color: categoryColors[item.category] || "#64748B" }}>{item.icon}</div>
                         <div className="flex-1 min-w-0">

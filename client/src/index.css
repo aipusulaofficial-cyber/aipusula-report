@@ -156,6 +156,11 @@
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
     overflow-x: hidden;
+    /* Safe area support for Android notch/gesture bar */
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
   }
   ::selection {
     background: #00E5FF;
@@ -252,6 +257,141 @@
   .neon-text-blue {
     color: #38BDF8;
     text-shadow: 0 0 20px rgba(56, 189, 248, 0.5);
+  }
+
+  /* ─── Mobile Responsive Utilities ─── */
+  /* Prevent horizontal scroll at any viewport */
+  html {
+    overflow-x: hidden;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  /* Ensure touch targets are at least 44x44px on mobile */
+  @media (max-width: 480px) {
+    /* Touch-friendly buttons */
+    button, a, [role="button"] {
+      min-height: 44px;
+    }
+
+    /* Allow small inline icons/links to be exempt */
+    .touch-target-sm {
+      min-height: auto;
+    }
+
+    /* Full-width primary buttons */
+    .btn-full-mobile {
+      width: 100%;
+    }
+
+    /* Card spacing on mobile */
+    .card-mobile {
+      padding: 12px;
+    }
+
+    /* Text scaling adjustments */
+    body {
+      font-size: 15px;
+    }
+  }
+
+  /* Sticky nav fix for mobile — must sit below header */
+  @media (max-width: 768px) {
+    .sticky-top-mobile {
+      top: calc(48px + env(safe-area-inset-top, 0px));
+    }
+  }
+
+  /* Smooth scrolling for all devices */
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 80px;
+  }
+
+  /* Prevent layout shift during loading */
+  img, video, svg {
+    max-width: 100%;
+    height: auto;
+  }
+
+  /* Prevent text clipping */
+  .no-text-clip {
+    overflow: visible;
+    text-overflow: clip;
+    white-space: normal;
+  }
+
+  /* Glass effect utility */
+  .glass {
+    background: rgba(15, 23, 42, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+
+  /* Intel grid background */
+  .intel-grid-bg {
+    background-image:
+      linear-gradient(rgba(0, 229, 160, 0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0, 229, 160, 0.03) 1px, transparent 1px);
+    background-size: 60px 60px;
+  }
+
+  .intel-scanline::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, rgba(0, 229, 160, 0.15), transparent);
+    animation: scanline 8s linear infinite;
+    pointer-events: none;
+  }
+
+  @keyframes scanline {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(400px); }
+  }
+
+  .intel-corner {
+    position: relative;
+  }
+  .intel-corner::before,
+  .intel-corner::after {
+    content: '';
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    pointer-events: none;
+  }
+  .intel-corner::before {
+    top: -1px;
+    left: -1px;
+    border-top: 2px solid rgba(0, 229, 160, 0.3);
+    border-left: 2px solid rgba(0, 229, 160, 0.3);
+  }
+  .intel-corner::after {
+    bottom: -1px;
+    right: -1px;
+    border-bottom: 2px solid rgba(0, 229, 160, 0.3);
+    border-right: 2px solid rgba(0, 229, 160, 0.3);
+  }
+
+  @keyframes borderGlow {
+    0%, 100% { box-shadow: 0 0 5px rgba(0, 229, 160, 0.1); }
+    50% { box-shadow: 0 0 15px rgba(0, 229, 160, 0.2); }
+  }
+
+  .pulse-dot {
+    animation: pulse 2s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+
+  .mono {
+    font-family: var(--font-mono);
   }
   .card-cyber {
     background: oklch(0.11 0.03 225);
@@ -559,3 +699,57 @@
     mix-blend-mode: overlay;
   }
 }
+
+  /* ─── Additional Mobile Optimizations ─── */
+  /* Safe area support for notched Android devices */
+  @supports (padding-top: env(safe-area-inset-top)) {
+    body {
+      padding-top: env(safe-area-inset-top);
+      padding-bottom: env(safe-area-inset-bottom);
+    }
+  }
+
+  /* Prevent tap highlight on mobile */
+  @media (max-width: 480px) {
+    * {
+      -webkit-tap-highlight-color: transparent;
+    }
+  }
+
+  /* Mobile-specific scroll behavior */
+  @media (max-width: 480px) {
+    /* Prevent overscroll bounce */
+    html, body {
+      overscroll-behavior-y: contain;
+    }
+  }
+
+  /* Responsive font scaling for very small screens */
+  @media (max-width: 320px) {
+    body {
+      font-size: 14px;
+    }
+    h1 { font-size: 1.25rem !important; }
+    h2 { font-size: 1.1rem !important; }
+  }
+
+  /* Tablet adjustments */
+  @media (min-width: 768px) and (max-width: 1024px) {
+    .container {
+      max-width: 100%;
+    }
+  }
+
+  /* Performance: GPU-accelerated scrolling */
+  .overflow-y-auto {
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Prevent text overflow in narrow containers */
+  @media (max-width: 480px) {
+    .truncate-mobile {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  }

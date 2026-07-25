@@ -276,9 +276,9 @@ export default function ContentDetail() {
   if (!catData && !isRegistryOptional) {
     return (
       <AppShell>
-        <div className="flex flex-col items-center justify-center min-h-[60vh] text-center">
+        <div className="flex flex-col items-center justify-center min-h-[60vh] text-center px-4">
           <div className="text-6xl mb-4" style={{ color: catColor }}>?</div>
-          <h1 className="text-2xl font-bold text-white mb-2" style={{ fontFamily: "Space Grotesk, sans-serif" }}>İçerik Bulunamadı</h1>
+          <h1 className="text-xl sm:text-2xl font-bold text-white mb-2" style={{ fontFamily: "Space Grotesk, sans-serif" }}>İçerik Bulunamadı</h1>
           <p className="text-sm mb-6" style={{ color: "#64748B" }}>Aradığınız içerik mevcut değil veya kaldırılmış olabilir.</p>
           <Link href="/" className="px-6 py-3 rounded-lg text-sm font-medium text-white transition-colors hover:opacity-80"
             style={{ background: catColor }}>{catLabel} Sayfasına Dön</Link>
@@ -296,9 +296,9 @@ export default function ContentDetail() {
       if (!rehberData) {
         return (
           <AppShell>
-            <div className="flex flex-col items-center justify-center min-h-[60vh] text-center">
+            <div className="flex flex-col items-center justify-center min-h-[60vh] text-center px-4">
               <div className="text-6xl mb-4" style={{ color: catColor }}>?</div>
-              <h1 className="text-2xl font-bold text-white mb-2" style={{ fontFamily: "Space Grotesk, sans-serif" }}>İçerik Bulunamadı</h1>
+              <h1 className="text-xl sm:text-2xl font-bold text-white mb-2" style={{ fontFamily: "Space Grotesk, sans-serif" }}>İçerik Bulunamadı</h1>
               <p className="text-sm mb-6" style={{ color: "#64748B" }}>Aradığınız içerik mevcut değil veya kaldırılmış olabilir.</p>
               <Link href={backPath} className="px-6 py-3 rounded-lg text-sm font-medium text-white transition-colors hover:opacity-80" style={{ background: catColor }}>{catLabel} Sayfasına Dön</Link>
             </div>
@@ -308,12 +308,12 @@ export default function ContentDetail() {
       const d = rehberData;
       return (
         <AppShell>
-          <div className="max-w-4xl mx-auto px-4 py-6">
-            <div className="flex items-center gap-2 mb-6 text-xs" style={{ color: "#475569" }}>
+          <div className="max-w-4xl mx-auto px-3 sm:px-4 py-4 sm:py-6">
+            <div className="flex flex-wrap items-center gap-x-2 gap-y-1 mb-6 text-xs" style={{ color: "#475569" }}>
               <Link href="/" className="hover:text-white transition-colors">Ana Sayfa</Link>
-              <ChevronRight className="w-3 h-3" />
+              <ChevronRight className="w-3 h-3 flex-shrink-0" />
               <Link href={backPath} className="hover:text-white transition-colors">{catLabel}</Link>
-              <ChevronRight className="w-3 h-3" />
+              <ChevronRight className="w-3 h-3 flex-shrink-0" />
               <span style={{ color: catColor }}>Rehber</span>
             </div>
             <div className="flex items-center gap-3 mb-4">
@@ -321,7 +321,7 @@ export default function ContentDetail() {
               <span className="text-xs" style={{ color: "#64748B" }}>{d.level}</span>
               <span className="flex items-center gap-1 text-xs" style={{ color: "#64748B" }}><Clock className="w-3 h-3" />{d.readTime}</span>
             </div>
-            <h1 className="text-xl font-bold text-white mb-6" style={{ fontFamily: "Space Grotesk, sans-serif" }}>{d.title}</h1>
+            <h1 className="text-lg sm:text-xl font-bold text-white mb-6 break-words" style={{ fontFamily: "Space Grotesk, sans-serif" }}>{d.title}</h1>
             <div className="h-px mb-6" style={{ background: `linear-gradient(90deg, ${catColor}, ${catColor}30, transparent)` }} />
             <div className="text-sm leading-[1.8]" style={{ color: "#CBD5E1" }}>
               {d.body.split("\n\n").map((para: string, i: number) => (
@@ -340,13 +340,13 @@ export default function ContentDetail() {
     }
     return (
       <AppShell>
-        <div className="max-w-4xl mx-auto px-4 py-6">
+        <div className="max-w-4xl mx-auto px-3 sm:px-4 py-4 sm:py-6">
           {/* Breadcrumb */}
-          <div className="flex items-center gap-2 mb-6 text-xs" style={{ color: "#475569" }}>
+          <div className="flex flex-wrap items-center gap-x-2 gap-y-1 mb-6 text-xs" style={{ color: "#475569" }}>
             <Link href="/" className="hover:text-white transition-colors">Ana Sayfa</Link>
-            <ChevronRight className="w-3 h-3" />
+            <ChevronRight className="w-3 h-3 flex-shrink-0" />
             <Link href={backPath} className="hover:text-white transition-colors">{catLabel}</Link>
-            <ChevronRight className="w-3 h-3" />
+            <ChevronRight className="w-3 h-3 flex-shrink-0" />
             <span style={{ color: catColor }}>{catData.title}</span>
           </div>
 
@@ -358,10 +358,10 @@ export default function ContentDetail() {
                 {catData.tag}
               </span>
             )}
-            <h1 className="text-2xl font-bold text-white leading-tight mb-3" style={{ fontFamily: "Space Grotesk, sans-serif" }}>
+            <h1 className="text-xl sm:text-2xl font-bold text-white leading-tight mb-3 break-words" style={{ fontFamily: "Space Grotesk, sans-serif" }}>
               {catData.title}
             </h1>
-            <div className="flex items-center gap-4 text-xs" style={{ color: "#64748B" }}>
+            <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs" style={{ color: "#64748B" }}>
               {catData.time && <span>{catData.time}</span>}
               {catData.readTime && <span className="flex items-center gap-1"><Clock className="w-3 h-3" />{catData.readTime} okuma</span>}
               {catData.date && <span>{catData.date}</span>}
@@ -393,13 +393,13 @@ export default function ContentDetail() {
   if (type === "cve") {
     return (
       <AppShell>
-        <div className="max-w-4xl mx-auto px-4 py-6">
+        <div className="max-w-4xl mx-auto px-3 sm:px-4 py-4 sm:py-6">
           {/* Breadcrumb */}
-          <div className="flex items-center gap-2 mb-6 text-xs" style={{ color: "#475569" }}>
+          <div className="flex flex-wrap items-center gap-x-2 gap-y-1 mb-6 text-xs" style={{ color: "#475569" }}>
             <Link href="/" className="hover:text-white transition-colors">Ana Sayfa</Link>
-            <ChevronRight className="w-3 h-3" />
+            <ChevronRight className="w-3 h-3 flex-shrink-0" />
             <Link href={backPath} className="hover:text-white transition-colors">{catLabel}</Link>
-            <ChevronRight className="w-3 h-3" />
+            <ChevronRight className="w-3 h-3 flex-shrink-0" />
             <span style={{ color: catColor }}>CVE Detayları</span>
           </div>
 
@@ -416,7 +416,7 @@ export default function ContentDetail() {
           </div>
 
           {/* Title */}
-          <h1 className="text-xl font-bold text-white mb-2" style={{ fontFamily: "Space Grotesk, sans-serif" }}>
+          <h1 className="text-lg sm:text-xl font-bold text-white mb-2 break-words" style={{ fontFamily: "Space Grotesk, sans-serif" }}>
             {catData.id}: {catData.title}
           </h1>
 
@@ -442,15 +442,15 @@ export default function ContentDetail() {
   if (type === "arac" && category === "siber-guvenlik") {
     return (
       <AppShell>
-        <div className="max-w-4xl mx-auto px-4 py-6">
-          <div className="flex items-center gap-2 mb-6 text-xs" style={{ color: "#475569" }}>
+        <div className="max-w-4xl mx-auto px-3 sm:px-4 py-4 sm:py-6">
+          <div className="flex flex-wrap items-center gap-x-2 gap-y-1 mb-6 text-xs" style={{ color: "#475569" }}>
             <Link href="/" className="hover:text-white transition-colors">Ana Sayfa</Link>
-            <ChevronRight className="w-3 h-3" />
+            <ChevronRight className="w-3 h-3 flex-shrink-0" />
             <Link href={backPath} className="hover:text-white transition-colors">{catLabel}</Link>
-            <ChevronRight className="w-3 h-3" />
+            <ChevronRight className="w-3 h-3 flex-shrink-0" />
             <span style={{ color: catColor }}>Güvenlik Aracı</span>
           </div>
-          <h1 className="text-2xl font-bold text-white mb-2" style={{ fontFamily: "Space Grotesk, sans-serif" }}>{catData.name}</h1>
+          <h1 className="text-lg sm:text-2xl font-bold text-white mb-2 break-words" style={{ fontFamily: "Space Grotesk, sans-serif" }}>{catData.name}</h1>
           <div className="flex flex-wrap items-center gap-3 mb-4 text-xs" style={{ color: "#64748B" }}>
             <span className="px-2.5 py-0.5 rounded-full" style={{ background: `${catColor}10`, color: catColor }}>{catData.category}</span>
             <span>{catData.type}</span>
@@ -470,20 +470,20 @@ export default function ContentDetail() {
   if (type === "arac") {
     return (
       <AppShell>
-        <div className="max-w-4xl mx-auto px-4 py-6">
+        <div className="max-w-4xl mx-auto px-3 sm:px-4 py-4 sm:py-6">
           {/* Breadcrumb */}
-          <div className="flex items-center gap-2 mb-6 text-xs" style={{ color: "#475569" }}>
+          <div className="flex flex-wrap items-center gap-x-2 gap-y-1 mb-6 text-xs" style={{ color: "#475569" }}>
             <Link href="/" className="hover:text-white transition-colors">Ana Sayfa</Link>
-            <ChevronRight className="w-3 h-3" />
+            <ChevronRight className="w-3 h-3 flex-shrink-0" />
             <Link href={backPath} className="hover:text-white transition-colors">{catLabel}</Link>
-            <ChevronRight className="w-3 h-3" />
+            <ChevronRight className="w-3 h-3 flex-shrink-0" />
             <span style={{ color: catColor }}>{catData.name}</span>
           </div>
 
           {/* Header */}
           <div className="mb-6">
             <div className="flex items-center gap-3 mb-3">
-              <h1 className="text-2xl font-bold text-white" style={{ fontFamily: "Space Grotesk, sans-serif" }}>{catData.name}</h1>
+              <h1 className="text-lg sm:text-2xl font-bold text-white break-words" style={{ fontFamily: "Space Grotesk, sans-serif" }}>{catData.name}</h1>
               <span className="text-xs px-2.5 py-0.5 rounded-full" style={{ background: `${catData.color}10`, color: catData.color }}>{catData.category}</span>
             </div>
             <p className="text-sm mb-4" style={{ color: "#94A3B8" }}>{catData.desc}</p>
@@ -527,17 +527,17 @@ export default function ContentDetail() {
   if (type === "model") {
     return (
       <AppShell>
-        <div className="max-w-4xl mx-auto px-4 py-6">
-          <div className="flex items-center gap-2 mb-6 text-xs" style={{ color: "#475569" }}>
+        <div className="max-w-4xl mx-auto px-3 sm:px-4 py-4 sm:py-6">
+          <div className="flex flex-wrap items-center gap-x-2 gap-y-1 mb-6 text-xs" style={{ color: "#475569" }}>
             <Link href="/" className="hover:text-white transition-colors">Ana Sayfa</Link>
-            <ChevronRight className="w-3 h-3" />
+            <ChevronRight className="w-3 h-3 flex-shrink-0" />
             <Link href={backPath} className="hover:text-white transition-colors">{catLabel}</Link>
-            <ChevronRight className="w-3 h-3" />
+            <ChevronRight className="w-3 h-3 flex-shrink-0" />
             <span style={{ color: catColor }}>Model Detayları</span>
           </div>
 
           <div className="flex items-center justify-between mb-4">
-            <h1 className="text-2xl font-bold text-white" style={{ fontFamily: "Space Grotesk, sans-serif" }}>{catData.name}</h1>
+            <h1 className="text-lg sm:text-2xl font-bold text-white break-words" style={{ fontFamily: "Space Grotesk, sans-serif" }}>{catData.name}</h1>
             <span className="text-xl font-bold" style={{ color: catData.color, fontFamily: "Space Grotesk, sans-serif" }}>{catData.strength}</span>
           </div>
           <p className="text-sm mb-2" style={{ color: "#64748B" }}>{catData.company} · {catData.params} · {catData.type}</p>
@@ -561,16 +561,16 @@ export default function ContentDetail() {
   if (type === "trend") {
     return (
       <AppShell>
-        <div className="max-w-4xl mx-auto px-4 py-6">
-          <div className="flex items-center gap-2 mb-6 text-xs" style={{ color: "#475569" }}>
+        <div className="max-w-4xl mx-auto px-3 sm:px-4 py-4 sm:py-6">
+          <div className="flex flex-wrap items-center gap-x-2 gap-y-1 mb-6 text-xs" style={{ color: "#475569" }}>
             <Link href="/" className="hover:text-white transition-colors">Ana Sayfa</Link>
-            <ChevronRight className="w-3 h-3" />
+            <ChevronRight className="w-3 h-3 flex-shrink-0" />
             <Link href={backPath} className="hover:text-white transition-colors">{catLabel}</Link>
-            <ChevronRight className="w-3 h-3" />
+            <ChevronRight className="w-3 h-3 flex-shrink-0" />
             <span style={{ color: catColor }}>Trend Analizi</span>
           </div>
 
-          <h1 className="text-2xl font-bold text-white mb-2" style={{ fontFamily: "Space Grotesk, sans-serif" }}>{catData.title}</h1>
+          <h1 className="text-lg sm:text-2xl font-bold text-white mb-2 break-words" style={{ fontFamily: "Space Grotesk, sans-serif" }}>{catData.title}</h1>
           <div className="flex items-center gap-3 mb-6">
             <span className="mono text-sm font-bold" style={{ color: "#00E5A0", fontFamily: "Space Grotesk, sans-serif" }}>{catData.growth}</span>
             <span className="text-xs" style={{ color: "#64748B" }}>{catData.desc}</span>
@@ -590,16 +590,16 @@ export default function ContentDetail() {
   if (type === "etkinlik") {
     return (
       <AppShell>
-        <div className="max-w-4xl mx-auto px-4 py-6">
-          <div className="flex items-center gap-2 mb-6 text-xs" style={{ color: "#475569" }}>
+        <div className="max-w-4xl mx-auto px-3 sm:px-4 py-4 sm:py-6">
+          <div className="flex flex-wrap items-center gap-x-2 gap-y-1 mb-6 text-xs" style={{ color: "#475569" }}>
             <Link href="/" className="hover:text-white transition-colors">Ana Sayfa</Link>
-            <ChevronRight className="w-3 h-3" />
+            <ChevronRight className="w-3 h-3 flex-shrink-0" />
             <Link href={backPath} className="hover:text-white transition-colors">{catLabel}</Link>
-            <ChevronRight className="w-3 h-3" />
+            <ChevronRight className="w-3 h-3 flex-shrink-0" />
             <span style={{ color: catColor }}>Etkinlik</span>
           </div>
 
-          <h1 className="text-2xl font-bold text-white mb-3" style={{ fontFamily: "Space Grotesk, sans-serif" }}>{catData.title}</h1>
+          <h1 className="text-lg sm:text-2xl font-bold text-white mb-3 break-words" style={{ fontFamily: "Space Grotesk, sans-serif" }}>{catData.title}</h1>
           <div className="flex flex-wrap items-center gap-3 mb-2 text-xs" style={{ color: "#64748B" }}>
             <span className="flex items-center gap-1"><Calendar className="w-3 h-3" />{catData.date}</span>
             <span className="flex items-center gap-1"><MapPin className="w-3 h-3" />{catData.location}</span>
@@ -621,16 +621,16 @@ export default function ContentDetail() {
   if (type === "arastirma") {
     return (
       <AppShell>
-        <div className="max-w-4xl mx-auto px-4 py-6">
-          <div className="flex items-center gap-2 mb-6 text-xs" style={{ color: "#475569" }}>
+        <div className="max-w-4xl mx-auto px-3 sm:px-4 py-4 sm:py-6">
+          <div className="flex flex-wrap items-center gap-x-2 gap-y-1 mb-6 text-xs" style={{ color: "#475569" }}>
             <Link href="/" className="hover:text-white transition-colors">Ana Sayfa</Link>
-            <ChevronRight className="w-3 h-3" />
+            <ChevronRight className="w-3 h-3 flex-shrink-0" />
             <Link href={backPath} className="hover:text-white transition-colors">{catLabel}</Link>
-            <ChevronRight className="w-3 h-3" />
+            <ChevronRight className="w-3 h-3 flex-shrink-0" />
             <span style={{ color: catColor }}>Araştırma</span>
           </div>
 
-          <h1 className="text-xl font-bold text-white mb-2" style={{ fontFamily: "Space Grotesk, sans-serif" }}>{catData.title}</h1>
+          <h1 className="text-lg sm:text-xl font-bold text-white mb-2 break-words" style={{ fontFamily: "Space Grotesk, sans-serif" }}>{catData.title}</h1>
           <div className="flex flex-wrap items-center gap-3 mb-6 text-xs" style={{ color: "#64748B" }}>
             <span>{catData.authors}</span>
             <span>{catData.journal}</span>
@@ -652,17 +652,17 @@ export default function ContentDetail() {
   if (type === "hikaye") {
     return (
       <AppShell>
-        <div className="max-w-4xl mx-auto px-4 py-6">
-          <div className="flex items-center gap-2 mb-6 text-xs" style={{ color: "#475569" }}>
+        <div className="max-w-4xl mx-auto px-3 sm:px-4 py-4 sm:py-6">
+          <div className="flex flex-wrap items-center gap-x-2 gap-y-1 mb-6 text-xs" style={{ color: "#475569" }}>
             <Link href="/" className="hover:text-white transition-colors">Ana Sayfa</Link>
-            <ChevronRight className="w-3 h-3" />
+            <ChevronRight className="w-3 h-3 flex-shrink-0" />
             <Link href={backPath} className="hover:text-white transition-colors">{catLabel}</Link>
-            <ChevronRight className="w-3 h-3" />
+            <ChevronRight className="w-3 h-3 flex-shrink-0" />
             <span style={{ color: catColor }}>Başarı Hikayesi</span>
           </div>
 
-          <div className="flex items-center gap-4 mb-6">
-            <div className="w-14 h-14 rounded-full flex items-center justify-center text-lg font-bold"
+          <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4 mb-6">
+            <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-full flex items-center justify-center text-lg font-bold"
               style={{ background: `${catData.color}15`, color: catData.color, border: `2px solid ${catData.color}30` }}>
               {catData.avatar}
             </div>
@@ -674,8 +674,8 @@ export default function ContentDetail() {
                 <span>{catData.months}</span>
               </div>
             </div>
-            <div className="ml-auto text-right">
-              <div className="text-xl font-bold" style={{ color: "#00E5A0", fontFamily: "Space Grotesk, sans-serif" }}>{catData.income}</div>
+            <div className="text-right sm:text-right">
+              <div className="text-lg sm:text-xl font-bold" style={{ color: "#00E5A0", fontFamily: "Space Grotesk, sans-serif" }}>{catData.income}</div>
               <span className="text-[10px]" style={{ color: "#475569" }}>Aylık Gelir</span>
             </div>
           </div>
@@ -694,12 +694,12 @@ export default function ContentDetail() {
   if (type === "analiz") {
     return (
       <AppShell>
-        <div className="max-w-4xl mx-auto px-4 py-6">
-          <div className="flex items-center gap-2 mb-6 text-xs" style={{ color: "#475569" }}>
+        <div className="max-w-4xl mx-auto px-3 sm:px-4 py-4 sm:py-6">
+          <div className="flex flex-wrap items-center gap-x-2 gap-y-1 mb-6 text-xs" style={{ color: "#475569" }}>
             <Link href="/" className="hover:text-white transition-colors">Ana Sayfa</Link>
-            <ChevronRight className="w-3 h-3" />
+            <ChevronRight className="w-3 h-3 flex-shrink-0" />
             <Link href={backPath} className="hover:text-white transition-colors">{catLabel}</Link>
-            <ChevronRight className="w-3 h-3" />
+            <ChevronRight className="w-3 h-3 flex-shrink-0" />
             <span style={{ color: catColor }}>Güvenlik Analizi</span>
           </div>
 
@@ -732,16 +732,16 @@ export default function ContentDetail() {
   if (type === "yazilim" || type === "bulut" || type === "girisim") {
     return (
       <AppShell>
-        <div className="max-w-4xl mx-auto px-4 py-6">
-          <div className="flex items-center gap-2 mb-6 text-xs" style={{ color: "#475569" }}>
+        <div className="max-w-4xl mx-auto px-3 sm:px-4 py-4 sm:py-6">
+          <div className="flex flex-wrap items-center gap-x-2 gap-y-1 mb-6 text-xs" style={{ color: "#475569" }}>
             <Link href="/" className="hover:text-white transition-colors">Ana Sayfa</Link>
-            <ChevronRight className="w-3 h-3" />
+            <ChevronRight className="w-3 h-3 flex-shrink-0" />
             <Link href={backPath} className="hover:text-white transition-colors">{catLabel}</Link>
-            <ChevronRight className="w-3 h-3" />
+            <ChevronRight className="w-3 h-3 flex-shrink-0" />
             <span style={{ color: catColor }}>Detaylar</span>
           </div>
 
-          <h1 className="text-2xl font-bold text-white mb-2" style={{ fontFamily: "Space Grotesk, sans-serif" }}>{catData.name}</h1>
+          <h1 className="text-lg sm:text-2xl font-bold text-white mb-2 break-words" style={{ fontFamily: "Space Grotesk, sans-serif" }}>{catData.name}</h1>
           <div className="flex flex-wrap items-center gap-3 mb-6 text-xs" style={{ color: "#64748B" }}>
             {catData.category && <span className="px-2.5 py-0.5 rounded-full" style={{ background: `${catColor}10`, color: catColor }}>{catData.category}</span>}
             {catData.sector && <span className="px-2.5 py-0.5 rounded-full" style={{ background: `${catColor}10`, color: catColor }}>{catData.sector}</span>}
@@ -779,12 +779,12 @@ export default function ContentDetail() {
     const videoData = { title: videoTitles[videoIndex] || "YouTube AI Videosu", category: "YouTube", color: catColor };
     return (
       <AppShell>
-        <div className="max-w-4xl mx-auto px-4 py-6">
-          <div className="flex items-center gap-2 mb-6 text-xs" style={{ color: "#475569" }}>
+        <div className="max-w-4xl mx-auto px-3 sm:px-4 py-4 sm:py-6">
+          <div className="flex flex-wrap items-center gap-x-2 gap-y-1 mb-6 text-xs" style={{ color: "#475569" }}>
             <Link href="/" className="hover:text-white transition-colors">Ana Sayfa</Link>
-            <ChevronRight className="w-3 h-3" />
+            <ChevronRight className="w-3 h-3 flex-shrink-0" />
             <Link href={backPath} className="hover:text-white transition-colors">{catLabel}</Link>
-            <ChevronRight className="w-3 h-3" />
+            <ChevronRight className="w-3 h-3 flex-shrink-0" />
             <span style={{ color: catColor }}>Video</span>
           </div>
           <div className="glass rounded-xl p-6 mb-6">
@@ -813,9 +813,9 @@ export default function ContentDetail() {
     if (!hikayeData) {
       return (
         <AppShell>
-          <div className="flex flex-col items-center justify-center min-h-[60vh] text-center">
+          <div className="flex flex-col items-center justify-center min-h-[60vh] text-center px-4">
             <div className="text-6xl mb-4" style={{ color: catColor }}>?</div>
-            <h1 className="text-2xl font-bold text-white mb-2" style={{ fontFamily: "Space Grotesk, sans-serif" }}>İçerik Bulunamadı</h1>
+            <h1 className="text-xl sm:text-2xl font-bold text-white mb-2" style={{ fontFamily: "Space Grotesk, sans-serif" }}>İçerik Bulunamadı</h1>
             <p className="text-sm mb-6" style={{ color: "#64748B" }}>Aradığınız içerik mevcut değil veya kaldırılmış olabilir.</p>
             <Link href={backPath} className="px-6 py-3 rounded-lg text-sm font-medium text-white transition-colors hover:opacity-80" style={{ background: catColor }}>{catLabel} Sayfasına Dön</Link>
           </div>
@@ -824,22 +824,22 @@ export default function ContentDetail() {
     }
     return (
       <AppShell>
-        <div className="max-w-4xl mx-auto px-4 py-6">
-          <div className="flex items-center gap-2 mb-6 text-xs" style={{ color: "#475569" }}>
+        <div className="max-w-4xl mx-auto px-3 sm:px-4 py-4 sm:py-6">
+          <div className="flex flex-wrap items-center gap-x-2 gap-y-1 mb-6 text-xs" style={{ color: "#475569" }}>
             <Link href="/" className="hover:text-white transition-colors">Ana Sayfa</Link>
-            <ChevronRight className="w-3 h-3" />
+            <ChevronRight className="w-3 h-3 flex-shrink-0" />
             <Link href={backPath} className="hover:text-white transition-colors">{catLabel}</Link>
-            <ChevronRight className="w-3 h-3" />
+            <ChevronRight className="w-3 h-3 flex-shrink-0" />
             <span style={{ color: catColor }}>Başarı Hikayesi</span>
           </div>
-          <div className="flex items-center gap-4 mb-6">
-            <div className="w-14 h-14 rounded-full flex items-center justify-center text-lg font-bold" style={{ background: `${hikayeData.color}15`, color: hikayeData.color, border: `2px solid ${hikayeData.color}30` }}>{hikayeData.avatar}</div>
+          <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4 mb-6">
+            <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-full flex items-center justify-center text-lg font-bold" style={{ background: `${hikayeData.color}15`, color: hikayeData.color, border: `2px solid ${hikayeData.color}30` }}>{hikayeData.avatar}</div>
             <div>
               <h1 className="text-xl font-bold text-white" style={{ fontFamily: "Space Grotesk, sans-serif" }}>{hikayeData.name}</h1>
               <div className="flex items-center gap-2 text-xs" style={{ color: "#64748B" }}><span>{hikayeData.method}</span><span>·</span><span>{hikayeData.months}</span></div>
             </div>
-            <div className="ml-auto text-right">
-              <div className="text-xl font-bold" style={{ color: "#00E5A0", fontFamily: "Space Grotesk, sans-serif" }}>{hikayeData.income}</div>
+            <div className="text-right sm:text-right">
+              <div className="text-lg sm:text-xl font-bold" style={{ color: "#00E5A0", fontFamily: "Space Grotesk, sans-serif" }}>{hikayeData.income}</div>
               <span className="text-[10px]" style={{ color: "#475569" }}>Aylık Gelir</span>
             </div>
           </div>
@@ -854,12 +854,12 @@ export default function ContentDetail() {
   if (type === "tehdit") {
     return (
       <AppShell>
-        <div className="max-w-4xl mx-auto px-4 py-6">
-          <div className="flex items-center gap-2 mb-6 text-xs" style={{ color: "#475569" }}>
+        <div className="max-w-4xl mx-auto px-3 sm:px-4 py-4 sm:py-6">
+          <div className="flex flex-wrap items-center gap-x-2 gap-y-1 mb-6 text-xs" style={{ color: "#475569" }}>
             <Link href="/" className="hover:text-white transition-colors">Ana Sayfa</Link>
-            <ChevronRight className="w-3 h-3" />
+            <ChevronRight className="w-3 h-3 flex-shrink-0" />
             <Link href={backPath} className="hover:text-white transition-colors">{catLabel}</Link>
-            <ChevronRight className="w-3 h-3" />
+            <ChevronRight className="w-3 h-3 flex-shrink-0" />
             <span style={{ color: catColor }}>Tehdit Profili</span>
           </div>
           <div className="flex items-center gap-3 mb-4">
@@ -880,12 +880,12 @@ export default function ContentDetail() {
   if (type === "uyari") {
     return (
       <AppShell>
-        <div className="max-w-4xl mx-auto px-4 py-6">
-          <div className="flex items-center gap-2 mb-6 text-xs" style={{ color: "#475569" }}>
+        <div className="max-w-4xl mx-auto px-3 sm:px-4 py-4 sm:py-6">
+          <div className="flex flex-wrap items-center gap-x-2 gap-y-1 mb-6 text-xs" style={{ color: "#475569" }}>
             <Link href="/" className="hover:text-white transition-colors">Ana Sayfa</Link>
-            <ChevronRight className="w-3 h-3" />
+            <ChevronRight className="w-3 h-3 flex-shrink-0" />
             <Link href={backPath} className="hover:text-white transition-colors">{catLabel}</Link>
-            <ChevronRight className="w-3 h-3" />
+            <ChevronRight className="w-3 h-3 flex-shrink-0" />
             <span style={{ color: catColor }}>Güvenlik Uyarısı</span>
           </div>
           <div className="flex items-center gap-3 mb-4">
@@ -905,14 +905,14 @@ export default function ContentDetail() {
   // ── Default fallback ──
   return (
     <AppShell>
-      <div className="max-w-4xl mx-auto px-4 py-6">
-        <div className="flex items-center gap-2 mb-6 text-xs" style={{ color: "#475569" }}>
+      <div className="max-w-4xl mx-auto px-3 sm:px-4 py-4 sm:py-6">
+        <div className="flex flex-wrap items-center gap-x-2 gap-y-1 mb-6 text-xs" style={{ color: "#475569" }}>
           <Link href="/" className="hover:text-white transition-colors">Ana Sayfa</Link>
-          <ChevronRight className="w-3 h-3" />
+          <ChevronRight className="w-3 h-3 flex-shrink-0" />
           <Link href={backPath} className="hover:text-white transition-colors">{catLabel}</Link>
         </div>
 
-        <h1 className="text-2xl font-bold text-white mb-2" style={{ fontFamily: "Space Grotesk, sans-serif" }}>{catData.title || catData.name}</h1>
+        <h1 className="text-lg sm:text-2xl font-bold text-white mb-2 break-words" style={{ fontFamily: "Space Grotesk, sans-serif" }}>{catData.title || catData.name}</h1>
         {catData.summary && <p className="text-sm mb-6" style={{ color: "#94A3B8" }}>{catData.summary}</p>}
 
         <div className="h-px mb-6" style={{ background: `linear-gradient(90deg, ${catColor}, ${catColor}30, transparent)` }} />
