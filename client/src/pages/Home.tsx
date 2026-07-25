@@ -343,11 +343,142 @@ export default function Home() {
       <SystemStatusBar />
 
       {/* ── Hero Section (Two-Column) ── */}
-      <section className="relative overflow-hidden" style={{ minHeight: "100px" }}>
+      <section className="relative overflow-hidden" style={{ minHeight: "110px" }}>
+        {/* Wireframe Earth - positioned in section, not in container */}
+        <div
+          className="hidden lg:block absolute right-0 top-1/2 pointer-events-none"
+          style={{
+            transform: "translateY(-50%)",
+            width: "320px",
+            height: "320px",
+            zIndex: 0,
+            opacity: 0.62,
+          }}
+        >
+          {/* Ambient Glow Core */}
+          <div
+            className="absolute inset-0 rounded-full"
+            style={{ background: "#00E5FF", filter: "blur(60px)", opacity: 0.09 }}
+          />
+
+          {/* Earth Sphere with Float Animation */}
+          <div
+            className="absolute inset-0 flex items-center justify-center"
+            style={{ animation: "heroFloat 24s ease-in-out infinite" }}
+          >
+            <div
+              className="relative overflow-hidden"
+              style={{
+                width: "170px",
+                height: "170px",
+                borderRadius: "50%",
+                border: "1px solid rgba(42,59,79,0.5)",
+                boxShadow: "0 0 30px rgba(0,229,255,0.04), inset 0 0 40px rgba(0,229,255,0.02)",
+                background: "rgba(10,12,13,0.5)",
+                backdropFilter: "blur(10px)",
+              }}
+            >
+              {/* Optical Precision Grid */}
+              <div
+                className="absolute inset-0"
+                style={{
+                  backgroundImage:
+                    "linear-gradient(transparent 49.8%, rgba(42,59,79,0.28) 50%, transparent 50.2%), linear-gradient(90deg, transparent 49.8%, rgba(42,59,79,0.28) 50%, transparent 50.2%)",
+                  backgroundSize: "16px 16px",
+                }}
+              />
+
+              {/* Geometric Neural Framework - SVG */}
+              <svg className="absolute inset-0 w-full h-full" viewBox="0 0 170 170">
+                <path d="M42,42 L128,42 L148,85 L128,128 L42,128 L22,85 Z" fill="none" stroke="rgba(0,229,255,0.16)" strokeWidth="0.5" />
+                <path d="M58,58 L112,58 L122,85 L112,112 L58,112 L48,85 Z" fill="none" stroke="rgba(0,229,255,0.12)" strokeWidth="0.4" />
+                <path d="M42,42 L128,128 M128,42 L42,128 M22,85 L148,85 M85,15 L85,155" fill="none" stroke="rgba(0,229,255,0.1)" strokeWidth="0.4" />
+                <path d="M58,58 L112,112 M112,58 L58,112" fill="none" stroke="rgba(0,229,255,0.08)" strokeWidth="0.3" />
+                <circle cx="85" cy="85" r="30" fill="none" stroke="rgba(0,229,255,0.08)" strokeWidth="0.3" />
+                <circle cx="85" cy="85" r="50" fill="none" stroke="rgba(0,229,255,0.05)" strokeWidth="0.3" />
+                <circle cx="85" cy="85" r="3.5" fill="#00E5FF" opacity="0.9" />
+                <circle cx="42" cy="42" r="1.8" fill="#00E5FF" opacity="0.55" />
+                <circle cx="128" cy="42" r="2.2" fill="#00D9A6" opacity="0.75" />
+                <circle cx="148" cy="85" r="1.8" fill="#00E5FF" opacity="0.6" />
+                <circle cx="128" cy="128" r="1.8" fill="#00E5FF" opacity="0.55" />
+                <circle cx="42" cy="128" r="2.2" fill="#00FF9C" opacity="0.7" />
+                <circle cx="22" cy="85" r="1.8" fill="#00E5FF" opacity="0.55" />
+                <circle cx="58" cy="58" r="1.2" fill="#00E5FF" opacity="0.45" />
+                <circle cx="112" cy="58" r="1.2" fill="#00D9A6" opacity="0.45" />
+                <circle cx="112" cy="112" r="1.2" fill="#00E5FF" opacity="0.45" />
+                <circle cx="58" cy="112" r="1.2" fill="#00FF9C" opacity="0.45" />
+                <line x1="85" y1="85" x2="42" y2="42" stroke="rgba(0,229,255,0.12)" strokeWidth="0.3" />
+                <line x1="85" y1="85" x2="128" y2="42" stroke="rgba(0,229,255,0.12)" strokeWidth="0.3" />
+                <line x1="85" y1="85" x2="148" y2="85" stroke="rgba(0,229,255,0.12)" strokeWidth="0.3" />
+                <line x1="85" y1="85" x2="128" y2="128" stroke="rgba(0,229,255,0.12)" strokeWidth="0.3" />
+                <line x1="85" y1="85" x2="42" y2="128" stroke="rgba(0,229,255,0.12)" strokeWidth="0.3" />
+                <line x1="85" y1="85" x2="22" y2="85" stroke="rgba(0,229,255,0.12)" strokeWidth="0.3" />
+              </svg>
+
+              {/* GPU-Optimized Scanner Line */}
+              <div
+                className="absolute top-0 bottom-0"
+                style={{
+                  width: "1px",
+                  background: "rgba(0,229,255,0.35)",
+                  boxShadow: "0 0 6px #00E5FF",
+                  willChange: "transform, opacity",
+                  animation: "heroScanner 10s cubic-bezier(0.4, 0, 0.2, 1) infinite",
+                  left: "30px",
+                }}
+              />
+            </div>
+          </div>
+
+          {/* Orbit Ring System */}
+          <div className="absolute inset-0 flex items-center justify-center">
+            <div
+              className="rounded-full"
+              style={{
+                width: "230px",
+                height: "230px",
+                border: "1px solid rgba(42,59,79,0.35)",
+                animation: "heroOrbit 90s linear infinite",
+                willChange: "transform",
+              }}
+            />
+            <div
+              className="absolute rounded-full"
+              style={{
+                width: "270px",
+                height: "270px",
+                border: "1px solid rgba(0,229,255,0.06)",
+                animation: "heroOrbit 120s linear infinite",
+                willChange: "transform",
+              }}
+            />
+            <div
+              className="absolute rounded-full"
+              style={{
+                width: "320px",
+                height: "320px",
+                border: "1px solid rgba(0,229,255,0.04)",
+                animation: "heroOrbit 150s linear infinite",
+                willChange: "transform",
+              }}
+            />
+          </div>
+
+          {/* Subtle network extension dots outside sphere */}
+          <div className="absolute inset-0">
+            <div className="absolute" style={{ top: "8%", right: "3%", width: "2px", height: "2px", borderRadius: "50%", background: "#00E5FF", opacity: 0.35 }} />
+            <div className="absolute" style={{ top: "22%", right: "-2%", width: "1.5px", height: "1.5px", borderRadius: "50%", background: "#00D9A6", opacity: 0.3 }} />
+            <div className="absolute" style={{ bottom: "12%", right: "6%", width: "2px", height: "2px", borderRadius: "50%", background: "#00FF9C", opacity: 0.3 }} />
+            <div className="absolute" style={{ bottom: "28%", right: "-4%", width: "1.5px", height: "1.5px", borderRadius: "50%", background: "#00E5FF", opacity: 0.25 }} />
+            <div className="absolute" style={{ top: "38%", right: "-6%", width: "1px", height: "1px", borderRadius: "50%", background: "#00E5FF", opacity: 0.2 }} />
+            <div className="absolute" style={{ top: "55%", right: "-3%", width: "1px", height: "1px", borderRadius: "50%", background: "#00D9A6", opacity: 0.2 }} />
+          </div>
+        </div>
+
         <div className="container relative z-10 py-2">
           <div className="flex items-center gap-6">
             {/* LEFT: Title + Subtitle + Description (45-50%) */}
-            <div className="flex-1 max-w-[55%]">
+            <div className="flex-1 max-w-[55%] relative z-10">
               <div className="flex items-center gap-2 mb-1">
                 <div className="h-px w-6" style={{ background: "#00E5A0" }} />
                 <span className="mono text-xs uppercase tracking-widest" style={{ color: "#00E5A0" }}>// YAPAY ZEKÂ & SİBER GÜVENLİK PLATFORMU</span>
@@ -363,107 +494,7 @@ export default function Home() {
               </p>
             </div>
 
-            {/* RIGHT: Earth Background Illustration (50-55%) */}
-            <div className="hidden lg:block flex-1 relative" style={{ minHeight: "80px" }}>
-              {/* Digital Wireframe Earth - position: absolute, right-aligned, behind UI */}
-              <div
-                className="absolute right-0 top-1/2 pointer-events-none"
-                style={{
-                  transform: "translateY(-50%)",
-                  width: "180px",
-                  height: "180px",
-                  zIndex: 0,
-                  opacity: 0.35,
-                }}
-              >
-                {/* Ambient Glow */}
-                <div
-                  className="absolute inset-0 rounded-full"
-                  style={{ background: "#00E5FF", filter: "blur(40px)", opacity: 0.08 }}
-                />
-                {/* Earth Sphere */}
-                <div
-                  className="absolute inset-0 flex items-center justify-center"
-                  style={{ animation: "float 24s ease-in-out infinite" }}
-                >
-                  <div
-                    className="relative overflow-hidden"
-                    style={{
-                      width: "100px",
-                      height: "100px",
-                      borderRadius: "50%",
-                      border: "1px solid rgba(42,59,79,0.5)",
-                      boxShadow: "0 0 20px rgba(0,229,255,0.04)",
-                      background: "rgba(10,12,13,0.4)",
-                      backdropFilter: "blur(8px)",
-                    }}
-                  >
-                    {/* Hexagon/Grid pattern */}
-                    <div
-                      className="absolute inset-0"
-                      style={{
-                        backgroundImage:
-                          "linear-gradient(transparent 49.8%, rgba(42,59,79,0.25) 50%, transparent 50.2%), linear-gradient(90deg, transparent 49.8%, rgba(42,59,79,0.25) 50%, transparent 50.2%)",
-                        backgroundSize: "10px 10px",
-                      }}
-                    />
-                    {/* Network lines */}
-                    <svg className="absolute inset-0 w-full h-full" viewBox="0 0 100 100">
-                      <path d="M30,30 L70,30 L80,50 L70,70 L30,70 L20,50 Z" fill="none" stroke="rgba(0,229,255,0.12)" strokeWidth="0.5" />
-                      <path d="M30,30 L70,70 M70,30 L30,70 M20,50 L80,50" fill="none" stroke="rgba(0,229,255,0.08)" strokeWidth="0.5" />
-                      {/* Blue data nodes */}
-                      <circle cx="50" cy="50" r="1.5" fill="#00E5FF" opacity="0.8" />
-                      <circle cx="30" cy="30" r="1" fill="#00E5FF" opacity="0.5" />
-                      <circle cx="70" cy="30" r="1" fill="#00D9A6" opacity="0.6" />
-                      <circle cx="80" cy="50" r="1" fill="#00E5FF" opacity="0.5" />
-                      <circle cx="70" cy="70" r="1" fill="#00E5FF" opacity="0.5" />
-                      <circle cx="30" cy="70" r="1" fill="#00FF9C" opacity="0.6" />
-                      <circle cx="20" cy="50" r="1" fill="#00E5FF" opacity="0.5" />
-                    </svg>
-                    {/* Scanner line */}
-                    <div
-                      className="absolute top-0 bottom-0"
-                      style={{
-                        width: "1px",
-                        left: "20%",
-                        background: "rgba(0,229,255,0.3)",
-                        boxShadow: "0 0 4px #00E5FF",
-                        animation: "scannerSweep 10s ease-in-out infinite",
-                      }}
-                    />
-                  </div>
-                </div>
-                {/* Orbit rings */}
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <div
-                    className="rounded-full"
-                    style={{
-                      width: "150px",
-                      height: "150px",
-                      border: "1px solid rgba(42,59,79,0.3)",
-                      animation: "orbitSpin 90s linear infinite",
-                    }}
-                  />
-                  <div
-                    className="absolute rounded-full"
-                    style={{
-                      width: "180px",
-                      height: "180px",
-                      border: "1px solid rgba(0,229,255,0.04)",
-                      animation: "orbitSpin 120s linear infinite reverse",
-                    }}
-                  />
-                </div>
-              </div>
-              {/* Minimal noise texture overlay on right side */}
-              <div
-                className="absolute inset-0 pointer-events-none"
-                style={{
-                  backgroundImage: `url("data:image/svg+xml,${encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" stitchTiles="stitch"/></filter><rect width="100" height="100" filter="url(#n)" opacity="0.015"/></svg>')}")`,
-                  zIndex: 0,
-                }}
-              />
-            </div>
+
           </div>
         </div>
         {/* Enterprise gradient subtle overlay */}
@@ -475,8 +506,6 @@ export default function Home() {
           }}
         />
       </section>
-      <style>{`@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}@keyframes orbitSpin{from{transform:rotate(0)}to{transform:rotate(360deg)}}@keyframes scannerSweep{0%{left:10%;opacity:0}15%{opacity:0.6}85%{opacity:0.6}100%{left:90%;opacity:0}}`}</style>
-
       {/* ── AI-Powered Platform Capabilities ── */}
       <section className="container pb-1">
         <div className="mb-1">

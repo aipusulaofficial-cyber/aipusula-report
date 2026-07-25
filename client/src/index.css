@@ -222,6 +222,22 @@
     }
   }
 
+  /* Hero wireframe Earth animations */
+  @keyframes heroFloat {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-5px); }
+  }
+  @keyframes heroOrbit {
+    from { transform: rotateX(72deg) rotateZ(0); }
+    to { transform: rotateX(72deg) rotateZ(360deg); }
+  }
+  @keyframes heroScanner {
+    0% { transform: translateX(-20px); opacity: 0; }
+    15% { opacity: 0.5; }
+    85% { opacity: 0.5; }
+    100% { transform: translateX(190px); opacity: 0; }
+  }
+
   /* Neon glow utilities */
   .neon-glow-green {
     box-shadow: 0 0 20px rgba(0, 229, 160, 0.3), 0 0 40px rgba(0, 229, 160, 0.1);
