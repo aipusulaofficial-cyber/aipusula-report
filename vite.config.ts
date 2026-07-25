@@ -219,17 +219,7 @@ export default defineConfig({
   build: {
     outDir: path.resolve(import.meta.dirname, "dist/public"),
     emptyOutDir: true,
-    chunkSizeWarningLimit: 1000,
-    rollupOptions: {
-      output: {
-        manualChunks: {
-          vendor: ["react", "react-dom"],
-          recharts: ["recharts"],
-          utils: ["lucide-react", "framer-motion", "class-variance-authority", "clsx", "tailwind-merge"],
-          ui: ["@radix-ui/react-tooltip", "@radix-ui/react-dialog", "@radix-ui/react-accordion"],
-        },
-      },
-    },
+    chunkSizeWarningLimit: 2000,
   },
   server: {
     port: 3000,
