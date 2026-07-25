@@ -105,7 +105,7 @@ export const categories: Category[] = [
     colorDim: "rgba(249,115,22,0.1)",
     sidebarItems: [
       { label: "Attack Map", path: "/siber-guvenlik#attack-map" },
-      { label: "Threat Intelligence", path: "/siber-guvenlik#threat-intelligence" },
+      { label: "Tehdit İstihbaratı", path: "/siber-guvenlik#tehdit-istihbarati" },
       { label: "CVE Feed", path: "/siber-guvenlik#cve-feed" },
       { label: "Güvenlik Haberleri", path: "/siber-guvenlik#guvenlik-haberleri" },
       { label: "Güvenlik Araçları", path: "/siber-guvenlik#guvenlik-araclari" },
@@ -163,13 +163,15 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       <header className="sticky top-0 z-50 border-b glass" style={{ borderColor: isDark ? `${currentCat.color}25` : `${currentCat.color}20` }}>
         <div className="container flex items-center justify-between py-1.5">
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-2 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#00E5A0]/30">
-            <div className="w-7 h-7 rounded-lg flex items-center justify-center pulse-dot" style={{ background: `linear-gradient(135deg, ${currentCat.color}, ${currentCat.color}80)`, color: currentCat.color }}>
-              <Shield className="w-3.5 h-3.5 text-black" />
+          <Link href="/" className="flex items-center gap-2.5 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#00E5A0]/30">
+            <div className="w-8 h-8 rounded-md flex items-center justify-center" style={{ background: "linear-gradient(135deg, #00E5A0, #00E5A060)", boxShadow: "0 0 12px rgba(0,229,160,0.3)" }}>
+              <svg viewBox="0 0 24 24" className="w-4 h-4" fill="none" stroke="#0A0C0D" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+              </svg>
             </div>
             <div>
-              <span className="font-bold" style={{ fontFamily: "Space Grotesk, sans-serif", fontSize: "1rem", color: isDark ? "#FFFFFF" : "#0F172A" }}>AIPUSULA</span>
-              <span className="ml-1.5 text-xs px-1.5 py-0.5 rounded-full mono" style={{ background: `${currentCat.color}15`, color: currentCat.color }}>MVP</span>
+              <span className="font-bold" style={{ fontFamily: "Space Grotesk, sans-serif", fontSize: "1.05rem", color: isDark ? "#FFFFFF" : "#0F172A", letterSpacing: "0.04em" }}>AIPUSULA</span>
+              <span className="ml-1.5 text-xs px-1.5 py-0.5 rounded mono" style={{ background: "rgba(0,229,160,0.1)", color: "#00E5A0", border: "1px solid rgba(0,229,160,0.2)" }}>MVP</span>
             </div>
           </Link>
 
@@ -197,7 +199,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             <AdvancedSearch />
             <NotificationCenter />
             <span className="hidden sm:inline text-xs mono" style={{ color: "#94A3B8" }}>Temmuz 2026</span>
-            <div className="w-2 h-2 rounded-full animate-pulse" style={{ background: currentCat.color }} />
+            <div className="w-2 h-2 rounded-full animate-pulse" style={{ background: "#00E5A0", boxShadow: "0 0 6px #00E5A0" }} />
 
             {/* Mobile hamburger */}
             <button
@@ -335,8 +337,10 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       <footer className="border-t py-6 glass" style={{ borderColor: `${currentCat.color}15` }}>
         <div className="container flex flex-col md:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-3">
-            <div className="w-6 h-6 rounded flex items-center justify-center pulse-dot" style={{ background: `linear-gradient(135deg, ${currentCat.color}, ${currentCat.color}80)`, color: currentCat.color }}>
-              <Shield className="w-3 h-3 text-black" />
+            <div className="w-6 h-6 rounded flex items-center justify-center" style={{ background: "linear-gradient(135deg, #00E5A0, #00E5A060)", boxShadow: "0 0 8px rgba(0,229,160,0.25)" }}>
+              <svg viewBox="0 0 24 24" className="w-3 h-3" fill="none" stroke="#0A0C0D" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+              </svg>
             </div>
             <span className="text-sm font-semibold text-white" style={{ fontFamily: "Space Grotesk, sans-serif" }}>AIPUSULA</span>
             <span className="text-xs" style={{ color: "#475569" }}>MVP Platform — Temmuz 2026</span>
