@@ -318,7 +318,7 @@ export default function Home() {
                   setActiveTab(item.id);
                   document.getElementById(item.id)?.scrollIntoView({ behavior: "smooth" });
                 }}
-                className="flex items-center gap-1 px-2.5 py-1 rounded-md text-xs transition-all duration-200"
+                className="flex items-center gap-1 px-2.5 py-1 rounded-md text-xs transition-all duration-200 ease-out cursor-pointer active:scale-[0.97] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#00E5A0]/30"
                 style={{
                   color: activeTab === item.id ? "#00E5A0" : (isDark ? "#94A3B8" : "#64748B"),
                   background: activeTab === item.id ? "rgba(0,229,160,0.1)" : "transparent",
@@ -342,25 +342,140 @@ export default function Home() {
       {/* ── System Status Bar ── */}
       <SystemStatusBar />
 
-      {/* ── Hero Section ── */}
-      <section className="relative overflow-hidden" style={{ minHeight: "60px" }}>
-        <div className="container relative z-10 py-1">
-          <div className="flex items-end justify-between">
-            <div className="flex-1">
-              <div className="flex items-center gap-2 mb-0.5">
+      {/* ── Hero Section (Two-Column) ── */}
+      <section className="relative overflow-hidden" style={{ minHeight: "100px" }}>
+        <div className="container relative z-10 py-2">
+          <div className="flex items-center gap-6">
+            {/* LEFT: Title + Subtitle + Description (45-50%) */}
+            <div className="flex-1 max-w-[55%]">
+              <div className="flex items-center gap-2 mb-1">
                 <div className="h-px w-6" style={{ background: "#00E5A0" }} />
                 <span className="mono text-xs uppercase tracking-widest" style={{ color: "#00E5A0" }}>// YAPAY ZEKÂ & SİBER GÜVENLİK PLATFORMU</span>
               </div>
               <h1 className="font-black leading-none" style={{ fontFamily: "Space Grotesk, sans-serif", fontSize: "clamp(2rem, 5vw, 3rem)", letterSpacing: "-0.02em" }}>
                 <span className="text-white">AI</span><span style={{ color: "#00E5A0", textShadow: "0 0 40px rgba(0,229,160,0.4)" }}>PUSULA</span>
               </h1>
-              <div className="mono text-xs mt-0.5" style={{ color: "#38BDF8", letterSpacing: "0.15em" }}>
+              <div className="mono text-xs mt-1" style={{ color: "#38BDF8", letterSpacing: "0.15em" }}>
                 GÜVENLİĞİN YAPAY ZEKÂ PUSULASI
               </div>
+              <p className="text-sm mt-1.5 leading-relaxed max-w-md" style={{ color: "#64748B", fontFamily: "Inter, sans-serif" }}>
+                Otonom tehdit algılama, zafiyet taraması ve gerçek zamanlı istihbarat ile kurumsal siber güvenlik operasyonlarını yeniden tanımlayan platform.
+              </p>
+            </div>
+
+            {/* RIGHT: Earth Background Illustration (50-55%) */}
+            <div className="hidden lg:block flex-1 relative" style={{ minHeight: "80px" }}>
+              {/* Digital Wireframe Earth - position: absolute, right-aligned, behind UI */}
+              <div
+                className="absolute right-0 top-1/2 pointer-events-none"
+                style={{
+                  transform: "translateY(-50%)",
+                  width: "180px",
+                  height: "180px",
+                  zIndex: 0,
+                  opacity: 0.35,
+                }}
+              >
+                {/* Ambient Glow */}
+                <div
+                  className="absolute inset-0 rounded-full"
+                  style={{ background: "#00E5FF", filter: "blur(40px)", opacity: 0.08 }}
+                />
+                {/* Earth Sphere */}
+                <div
+                  className="absolute inset-0 flex items-center justify-center"
+                  style={{ animation: "float 24s ease-in-out infinite" }}
+                >
+                  <div
+                    className="relative overflow-hidden"
+                    style={{
+                      width: "100px",
+                      height: "100px",
+                      borderRadius: "50%",
+                      border: "1px solid rgba(42,59,79,0.5)",
+                      boxShadow: "0 0 20px rgba(0,229,255,0.04)",
+                      background: "rgba(10,12,13,0.4)",
+                      backdropFilter: "blur(8px)",
+                    }}
+                  >
+                    {/* Hexagon/Grid pattern */}
+                    <div
+                      className="absolute inset-0"
+                      style={{
+                        backgroundImage:
+                          "linear-gradient(transparent 49.8%, rgba(42,59,79,0.25) 50%, transparent 50.2%), linear-gradient(90deg, transparent 49.8%, rgba(42,59,79,0.25) 50%, transparent 50.2%)",
+                        backgroundSize: "10px 10px",
+                      }}
+                    />
+                    {/* Network lines */}
+                    <svg className="absolute inset-0 w-full h-full" viewBox="0 0 100 100">
+                      <path d="M30,30 L70,30 L80,50 L70,70 L30,70 L20,50 Z" fill="none" stroke="rgba(0,229,255,0.12)" strokeWidth="0.5" />
+                      <path d="M30,30 L70,70 M70,30 L30,70 M20,50 L80,50" fill="none" stroke="rgba(0,229,255,0.08)" strokeWidth="0.5" />
+                      {/* Blue data nodes */}
+                      <circle cx="50" cy="50" r="1.5" fill="#00E5FF" opacity="0.8" />
+                      <circle cx="30" cy="30" r="1" fill="#00E5FF" opacity="0.5" />
+                      <circle cx="70" cy="30" r="1" fill="#00D9A6" opacity="0.6" />
+                      <circle cx="80" cy="50" r="1" fill="#00E5FF" opacity="0.5" />
+                      <circle cx="70" cy="70" r="1" fill="#00E5FF" opacity="0.5" />
+                      <circle cx="30" cy="70" r="1" fill="#00FF9C" opacity="0.6" />
+                      <circle cx="20" cy="50" r="1" fill="#00E5FF" opacity="0.5" />
+                    </svg>
+                    {/* Scanner line */}
+                    <div
+                      className="absolute top-0 bottom-0"
+                      style={{
+                        width: "1px",
+                        left: "20%",
+                        background: "rgba(0,229,255,0.3)",
+                        boxShadow: "0 0 4px #00E5FF",
+                        animation: "scannerSweep 10s ease-in-out infinite",
+                      }}
+                    />
+                  </div>
+                </div>
+                {/* Orbit rings */}
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <div
+                    className="rounded-full"
+                    style={{
+                      width: "150px",
+                      height: "150px",
+                      border: "1px solid rgba(42,59,79,0.3)",
+                      animation: "orbitSpin 90s linear infinite",
+                    }}
+                  />
+                  <div
+                    className="absolute rounded-full"
+                    style={{
+                      width: "180px",
+                      height: "180px",
+                      border: "1px solid rgba(0,229,255,0.04)",
+                      animation: "orbitSpin 120s linear infinite reverse",
+                    }}
+                  />
+                </div>
+              </div>
+              {/* Minimal noise texture overlay on right side */}
+              <div
+                className="absolute inset-0 pointer-events-none"
+                style={{
+                  backgroundImage: `url("data:image/svg+xml,${encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" stitchTiles="stitch"/></filter><rect width="100" height="100" filter="url(#n)" opacity="0.015"/></svg>')}")`,
+                  zIndex: 0,
+                }}
+              />
             </div>
           </div>
         </div>
+        {/* Enterprise gradient subtle overlay */}
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            background: "linear-gradient(135deg, rgba(0,229,160,0.02) 0%, transparent 40%, rgba(0,229,255,0.02) 100%)",
+            zIndex: 0,
+          }}
+        />
       </section>
+      <style>{`@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}@keyframes orbitSpin{from{transform:rotate(0)}to{transform:rotate(360deg)}}@keyframes scannerSweep{0%{left:10%;opacity:0}15%{opacity:0.6}85%{opacity:0.6}100%{left:90%;opacity:0}}`}</style>
 
       {/* ── AI-Powered Platform Capabilities ── */}
       <section className="container pb-1">
@@ -424,7 +539,7 @@ export default function Home() {
               color: "#A78BFA"
             },
           ].map((cap, i) => (
-            <div key={i} className="glass card-glow p-3 rounded-xl transition-all duration-300 hover:translate-y-[-2px]">
+            <div key={i} className="glass card-glow p-3 rounded-xl cursor-pointer transition-all duration-200 ease-out hover:translate-y-[-2px] hover:shadow-lg active:scale-[0.98] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#00E5A0]/30" style={{ willChange: "transform" }}>
               <div className="flex items-start gap-3">
                 <div className="p-2 rounded-lg flex-shrink-0" style={{ background: `${cap.color}15`, color: cap.color }}>
                   {cap.icon}
@@ -433,7 +548,7 @@ export default function Home() {
                   <div className="text-sm font-semibold text-white mb-1 leading-tight" style={{ fontFamily: "Space Grotesk, sans-serif" }}>
                     {cap.title}
                   </div>
-                  <div className="text-xs leading-relaxed" style={{ color: "#64748B" }}>
+                  <div className="text-xs leading-relaxed transition-colors duration-200 group-hover:text-gray-500" style={{ color: "#64748B" }}>
                     {cap.desc}
                   </div>
                 </div>
@@ -468,7 +583,7 @@ export default function Home() {
                         setActiveTab(item.id);
                         document.getElementById(item.id)?.scrollIntoView({ behavior: "smooth" });
                       }}
-                      className="w-full flex items-center gap-2 px-2.5 py-1.5 rounded text-sm transition-all duration-200 text-left"
+                      className="w-full flex items-center gap-2 px-2.5 py-1.5 rounded text-sm transition-all duration-200 ease-out text-left cursor-pointer active:scale-[0.98] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#00E5A0]/30"
                       style={{
                         color: activeTab === item.id ? "#00E5A0" : (isDark ? "#64748B" : "#475569"),
                         background: activeTab === item.id ? "rgba(0,229,160,0.08)" : "transparent",
@@ -568,7 +683,7 @@ export default function Home() {
                   { name: "Security Scanner", icon: <Search className="w-5 h-5" />, desc: "URL/IP/Domain tarama, gerçek zamanlı ilerleme, zafiyet puanı, PDF rapor indirme", color: "#FB7185" },
                   { name: "Profile", icon: <Users className="w-5 h-5" />, desc: "Kullanıcı profili, abonelik yönetimi, MFA ayarları, API anahtarı yönetimi", color: "#FCD34D" },
                 ].map((page, i) => (
-                  <div key={i} className="glass rounded-xl p-5 hover:scale-[1.02] transition-all duration-300 card-glow" style={{ cursor: "default" }}>
+                  <div key={i} className="glass rounded-xl p-5 hover:scale-[1.02] transition-all duration-300 card-glow cursor-pointer">
                     <div className="flex items-center gap-3 mb-3">
                       <div className="p-2.5 rounded-lg" style={{ background: `${page.color}15`, color: page.color, boxShadow: `0 0 15px ${page.color}20` }}>
                         {page.icon}
@@ -646,7 +761,7 @@ export default function Home() {
               />
               <div className="space-y-3 mb-8">
                 {techStack.map((item, i) => (
-                  <div key={i} className="glass rounded-xl p-4 flex items-start gap-4 hover:border-purple-500/30 transition-colors duration-300 card-glow">
+                  <div key={i} className="glass rounded-xl p-4 flex items-start gap-4 hover:border-purple-500/30 transition-colors duration-300 card-glow cursor-pointer focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#A78BFA]/30">
                     <div className="p-2 rounded-lg flex-shrink-0 mt-0.5" style={{ background: "rgba(167,139,250,0.15)", color: "#A78BFA" }}>
                       {item.icon}
                     </div>
@@ -868,7 +983,7 @@ export default function Home() {
                       {competitors.map((c, i) => (
                         <tr
                           key={i}
-                          className="transition-colors duration-150 cursor-pointer"
+                          className="transition-colors duration-150 cursor-pointer focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-inset focus-visible:ring-[#00E5A0]/30"
                           style={{
                             borderBottom: "1px solid rgba(255,255,255,0.03)",
                             background: c.name === "AIPUSULA" ? "rgba(0,229,160,0.05)" : (activeCompetitor === c.name ? "rgba(255,255,255,0.03)" : "transparent"),
@@ -934,7 +1049,7 @@ export default function Home() {
               />
               <div className="space-y-4">
                 {roadmapData.map((phase, i) => (
-                  <div key={i} className="glass rounded-xl p-5 hover:scale-[1.01] transition-all duration-300 card-glow" style={{ borderLeft: `3px solid ${phase.color}` }}>
+                  <div key={i} className="glass rounded-xl p-5 hover:scale-[1.01] transition-all duration-300 card-glow cursor-pointer" style={{ borderLeft: `3px solid ${phase.color}` }}>
                     <div className="flex flex-wrap items-start justify-between gap-3 mb-3">
                       <div>
                         <div className="flex items-center gap-2 mb-1">
@@ -1058,7 +1173,7 @@ export default function Home() {
                     return (
                       <div
                         key={item.id}
-                        className="flex items-center gap-3 p-3 rounded-lg cursor-pointer transition-all duration-150"
+                        className="flex items-center gap-3 p-3 rounded-lg cursor-pointer transition-all duration-150 ease-out focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#00E5A0]/30 active:scale-[0.99]"
                         style={{ background: isChecked ? "rgba(0,229,160,0.05)" : "rgba(255,255,255,0.02)", border: `1px solid ${isChecked ? "rgba(0,229,160,0.2)" : "rgba(255,255,255,0.04)"}` }}
                         onClick={() => toggleCheck(item.id)}
                       >

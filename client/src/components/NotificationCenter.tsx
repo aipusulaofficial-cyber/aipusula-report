@@ -45,7 +45,7 @@ export function NotificationCenter() {
       {/* Bell Button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="relative p-2 rounded-lg transition-all duration-200 hover:scale-105"
+        className="relative p-2 rounded-lg transition-all duration-200 ease-out hover:scale-105 active:scale-[0.97] cursor-pointer focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#00E5A0]/30"
         style={{
           background: "rgba(255,255,255,0.04)",
           border: "1px solid rgba(255,255,255,0.06)",

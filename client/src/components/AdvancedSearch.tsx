@@ -4,6 +4,7 @@
  * Custom implementation to avoid Radix Dialog React 19 issues
  */
 import { useState, useEffect, useMemo } from "react";
+import { toast } from "sonner";
 import { Search, Shield, Bug, Newspaper, Layers, TrendingUp, GitBranch, DollarSign, CheckSquare, Brain, Cpu, FileCode, X, ArrowRight } from "lucide-react";
 
 interface SearchItem {
@@ -20,11 +21,11 @@ const searchItems: SearchItem[] = [
   { id: "s1", label: "Güvenlik Merkezi", description: "Canlı güvenlik operasyon merkezi", category: "Bölümler", icon: <Shield className="w-4 h-4" />, scrollId: "dashboard" },
   { id: "s2", label: "Genel Bakış", description: "Pazar büyüklüğü ve KPI metrikleri", category: "Bölümler", icon: <Shield className="w-4 h-4" />, scrollId: "overview" },
   { id: "s3", label: "Pazar Analizi", description: "AI Siber Güvenlik pazar verileri", category: "Bölümler", icon: <TrendingUp className="w-4 h-4" />, scrollId: "market" },
-  { id: "s4", label: "Proje Mimarisi", description: "Teknoloji stack ve sistem tasarımı", category: "Bölümler", icon: <Layers className="w-4 h-4" />, scrollId: "architecture" },
-  { id: "s5", label: "Güvenlik Tasarımı", description: "Çok katmanlı güvenlik mimarisi", category: "Bölümler", icon: <Shield className="w-4 h-4" />, scrollId: "security" },
+  { id: "s4", label: "Mimari", description: "Teknoloji stack ve sistem tasarımı", category: "Bölümler", icon: <Layers className="w-4 h-4" />, scrollId: "architecture" },
+  { id: "s5", label: "Güvenlik", description: "Çok katmanlı güvenlik mimarisi", category: "Bölümler", icon: <Shield className="w-4 h-4" />, scrollId: "security" },
   { id: "s6", label: "UI/UX Tasarım", description: "Sayfa planlaması ve mobil uyumluluk", category: "Bölümler", icon: <Cpu className="w-4 h-4" />, scrollId: "ux" },
   { id: "s7", label: "Rakip Analizi", description: "ChatGPT, Claude, Gemini karşılaştırma", category: "Bölümler", icon: <TrendingUp className="w-4 h-4" />, scrollId: "competitors" },
-  { id: "s8", label: "12 Ay Yol Haritası", description: "MVP'den tam sürüme geliştirme planı", category: "Bölümler", icon: <GitBranch className="w-4 h-4" />, scrollId: "roadmap" },
+  { id: "s8", label: "Yol Haritası", description: "MVP'den tam sürüme geliştirme planı", category: "Bölümler", icon: <GitBranch className="w-4 h-4" />, scrollId: "roadmap" },
   { id: "s9", label: "Gelir Modeli", description: "Abonelik ve enterprise gelir projeksiyonu", category: "Bölümler", icon: <DollarSign className="w-4 h-4" />, scrollId: "revenue" },
   { id: "s10", label: "Kontrol Listesi", description: "Lansman öncesi doğrulama kontrol listesi", category: "Bölümler", icon: <CheckSquare className="w-4 h-4" />, scrollId: "checklist" },
 
@@ -95,6 +96,8 @@ export function AdvancedSearch() {
     setQuery("");
     if (item.scrollId) {
       document.getElementById(item.scrollId)?.scrollIntoView({ behavior: "smooth" });
+    } else {
+      toast.info(`${item.label} - Coming Soon`, { description: item.description });
     }
   };
 
@@ -102,7 +105,7 @@ export function AdvancedSearch() {
     <>
       <button
         onClick={() => setIsOpen(true)}
-        className="p-2 rounded-lg transition-all duration-200 hover:scale-105"
+        className="p-2 rounded-lg transition-all duration-200 ease-out hover:scale-105 active:scale-[0.97] cursor-pointer focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#00E5A0]/30"
         style={{
           background: "rgba(255,255,255,0.04)",
           border: "1px solid rgba(255,255,255,0.06)",
