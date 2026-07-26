@@ -1,5 +1,0 @@
-name = "aipusula-report"
-pages_build_output_dir = "dist/public"
-
-[build]
-  command = "node build-pages.mjs"
