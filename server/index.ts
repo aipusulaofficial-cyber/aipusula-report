@@ -10,23 +10,28 @@ const __dirname = path.dirname(__filename);
 async function startServer() {
   const app = express();
   const server = createServer(app);
-app.use(express.json());
-  // Enable gzip/brotli compression for all responses
-  app.use(compression({
-    threshold: 0, // Compress all responses regardless of size
-    filter: (_req, res) => {
-      if (res.getHeader("x-no-compression")) return false;
-      return compression.filter(_req, res);
-    },
-  }));
 
-  // Serve static files from dist/public in production
+  // JSON desteği
+  app.use(express.json());
+
+  // Gzip/Brotli sıkıştırma
+  app.use(
+    compression({
+      threshold: 0,
+      filter: (_req, res) => {
+        if (res.getHeader("x-no-compression")) return false;
+        return compression.filter(_req, res);
+      },
+    })
+  );
+
+  // Statik dosya yolu
   const staticPath =
     process.env.NODE_ENV === "production"
       ? path.resolve(__dirname, "public")
       : path.resolve(__dirname, "..", "dist", "public");
 
-  // Cache immutable assets (JS, CSS) for 1 year with fingerprinted filenames
+  // Asset cache
   app.use(
     "/assets",
     express.static(path.join(staticPath, "assets"), {
@@ -35,7 +40,7 @@ app.use(express.json());
     })
   );
 
-  // Cache manus internal assets for 1 hour
+  // Manus cache
   app.use(
     "/__manus__",
     express.static(path.join(staticPath, "__manus__"), {
@@ -43,11 +48,21 @@ app.use(express.json());
     })
   );
 
-  // Default static serving for other files
+  // Diğer statik dosyalar
   app.use(express.static(staticPath, { maxAge: "1d" }));
 
-  // Handle client-side routing - serve index.html for all routes
-  // Add cache headers for HTML responses
+  // TEST API
+  app.post("/api/posts", (req, res) => {
+    console.log("Yeni içerik:", req.body);
+
+    res.json({
+      success: true,
+      message: "API çalışıyor",
+      data: req.body,
+    });
+  });
+
+  // React Router
   app.get("*", (_req, res) => {
     res.set("Cache-Control", "public, max-age=0, must-revalidate");
     res.sendFile(path.join(staticPath, "index.html"));
