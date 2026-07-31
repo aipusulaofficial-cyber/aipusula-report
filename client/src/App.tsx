@@ -11,7 +11,7 @@ import AIEarnings from "./pages/AIEarnings";
 import DigitalWorld from "./pages/DigitalWorld";
 import CyberSecurity from "./pages/CyberSecurity";
 import ContentDetail from "./pages/ContentDetail";
-
+import Admin from "./pages/Admin";
 function Router() {
   return (
     <Switch>
@@ -22,7 +22,7 @@ function Router() {
       <Route path="/dijital-dunya" component={DigitalWorld} />
       <Route path="/siber-guvenlik" component={CyberSecurity} />
       <Route path="/detay/:category/:type/:slug" component={ContentDetail} />
-      <Route path="/404" component={NotFound} />
+      <Route path="/404" component={NotFound} /><Route path="/admin" component={Admin} />
       <Route component={NotFound} />
     </Switch>
   );
