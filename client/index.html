@@ -40,18 +40,18 @@
 
   <script>
     (function () {
-      var t = localStorage.getItem("theme") || "dark";
-      document.documentElement.classList.add(t);
-      document.documentElement.classList.remove(t === "dark" ? "light" : "dark");
+      const theme = localStorage.getItem("theme") || "dark";
+      document.documentElement.classList.remove("light", "dark");
+      document.documentElement.classList.add(theme);
     })();
   </script>
 
   <script type="application/ld+json">
   {
-    "@context": "https://schema.org",
-    "@type": "Organization",
-    "name": "AIPUSULA",
-    "url": "https://aipusula.net"
+    "@context":"https://schema.org",
+    "@type":"Organization",
+    "name":"AIPUSULA",
+    "url":"https://aipusula.net"
   }
   </script>
 
@@ -60,9 +60,8 @@
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag() { dataLayer.push(arguments); }
-    gtag('js', new Date());
-
-    gtag('config', 'G-46C240Q5QW');
+    gtag("js", new Date());
+    gtag("config", "G-46C240Q5QW");
   </script>
 
 </head>
@@ -72,12 +71,6 @@
   <div id="root"></div>
 
   <script type="module" src="/src/main.tsx"></script>
-
-  <script
-    defer
-    src="%VITE_ANALYTICS_ENDPOINT%/umami"
-    data-website-id="%VITE_ANALYTICS_WEBSITE_ID%">
-  </script>
 
 </body>
 
