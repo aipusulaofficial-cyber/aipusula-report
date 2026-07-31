@@ -1,10 +1,35 @@
-ondada bu var import { useState } from "react";
+import { useState } from "react";
 
 export default function Admin() {
   const [title, setTitle] = useState("");
   const [category, setCategory] = useState("yapay-zeka");
   const [summary, setSummary] = useState("");
   const [content, setContent] = useState("");
+
+  async function publishPost() {
+    try {
+      const response = await fetch("/api/posts", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          title,
+          category,
+          summary,
+          content,
+        }),
+      });
+
+      const result = await response.json();
+
+      alert(result.message);
+      console.log(result);
+    } catch (error) {
+      console.error(error);
+      alert("Yayınlama sırasında hata oluştu.");
+    }
+  }
 
   return (
     <div style={{ maxWidth: "900px", margin: "40px auto", padding: "20px" }}>
@@ -46,6 +71,7 @@ export default function Admin() {
       />
 
       <button
+        onClick={publishPost}
         style={{
           padding: "12px 24px",
           fontSize: "16px",
