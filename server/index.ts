@@ -10,7 +10,7 @@ const __dirname = path.dirname(__filename);
 async function startServer() {
   const app = express();
   const server = createServer(app);
-
+app.use(express.json());
   // Enable gzip/brotli compression for all responses
   app.use(compression({
     threshold: 0, // Compress all responses regardless of size
