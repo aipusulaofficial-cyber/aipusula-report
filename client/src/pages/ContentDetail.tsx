@@ -11,6 +11,7 @@ import {
   Server, Code2, Layers, ChevronRight, Zap,
 } from "lucide-react";
 import { AppShell } from "@/components/AppShell";
+import SEO from "@/components/SEO";
 import { useTheme } from "@/contexts/ThemeContext";
 
 // ─── Content Data Registry ──────────────────────────────────────────────────
@@ -257,7 +258,7 @@ const categoryLabels: Record<string, string> = {
 };
 
 // ─── Detail Page Component ───────────────────────────────────────────────────
-export default function ContentDetail() {
+function ContentDetailPage() {
   const { category, type, slug } = useParams();
   const catColor = categoryColors[category || ""] || "#00E5A0";
   const catLabel = categoryLabels[category || ""] || category;
@@ -922,5 +923,33 @@ export default function ContentDetail() {
         </div>
       </div>
     </AppShell>
+  );
+}
+
+export default function ContentDetail() {
+  const { category, type, slug } = useParams();
+  const registryType = type === "guide" ? "rehber" : type || "";
+  const categoryData = contentRegistry[category || ""]?.[registryType]?.[slug || ""];
+  const title = categoryData?.title || categoryData?.name || slug?.replace(/-/g, " ") || "İçerik";
+  const description = categoryData?.summary || categoryData?.desc || categoryData?.body || "AIPUSULA içerik detayları.";
+  const canonical = `https://aipusula.net/detay/${category || ""}/${type || ""}/${slug || ""}`;
+  const categoryLabel = categoryLabels[category || ""] || category || "İçerik";
+
+  return (
+    <>
+      <SEO
+        title={`${title} | AIPUSULA`}
+        description={description.slice(0, 160)}
+        canonical={canonical}
+        type="article"
+        breadcrumbs={[
+          { name: "Ana Sayfa", url: "https://aipusula.net/" },
+          { name: categoryLabel, url: `https://aipusula.net/${category || ""}` },
+          { name: title, url: canonical },
+        ]}
+        article={{ author: "AIPUSULA" }}
+      />
+      <ContentDetailPage />
+    </>
   );
 }

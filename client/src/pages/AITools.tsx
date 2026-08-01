@@ -12,7 +12,9 @@ import {
   Check, X, SlidersHorizontal,
 } from "lucide-react";
 import { AppShell } from "@/components/AppShell";
+import SEO from "@/components/SEO";
 import { useTheme } from "@/contexts/ThemeContext";
+import { pageSEO } from "@/seo/pageSEO";
 
 const BRAND_COLOR = "#38BDF8";
 
@@ -120,6 +122,7 @@ export default function AITools() {
 
   return (
     <AppShell>
+      <SEO {...pageSEO.tools} />
       {/* ── Hero: Search-First Layout ── */}
       <section className="relative overflow-hidden py-6 intel-grid-bg intel-scanline intel-corner">
         <div className="absolute inset-0 pointer-events-none" style={{

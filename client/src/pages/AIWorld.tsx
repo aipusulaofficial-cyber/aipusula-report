@@ -11,7 +11,9 @@ import {
   Clock, Eye, ChevronRight, Layers,
 } from "lucide-react";
 import { AppShell } from "@/components/AppShell";
+import SEO from "@/components/SEO";
 import { useTheme } from "@/contexts/ThemeContext";
+import { pageSEO } from "@/seo/pageSEO";
 
 const BRAND_COLOR = "#06B6D4";
 
@@ -103,6 +105,7 @@ export default function AIWorld() {
 
   return (
     <AppShell>
+      <SEO {...pageSEO.ai} />
       {/* ── Hero ── */}
       <section className="relative overflow-hidden py-4 sm:py-6 intel-grid-bg intel-scanline intel-corner">
         <div className="absolute inset-0 pointer-events-none" style={{ background: `radial-gradient(ellipse at 30% 40%, ${BRAND_COLOR}08 0%, transparent 60%), radial-gradient(ellipse at 80% 20%, ${BRAND_COLOR}04 0%, transparent 50%)` }} />

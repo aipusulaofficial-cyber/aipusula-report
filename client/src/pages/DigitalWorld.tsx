@@ -14,7 +14,9 @@ import {
   ArrowUpRight, ArrowDownRight, Box, DollarSign,
 } from "lucide-react";
 import { AppShell } from "@/components/AppShell";
+import SEO from "@/components/SEO";
 import { useTheme } from "@/contexts/ThemeContext";
+import { pageSEO } from "@/seo/pageSEO";
 
 const BRAND_COLOR = "#A78BFA";
 
@@ -125,6 +127,7 @@ export default function DigitalWorld() {
 
   return (
     <AppShell>
+      <SEO {...pageSEO.digital} />
       {/* ── Hero: Tech Radar Dashboard Layout ── */}
       <section className="relative overflow-hidden py-6 intel-grid-bg intel-scanline intel-corner">
         <div className="absolute inset-0 pointer-events-none" style={{

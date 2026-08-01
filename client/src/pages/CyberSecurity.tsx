@@ -12,11 +12,13 @@ import {
   TrendingUp, Target, AlertOctagon, Radio, Activity,
 } from "lucide-react";
 import { AppShell } from "@/components/AppShell";
+import SEO from "@/components/SEO";
 import { AttackMap } from "@/components/AttackMap";
 import { LiveThreatCounter, AIRiskScore } from "@/components/EnterpriseWidgets";
 import { CVEFeed } from "@/components/CVEFeed";
 import { SecurityNews } from "@/components/SecurityNews";
 import { useTheme } from "@/contexts/ThemeContext";
+import { pageSEO } from "@/seo/pageSEO";
 
 const BRAND_COLOR = "#F97316";
 const THREAT_COLOR = "#EF4444";
@@ -122,6 +124,7 @@ export default function CyberSecurity() {
 
   return (
     <AppShell>
+      <SEO {...pageSEO.cyber} />
       {/* ── Hero: Security Operations Center Layout ── */}
       <section className="relative overflow-hidden py-6 intel-grid-bg intel-scanline intel-corner">
         <div className="absolute inset-0 pointer-events-none" style={{

@@ -12,7 +12,9 @@ import {
   Briefcase, Lightbulb, ArrowUpRight, BarChart3,
 } from "lucide-react";
 import { AppShell } from "@/components/AppShell";
+import SEO from "@/components/SEO";
 import { useTheme } from "@/contexts/ThemeContext";
+import { pageSEO } from "@/seo/pageSEO";
 
 const BRAND_COLOR = "#FCD34D";
 
@@ -122,6 +124,7 @@ export default function AIEarnings() {
 
   return (
     <AppShell>
+      <SEO {...pageSEO.earn} />
       {/* ── Hero: Revenue Potential Layout ── */}
       <section className="relative overflow-hidden py-6 intel-grid-bg intel-scanline intel-corner">
         <div className="absolute inset-0 pointer-events-none" style={{

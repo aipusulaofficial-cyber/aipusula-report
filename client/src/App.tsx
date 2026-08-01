@@ -1,3 +1,4 @@
+import { HelmetProvider } from "react-helmet-async";
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { Route, Switch } from "wouter";
@@ -34,13 +35,15 @@ function Router() {
 
 export default function App() {
   return (
-    <ErrorBoundary>
-      <ThemeProvider defaultTheme="dark" switchable>
-        <TooltipProvider>
-          <Toaster />
-          <Router />
-        </TooltipProvider>
-      </ThemeProvider>
-    </ErrorBoundary>
+    <HelmetProvider>
+      <ErrorBoundary>
+        <ThemeProvider defaultTheme="dark" switchable>
+          <TooltipProvider>
+            <Toaster />
+            <Router />
+          </TooltipProvider>
+        </ThemeProvider>
+      </ErrorBoundary>
+    </HelmetProvider>
   );
 }

@@ -1,4 +1,4 @@
-export type SEOPage =
+export type SEOKey =
   | "home"
   | "ai"
   | "tools"
@@ -6,86 +6,73 @@ export type SEOPage =
   | "digital"
   | "cyber";
 
-export const pageSEO = {
+export interface SEOData {
+  title: string;
+  description: string;
+  canonical: string;
+  keywords: string;
+  image: string;
+}
+
+export const pageSEO: Record<SEOKey, SEOData> = {
   home: {
-    title:
-      "AIPUSULA | Yapay Zekâ Araçları, AI Haberleri ve Siber Güvenlik",
-
+    title: "AIPUSULA | Yapay Zekâ, AI Araçları ve Siber Güvenlik",
     description:
-      "Yapay zekâ araçları, AI haberleri, siber güvenlik, teknoloji rehberleri ve dijital dünya.",
-
+      "Yapay zekâ araçları, AI haberleri, ChatGPT, Gemini, Claude, siber güvenlik ve dijital dünya içerikleri.",
     canonical: "https://aipusula.net/",
-
-    image: "https://aipusula.net/og-image.png"
+    keywords:
+      "AIPUSULA, yapay zekâ, AI, ChatGPT, Gemini, Claude, siber güvenlik",
+    image: "https://aipusula.net/og-image.png",
   },
 
   ai: {
-    title:
-      "Yapay Zekâ Dünyası | AIPUSULA",
-
+    title: "Yapay Zekâ Dünyası | AIPUSULA",
     description:
-      "Yapay zekâ dünyasındaki son gelişmeler, modeller ve teknolojiler.",
-
-    canonical:
-      "https://aipusula.net/yapay-zeka",
-
-    image:
-      "https://aipusula.net/og-image.png"
+      "Yapay zekâ haberleri, LLM modelleri, OpenAI, Google Gemini ve AI dünyasındaki gelişmeler.",
+    canonical: "https://aipusula.net/yapay-zeka",
+    keywords:
+      "yapay zekâ, AI haberleri, GPT-5, Claude, Gemini",
+    image: "https://aipusula.net/og-image.png",
   },
 
   tools: {
-    title:
-      "En İyi AI Araçları | AIPUSULA",
-
+    title: "AI Araçları | AIPUSULA",
     description:
-      "ChatGPT, Gemini, Claude ve en iyi yapay zekâ araçları.",
-
-    canonical:
-      "https://aipusula.net/ai-araclari",
-
-    image:
-      "https://aipusula.net/og-image.png"
+      "En iyi yapay zekâ araçları, karşılaştırmalar ve kullanım rehberleri.",
+    canonical: "https://aipusula.net/ai-araclari",
+    keywords:
+      "AI araçları, ChatGPT, Claude, Gemini, Midjourney",
+    image: "https://aipusula.net/og-image.png",
   },
 
   earn: {
-    title:
-      "AI ile Para Kazanma | AIPUSULA",
-
+    title: "AI ile Para Kazanma | AIPUSULA",
     description:
-      "Yapay zekâ ile gelir elde etme yöntemleri.",
-
-    canonical:
-      "https://aipusula.net/ai-ile-kazanc",
-
-    image:
-      "https://aipusula.net/og-image.png"
+      "Yapay zekâ ile gelir elde etme yolları, iş fikirleri ve rehberler.",
+    canonical: "https://aipusula.net/ai-ile-kazanc",
+    keywords:
+      "AI ile para kazanma, yapay zekâ gelir",
+    image: "https://aipusula.net/og-image.png",
   },
 
   digital: {
-    title:
-      "Dijital Dünya | AIPUSULA",
-
+    title: "Dijital Dünya | AIPUSULA",
     description:
-      "Teknoloji, internet ve dijital yaşam.",
-
-    canonical:
-      "https://aipusula.net/dijital-dunya",
-
-    image:
-      "https://aipusula.net/og-image.png"
+      "Teknoloji, yazılım, internet ve dijital dönüşüm içerikleri.",
+    canonical: "https://aipusula.net/dijital-dunya",
+    keywords:
+      "teknoloji, dijital dünya, yazılım",
+    image: "https://aipusula.net/og-image.png",
   },
 
   cyber: {
-    title:
-      "Siber Güvenlik | AIPUSULA",
-
+    title: "Siber Güvenlik | AIPUSULA",
     description:
-      "Siber güvenlik haberleri ve rehberleri.",
-
-    canonical:
-      "https://aipusula.net/siber-guvenlik",
-
-    image:
-      "https://aipusula.net/og-image.png"
-  }
-} as const;
+      "Siber güvenlik haberleri, CVE analizleri ve güvenlik rehberleri.",
+    canonical: "https://aipusula.net/siber-guvenlik",
+    keywords:
+      "siber güvenlik, CVE, hacking, güvenlik",
+    image: "https://aipusula.net/og-image.png",
+  },
+};
+     

@@ -21,7 +21,9 @@ import {
 } from "lucide-react";
 import { CyberBackground } from "@/components/CyberBackground";
 import { AppShell } from "@/components/AppShell";
+import SEO from "@/components/SEO";
 import { useTheme } from "@/contexts/ThemeContext";
+import { pageSEO } from "@/seo/pageSEO";
 
 // ─── Category Overview Cards ─────────────────────────────────────────────────
 const categoryCards = [
@@ -221,6 +223,7 @@ const [posts, setPosts] = useState<any[]>([]);
 
   return (
     <AppShell>
+      <SEO {...pageSEO.home} />
       {isDark && <CyberBackground />}
 
       {/* ── Hero Section ── */}
