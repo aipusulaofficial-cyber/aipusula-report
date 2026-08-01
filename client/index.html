@@ -51,11 +51,35 @@
   </script>
 
   <script type="application/ld+json">
-  {
-    "@context":"https://schema.org",
-    "@type":"Organization",
-    "name":"AIPUSULA",
-    "url":"https://aipusula.net"
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://aipusula.net/#organization",
+      "name": "AIPUSULA",
+      "url": "https://aipusula.net",
+      "logo": "https://aipusula.net/og-image.png",
+      "sameAs": [
+        "https://www.youtube.com/@AIPUSULA",
+        "https://www.instagram.com/AIPUSULA",
+        "https://www.tiktok.com/@AIPUSULA"
+      ]
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://aipusula.net/#website",
+      "url": "https://aipusula.net",
+      "name": "AIPUSULA",
+      "description": "Yapay zekâ araçları, AI haberleri ve siber güvenlik platformu.",
+      "publisher": {
+        "@id": "https://aipusula.net/#organization"
+      },
+      "inLanguage": "tr-TR"
+    }
+  ]
+}
+</script>
   }
   </script>
 
