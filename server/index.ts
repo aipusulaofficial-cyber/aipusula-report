@@ -3,17 +3,30 @@ import express from "express";
 import { createServer } from "http";
 import path from "path";
 import crypto from "crypto";
+import crypto from "crypto";
 import { fileURLToPath } from "url";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-async function startServer() {
+export function createApp() {
   const app = express();
-  const server = createServer(app);
 
   // JSON desteği
-  app.use(express.json());
+  app.use(express.json({ limit: "1mb" }));
+
+  app.use((req, res, next) => {
+    const requestId = req.header("x-request-id") || crypto.randomUUID();
+    const correlationId = req.header("x-correlation-id") || requestId;
+    const started = process.hrtime.bigint();
+    res.setHeader("x-request-id", requestId);
+    res.setHeader("x-correlation-id", correlationId);
+    res.on("finish", () => {
+      const latencyMs = Number(process.hrtime.bigint() - started) / 1_000_000;
+      res.setHeader("x-latency-ms", latencyMs.toFixed(3));
+    });
+    next();
+  });
 
   // Gzip/Brotli sıkıştırma
   app.use(
@@ -82,11 +95,25 @@ async function startServer() {
     res.sendFile(path.join(staticPath, "index.html"));
   });
 
-  const port = process.env.PORT || 3000;
-
-  server.listen(port, () => {
-    console.log(`Server running on http://localhost:${port}/`);
+  app.use("/api", (_req, res) => {
+    res.status(404).json({ success: false, message: "API route not found" });
   });
+
+  app.use((err: unknown, _req: express.Request, res: express.Response, _next: express.NextFunction) => {
+    console.error("Unhandled request error", err);
+    res.status(500).json({ success: false, message: "Internal server error" });
+  });
+
+  return app;
 }
 
-startServer().catch(console.error);
+export function startServer() {
+  const app = createApp();
+  const server = createServer(app);
+  const port = Number(process.env.PORT || 3000);
+  if (!Number.isInteger(port) || port < 1 || port > 65535) throw new Error("PORT must be 1-65535");
+  server.listen(port, () => console.log(`Server running on http://localhost:${port}/`));
+  return server;
+}
+
+if (process.env.NODE_ENV !== "test") startServer();
