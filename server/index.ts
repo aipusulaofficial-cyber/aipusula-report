@@ -2,6 +2,7 @@ import compression from "compression";
 import express from "express";
 import { createServer } from "http";
 import path from "path";
+import crypto from "crypto";
 import { fileURLToPath } from "url";
 
 const __filename = fileURLToPath(import.meta.url);
@@ -51,9 +52,22 @@ async function startServer() {
   // Diğer statik dosyalar
   app.use(express.static(staticPath, { maxAge: "1d" }));
 
-  // TEST API
+  // Request correlation and safe API boundary
+  app.use((req, res, next) => {
+    const requestId = req.header("x-request-id") || crypto.randomUUID();
+    const correlationId = req.header("x-correlation-id") || requestId;
+    res.setHeader("x-request-id", requestId);
+    res.setHeader("x-correlation-id", correlationId);
+    next();
+  });
+
   app.post("/api/posts", (req, res) => {
-    console.log("Yeni içerik:", req.body);
+    if (!req.is("application/json")) {
+      res.status(415).json({ success: false, message: "application/json required" });
+      return;
+    }
+
+    const payload = req.body;
 
     res.json({
       success: true,
