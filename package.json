@@ -11,7 +11,8 @@
     "check": "tsc --noEmit",
     "format": "prettier --write .",
     "pages:build": "DEPLOY_TARGET=cloudflare NODE_ENV=production npx vite build",
-    "pages:preview": "wrangler pages dev dist/public"
+    "pages:preview": "wrangler pages dev dist/public",
+    "test": "vitest run"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
