@@ -9,6 +9,8 @@ on:
 permissions:
   contents: read
 
+# Deterministic install is intentionally enforced with the committed lockfile.
+
 jobs:
   production:
     runs-on: ubuntu-latest
