@@ -215,7 +215,6 @@ export default function Home() {
   const { theme } = useTheme();
   const isDark = theme === "dark";
   const [currentTime, setCurrentTime] = useState(new Date());
-const [posts, setPosts] = useState<any[]>([]);
   useEffect(() => {
     const timer = setInterval(() => setCurrentTime(new Date()), 1000);
     return () => clearInterval(timer);
