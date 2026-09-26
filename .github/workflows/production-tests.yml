@@ -1,0 +1,41 @@
+name: production-tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  production:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.4.1
+          run_install: false
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm run test
+      - run: pnpm run build
+      - name: Start production server
+        run: |
+          NODE_ENV=production PORT=3000 node dist/index.js > /tmp/aipusula-report.log 2>&1 &
+          echo $! > /tmp/aipusula-report.pid
+          for i in {1..30}; do
+            if curl --fail --silent --show-error http://127.0.0.1:3000/ >/dev/null; then exit 0; fi
+            sleep 1
+          done
+          cat /tmp/aipusula-report.log
+          exit 1
+      - name: Stop production server
+        if: always()
+        run: |
+          if [ -f /tmp/aipusula-report.pid ]; then kill $(cat /tmp/aipusula-report.pid) || true; fi
