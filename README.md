@@ -1,23 +1,29 @@
 # AIPUSULA Report
 
-Production-oriented reporting surface for AI engineering evidence.
+A production reporting surface for turning AI engineering results and evidence into a reviewable report artifact.
 
-## Principal engineering contract
+## What this project does
+The application serves a report-oriented web surface and an API for report content. The server handles JSON requests, correlation IDs, latency measurement, compression, static assets and the React application fallback.
 
-- **Evidence integrity:** report inputs, versions, and generated artifacts are traceable.
-- **Determinism:** identical versioned inputs produce reproducible report output.
-- **Validation:** malformed report data is rejected at the boundary.
-- **Security:** no secrets or credentials are embedded in generated reports.
-- **Operability:** build and production checks run through GitHub Actions before release.
-- **Auditability:** material changes are represented by reviewable commits and CI evidence.
+## Runtime architecture
+```text
+Report data -> API boundary -> report application -> production static surface -> reviewable evidence
+```
 
-## Quality gates
+The server exposes `/api/posts` and application routing. Request IDs and latency are captured for diagnosis, while errors are handled by the server error boundary.
 
-1. Type-check and build.
-2. Validate report contracts and representative rendering paths.
-3. Run security/dependency/SBOM checks.
-4. Verify the production artifact rather than relying on development-only behavior.
+## Engineering contracts
+- Report inputs are validated at the application boundary.
+- Generated content must not contain credentials or secrets.
+- Versioned inputs should produce reproducible output.
+- Production behavior is tested separately from development-only behavior.
 
-## Engineering standard
+## Delivery
+CI, production tests and security/SBOM checks are executable gates. The repository contains the reporting application and production server rather than a documentation-only mock.
 
-This repository follows the portfolio-wide Principal engineering standard: explicit contracts, bounded work, deterministic tests, least privilege, observable failures, and documented operational trade-offs.
+## Evidence
+- Server: [server/index.ts](server/index.ts)
+- Engineering contract: [docs/PRINCIPAL-ENGINEERING.md](docs/PRINCIPAL-ENGINEERING.md)
+- CI: [.github/workflows/ci.yml](.github/workflows/ci.yml)
+
+**Engineering chain:** Code → Contract → Test → Security → Runtime → Observability → Deployment → Evidence.
