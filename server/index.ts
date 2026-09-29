@@ -8,6 +8,12 @@ import { fileURLToPath } from "url";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+function safeRequestId(value: string | undefined, fallback: string): string {
+  return value && /^[A-Za-z0-9][A-Za-z0-9._:/-]{0,127}$/.test(value)
+    ? value
+    : fallback;
+}
+
 export function createApp() {
   const app = express();
 
@@ -15,8 +21,8 @@ export function createApp() {
   app.use(express.json({ limit: "1mb" }));
 
   app.use((req, res, next) => {
-    const requestId = req.header("x-request-id") || crypto.randomUUID();
-    const correlationId = req.header("x-correlation-id") || requestId;
+    const requestId = safeRequestId(req.header("x-request-id"), crypto.randomUUID());
+    const correlationId = safeRequestId(req.header("x-correlation-id"), requestId);
     const started = process.hrtime.bigint();
     res.setHeader("x-request-id", requestId);
     res.setHeader("x-correlation-id", correlationId);
@@ -97,8 +103,14 @@ export function createApp() {
   });
 
   app.use((err: unknown, _req: express.Request, res: express.Response, _next: express.NextFunction) => {
-    console.error("Unhandled request error", err);
-    res.status(500).json({ success: false, message: "Internal server error" });
+    const incomingStatus =
+      typeof err === "object" && err !== null && "status" in err ? err.status : undefined;
+    const status = incomingStatus === 400 || incomingStatus === 413 ? incomingStatus : 500;
+    if (status === 500) console.error("Unhandled request error", err);
+    res.status(status).json({
+      success: false,
+      message: status === 413 ? "Request body too large" : status === 400 ? "Invalid request body" : "Internal server error",
+    });
   });
 
   return app;
