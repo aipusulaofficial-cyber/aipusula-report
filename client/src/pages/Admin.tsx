@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { publishPost } from "../lib/publishPost";
 
 export default function Admin() {
   const [title, setTitle] = useState("");
@@ -6,28 +7,20 @@ export default function Admin() {
   const [summary, setSummary] = useState("");
   const [content, setContent] = useState("");
 
-  async function publishPost() {
+  const [submitting, setSubmitting] = useState(false);
+  const [feedback, setFeedback] = useState("");
+
+  async function submitPost() {
+    if (submitting) return;
+    setSubmitting(true);
+    setFeedback("");
     try {
-      const response = await fetch("/api/posts", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          title,
-          category,
-          summary,
-          content,
-        }),
-      });
-
-      const result = await response.json();
-
-      alert(result.message);
-      console.log(result);
+      const result = await publishPost({ title, category, summary, content });
+      setFeedback(result.message);
     } catch (error) {
-      console.error(error);
-      alert("Yayınlama sırasında hata oluştu.");
+      setFeedback(error instanceof Error ? error.message : "İstek başarısız oldu.");
+    } finally {
+      setSubmitting(false);
     }
   }
 
@@ -71,15 +64,17 @@ export default function Admin() {
       />
 
       <button
-        onClick={publishPost}
+        onClick={submitPost}
+        disabled={submitting}
         style={{
           padding: "12px 24px",
           fontSize: "16px",
           cursor: "pointer",
         }}
       >
-        Yayınla
+        {submitting ? "Gönderiliyor..." : "API’ye Gönder"}
       </button>
+      <p role="status" aria-live="polite">{feedback}</p>
     </div>
   );
 }
