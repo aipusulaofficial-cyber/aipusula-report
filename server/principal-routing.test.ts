@@ -1,7 +1,7 @@
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import { createServer, type Server } from "node:http";
 import { once } from "node:events";
-import { createApp, startServer } from "./index";
+import { createApp, normalizeHttpError, startServer } from "./index";
 
 let server: Server;
 let base: string;
@@ -132,4 +132,18 @@ describe("HTTP API routing", () => {
     }
   );
 
+});
+
+
+describe("HTTP error status normalization", () => {
+  it("preserves HTTP 400 and 413 as client errors", () => {
+    expect(normalizeHttpError({ status: 400 })).toEqual({ status: 400, message: "Invalid request body" });
+    expect(normalizeHttpError({ status: 413 })).toEqual({ status: 413, message: "Request body too large" });
+  });
+
+  it("normalizes unexpected and malformed errors to safe 500 responses", () => {
+    for (const err of [null, undefined, new Error("secret"), { status: 404 }, { status: "400" }]) {
+      expect(normalizeHttpError(err)).toEqual({ status: 500, message: "Internal server error" });
+    }
+  });
 });
