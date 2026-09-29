@@ -28,14 +28,18 @@ export default function Admin() {
     <div style={{ maxWidth: "900px", margin: "40px auto", padding: "20px" }}>
       <h1>AIPUSULA Admin Paneli</h1>
 
+      <label htmlFor="post-title">Başlık</label>
       <input
+        id="post-title"
         placeholder="Başlık"
         value={title}
         onChange={(e) => setTitle(e.target.value)}
         style={{ width: "100%", padding: "12px", marginBottom: "15px" }}
       />
 
+      <label htmlFor="post-category">Kategori</label>
       <select
+        id="post-category"
         value={category}
         onChange={(e) => setCategory(e.target.value)}
         style={{ width: "100%", padding: "12px", marginBottom: "15px" }}
@@ -47,7 +51,9 @@ export default function Admin() {
         <option value="siber-guvenlik">Siber Güvenlik</option>
       </select>
 
+      <label htmlFor="post-summary">Özet</label>
       <textarea
+        id="post-summary"
         placeholder="Özet"
         value={summary}
         onChange={(e) => setSummary(e.target.value)}
@@ -55,7 +61,9 @@ export default function Admin() {
         style={{ width: "100%", padding: "12px", marginBottom: "15px" }}
       />
 
+      <label htmlFor="post-content">İçerik</label>
       <textarea
+        id="post-content"
         placeholder="İçerik"
         value={content}
         onChange={(e) => setContent(e.target.value)}
