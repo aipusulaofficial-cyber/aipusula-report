@@ -21,4 +21,24 @@ describe("frontend publishing contract", () => {
     await expect(publishPost(valid, request)).resolves.toEqual({ success: true, message: "ok" });
     expect(JSON.parse(request.mock.calls[0][1].body)).toEqual(validateDraft(valid));
   });
+  it("rejects HTTP failure and a denied result", async () => {
+    await expect(publishPost(valid, vi.fn().mockResolvedValue({
+      ok: false, json: async () => ({ success: true, message: "HTTP failed" }),
+    }))).rejects.toThrow("HTTP failed");
+    await expect(publishPost(valid, vi.fn().mockResolvedValue({
+      ok: true, json: async () => ({ success: false, message: "Denied" }),
+    }))).rejects.toThrow("Denied");
+  });
+
+  it("rejects transport failures, malformed JSON and unknown responses", async () => {
+    await expect(publishPost(valid, vi.fn().mockRejectedValue(new Error("network"))))
+      .rejects.toThrow("Ağ bağlantısı");
+    await expect(publishPost(valid, vi.fn().mockResolvedValue({
+      ok: true, json: async () => { throw new Error("malformed"); },
+    }))).rejects.toThrow("geçersiz yanıt");
+    await expect(publishPost(valid, vi.fn().mockResolvedValue({
+      ok: true, json: async () => ({ other: true }),
+    }))).rejects.toThrow("geçersiz yanıt");
+  });
+
 });
