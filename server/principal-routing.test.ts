@@ -73,4 +73,35 @@ describe("HTTP API routing", () => {
     expect(response.headers.get("x-correlation-id")).toBe(requestId);
   });
 
+
+  it("replaces oversized request identifiers instead of reflecting them", async () => {
+    const supplied = "z".repeat(200);
+    const response = await fetch(`${base}/api/missing`, {
+      headers: { "x-request-id": supplied },
+    });
+    expect(response.status).toBe(404);
+    expect(response.headers.get("x-request-id")).toMatch(/^[0-9a-f-]{36}$/i);
+    expect(response.headers.get("x-request-id")).not.toBe(supplied);
+  });
+
+  it("returns HTTP 400 for invalid JSON syntax", async () => {
+    const response = await fetch(`${base}/api/posts`, {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: '{"unclosed":',
+    });
+    expect(response.status).toBe(400);
+    expect((await response.json()).message).toBe("Invalid request body");
+  });
+
+  it("returns HTTP 413 for oversized JSON input", async () => {
+    const response = await fetch(`${base}/api/posts`, {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ content: "x".repeat(1024 * 1024 + 1) }),
+    });
+    expect(response.status).toBe(413);
+    expect((await response.json()).message).toBe("Request body too large");
+  });
+
 });
