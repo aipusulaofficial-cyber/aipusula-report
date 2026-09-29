@@ -52,6 +52,15 @@ jobs:
               key: total[key]["pct"]
               for key in required
           }
+          thresholds = {"lines": 80.0, "statements": 80.0, "functions": 60.0, "branches": 70.0}
+          failures = [
+              f"{metric}: {summary[metric]}% < {minimum}%"
+              for metric, minimum in thresholds.items()
+              if not isinstance(summary[metric], (int, float))
+              or summary[metric] < minimum
+          ]
+          if failures:
+              raise SystemExit("Server coverage gate failed: " + "; ".join(failures))
           evidence = {
               "scope": "server/index.ts",
               "frontend_coverage_verified": False,
