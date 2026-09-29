@@ -1,7 +1,7 @@
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import { createServer, type Server } from "node:http";
 import { once } from "node:events";
-import { createApp } from "./index";
+import { createApp, startServer } from "./index";
 
 let server: Server;
 let base: string;
@@ -116,5 +116,20 @@ describe("HTTP API routing", () => {
     expect(response.headers.get("x-request-id")).toBe("known-good-id");
     expect(response.headers.get("x-correlation-id")).toBe("known-good-id");
   });
+
+
+  it.each(["0", "70000", "invalid"])(
+    "refuses invalid server port %s before binding a listener",
+    (configuredPort) => {
+      const originalPort = process.env.PORT;
+      try {
+        process.env.PORT = configuredPort;
+        expect(() => startServer()).toThrow("PORT must be 1-65535");
+      } finally {
+        if (originalPort === undefined) delete process.env.PORT;
+        else process.env.PORT = originalPort;
+      }
+    }
+  );
 
 });
