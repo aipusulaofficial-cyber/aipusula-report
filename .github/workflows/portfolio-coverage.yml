@@ -27,7 +27,13 @@ jobs:
         run: |
           mkdir -p artifacts
           pnpm exec vitest run --coverage --coverage.reporter=text --coverage.reporter=json
-          cp coverage/coverage-final.json artifacts/coverage-final.json
+          coverage_file="$(find . -type f -path '*/coverage/coverage-final.json' -print -quit)"
+          if [ -z "$coverage_file" ]; then
+            echo "coverage-final.json was not generated"
+            find . -type f -name 'coverage-final.json' -print
+            exit 1
+          fi
+          cp "$coverage_file" artifacts/coverage-final.json
       - name: Upload portfolio coverage evidence
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         with:
