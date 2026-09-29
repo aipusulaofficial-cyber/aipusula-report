@@ -27,3 +27,6 @@ CI, production tests and security/SBOM checks are executable gates. The reposito
 - CI: [.github/workflows/ci.yml](.github/workflows/ci.yml)
 
 **Engineering chain:** Code → Contract → Test → Security → Runtime → Observability → Deployment → Evidence.
+
+## Portfolio evidence
+[Portfolio evidence map](docs/PORTFOLIO_EVIDENCE.md) — executable proof, architecture mapping and reviewable CI evidence.
