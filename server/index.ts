@@ -14,6 +14,14 @@ function safeRequestId(value: string | undefined, fallback: string): string {
     : fallback;
 }
 
+export function normalizeHttpError(err: unknown): { status: number; message: string } {
+  const incomingStatus =
+    typeof err === "object" && err !== null && "status" in err ? err.status : undefined;
+  if (incomingStatus === 400) return { status: 400, message: "Invalid request body" };
+  if (incomingStatus === 413) return { status: 413, message: "Request body too large" };
+  return { status: 500, message: "Internal server error" };
+}
+
 export function createApp() {
   const app = express();
 
@@ -103,14 +111,9 @@ export function createApp() {
   });
 
   app.use((err: unknown, _req: express.Request, res: express.Response, _next: express.NextFunction) => {
-    const incomingStatus =
-      typeof err === "object" && err !== null && "status" in err ? err.status : undefined;
-    const status = incomingStatus === 400 || incomingStatus === 413 ? incomingStatus : 500;
-    if (status === 500) console.error("Unhandled request error", err);
-    res.status(status).json({
-      success: false,
-      message: status === 413 ? "Request body too large" : status === 400 ? "Invalid request body" : "Internal server error",
-    });
+    const error = normalizeHttpError(err);
+    if (error.status === 500) console.error("Unhandled request error", err);
+    res.status(error.status).json({ success: false, message: error.message });
   });
 
   return app;
