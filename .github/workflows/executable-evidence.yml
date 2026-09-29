@@ -1,0 +1,49 @@
+name: Executable Build Evidence
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  evidence:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
+        with:
+          persist-credentials: false
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.18.1
+      - uses: actions/setup-node@e33196f9e7d58b0c3a2b5a8f5c4d0f3b9a2f1c7e # v4.4.0
+        with:
+          node-version: 22
+          cache: pnpm
+      - name: Install
+        run: pnpm install --frozen-lockfile
+      - name: Typecheck
+        run: pnpm check
+      - name: Test
+        run: pnpm test -- --reporter=verbose
+      - name: Production build
+        run: pnpm build
+      - name: Generate build evidence
+        run: |
+          mkdir -p artifacts
+          node - <<'NODE'
+          const fs = require("fs");
+          const stat = fs.statSync("dist");
+          const files = fs.readdirSync("dist", {recursive:true}).length;
+          const evidence = { build_directory_present: stat.isDirectory(), output_entries: files };
+          if (!evidence.build_directory_present || files === 0) process.exit(1);
+          fs.writeFileSync("artifacts/build-evidence.json", JSON.stringify(evidence, null, 2) + "\n");
+          console.log(evidence);
+          NODE
+      - name: Upload executable evidence
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: executable-build-evidence
+          path: artifacts/
+          if-no-files-found: error
