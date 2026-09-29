@@ -34,6 +34,30 @@ jobs:
             exit 1
           fi
           cp "$coverage_file" artifacts/coverage-summary.json
+          test -s artifacts/coverage-summary.json
+      - name: Validate coverage evidence
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          path = Path("artifacts/coverage-summary.json")
+          data = json.loads(path.read_text(encoding="utf-8"))
+          total = data.get("total", {})
+          required = ("lines", "statements", "functions", "branches")
+          missing = [key for key in required if key not in total]
+          if missing:
+              raise SystemExit(f"coverage evidence missing metrics: {missing}")
+          summary = {
+              key: total[key]["pct"]
+              for key in required
+          }
+          Path("artifacts/coverage-evidence.json").write_text(
+              json.dumps(summary, indent=2, sort_keys=True) + "\n",
+              encoding="utf-8",
+          )
+          print(summary)
+          PY
       - name: Upload portfolio coverage evidence
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         with:
