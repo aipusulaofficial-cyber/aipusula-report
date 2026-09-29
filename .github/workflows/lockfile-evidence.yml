@@ -1,0 +1,39 @@
+name: Lockfile reproducibility evidence
+on:
+  pull_request:
+    paths:
+      - package.json
+      - .github/workflows/lockfile-evidence.yml
+permissions:
+  contents: read
+jobs:
+  generate:
+    if: github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
+        with:
+          persist-credentials: false
+      - uses: pnpm/action-setup@fe02b34f77f8bc703788d5817da081398fad5dd2 # v4.0.0
+        with:
+          version: 10.18.1
+      - uses: actions/setup-node@2028fbc5c25fe9cf00d9f06a71cc4710d4507903 # v6.0.0
+        with:
+          node-version: 22
+      - run: pnpm install --lockfile-only --no-frozen-lockfile --ignore-scripts
+      - name: Emit reproducible lockfile change evidence
+        run: |
+          python3 - <<'PY'
+          import difflib, json, pathlib, subprocess
+          before = subprocess.check_output(["git", "show", "HEAD:pnpm-lock.yaml"], text=True).splitlines(keepends=True)
+          after = pathlib.Path("pnpm-lock.yaml").read_text().splitlines(keepends=True)
+          for tag, first, last, start, end in difflib.SequenceMatcher(
+              a=before, b=after, autojunk=False
+          ).get_opcodes():
+              if tag == "equal":
+                  continue
+              print(f"LOCK_EDIT:{first}:{last}")
+              for line in after[start:end]:
+                  print("LOCK_LINE:" + json.dumps(line))
+              print("LOCK_END")
+          PY
