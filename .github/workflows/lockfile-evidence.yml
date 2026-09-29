@@ -3,6 +3,7 @@ on:
   pull_request:
     paths:
       - package.json
+      - pnpm-lock.yaml
       - .github/workflows/lockfile-evidence.yml
 permissions:
   contents: read
@@ -41,3 +42,5 @@ jobs:
                   print("LOCK_LINE:" + json.dumps(line))
               print("LOCK_END")
           PY
+      - name: Enforce committed pnpm lockfile reproducibility
+        run: git diff --exit-code -- pnpm-lock.yaml
