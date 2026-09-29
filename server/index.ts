@@ -22,7 +22,13 @@ export function createApp() {
     res.setHeader("x-correlation-id", correlationId);
     res.on("finish", () => {
       const latencyMs = Number(process.hrtime.bigint() - started) / 1_000_000;
-      res.setHeader("x-latency-ms", latencyMs.toFixed(3));
+      console.info(JSON.stringify({
+        event: "request_completed",
+        request_id: requestId,
+        correlation_id: correlationId,
+        status: res.statusCode,
+        latency_ms: Number(latencyMs.toFixed(3)),
+      }));
     });
     next();
   });
@@ -64,22 +70,11 @@ export function createApp() {
   // Diğer statik dosyalar
   app.use(express.static(staticPath, { maxAge: "1d" }));
 
-  // Request correlation and safe API boundary
-  app.use((req, res, next) => {
-    const requestId = req.header("x-request-id") || crypto.randomUUID();
-    const correlationId = req.header("x-correlation-id") || requestId;
-    res.setHeader("x-request-id", requestId);
-    res.setHeader("x-correlation-id", correlationId);
-    next();
-  });
-
   app.post("/api/posts", (req, res) => {
     if (!req.is("application/json")) {
       res.status(415).json({ success: false, message: "application/json required" });
       return;
     }
-
-    const payload = req.body;
 
     res.json({
       success: true,
@@ -88,14 +83,15 @@ export function createApp() {
     });
   });
 
-  // React Router
+  // API misses must never be rewritten to the SPA index page.
+  app.use("/api", (_req, res) => {
+    res.status(404).json({ success: false, message: "API route not found" });
+  });
+
+  // React Router fallback for non-API GET requests.
   app.get("*", (_req, res) => {
     res.set("Cache-Control", "public, max-age=0, must-revalidate");
     res.sendFile(path.join(staticPath, "index.html"));
-  });
-
-  app.use("/api", (_req, res) => {
-    res.status(404).json({ success: false, message: "API route not found" });
   });
 
   app.use((err: unknown, _req: express.Request, res: express.Response, _next: express.NextFunction) => {
