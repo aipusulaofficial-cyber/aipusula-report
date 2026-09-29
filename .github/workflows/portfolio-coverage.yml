@@ -21,8 +21,7 @@ jobs:
         with:
           node-version: 22
           cache: pnpm
-      - run: pnpm install --no-frozen-lockfile
-      - run: pnpm add -D @vitest/coverage-v8@2.1.4 --ignore-scripts
+      - run: pnpm install --frozen-lockfile
       - name: Run tests with coverage
         run: |
           mkdir -p artifacts
