@@ -12,7 +12,7 @@
     "format": "prettier --write .",
     "pages:build": "DEPLOY_TARGET=cloudflare NODE_ENV=production npx vite build",
     "pages:preview": "wrangler pages dev dist/public",
-    "test": "vitest run"
+    "test": "vitest run --root ."
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
