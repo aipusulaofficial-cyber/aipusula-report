@@ -104,4 +104,17 @@ describe("HTTP API routing", () => {
     expect((await response.json()).message).toBe("Request body too large");
   });
 
+
+  it("replaces invalid correlation IDs with the validated request ID", async () => {
+    const response = await fetch(`${base}/api/missing`, {
+      headers: {
+        "x-request-id": "known-good-id",
+        "x-correlation-id": "x".repeat(200),
+      },
+    });
+    expect(response.status).toBe(404);
+    expect(response.headers.get("x-request-id")).toBe("known-good-id");
+    expect(response.headers.get("x-correlation-id")).toBe("known-good-id");
+  });
+
 });
