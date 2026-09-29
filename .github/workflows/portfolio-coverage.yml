@@ -72,6 +72,27 @@ jobs:
           )
           print(summary)
           PY
+      - name: Measure frontend publishing contract
+        run: |
+          pnpm exec vitest run --root . client/src/lib/publishPost.test.ts --coverage --coverage.include=client/src/lib/publishPost.ts --coverage.reporter=json-summary
+          coverage_file="$(find . -type f -path '*/coverage/coverage-summary.json' -print -quit)"
+          test -n "$coverage_file"
+          cp "$coverage_file" artifacts/frontend-publishing-coverage-summary.json
+      - name: Validate scoped frontend coverage evidence
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          data = json.loads(Path("artifacts/frontend-publishing-coverage-summary.json").read_text())
+          summary = {metric: data["total"][metric]["pct"] for metric in ("lines", "functions", "branches")}
+          if any(not isinstance(value, (int, float)) or value < 70 for value in summary.values()):
+              raise SystemExit(f"frontend publishing coverage below 70%: {summary}")
+          Path("artifacts/frontend-publishing-evidence.json").write_text(
+              json.dumps({"scope": "client/src/lib/publishPost.ts", "metrics": summary,
+                          "full_frontend_verified": False}, indent=2) + "\n"
+          )
+          print(summary)
+          PY
       - name: Upload portfolio coverage evidence
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         with:
