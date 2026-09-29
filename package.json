@@ -92,7 +92,8 @@
     "vite": "^7.1.7",
     "vite-bundle-visualizer": "^1.2.1",
     "vite-plugin-manus-runtime": "^0.0.58",
-    "vitest": "^2.1.4"
+    "vitest": "^2.1.4",
+    "@vitest/coverage-v8": "2.1.9"
   },
   "packageManager": "pnpm@10.18.1",
   "pnpm": {
