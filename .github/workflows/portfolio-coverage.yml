@@ -21,12 +21,11 @@ jobs:
         with:
           node-version: 22
           cache: pnpm
-      - run: pnpm install --no-frozen-lockfile
-      - run: pnpm add -D @vitest/coverage-v8@2.1.4 --ignore-scripts
+      - run: pnpm install --frozen-lockfile
       - name: Run tests with coverage
         run: |
           mkdir -p artifacts
-          pnpm exec vitest run --coverage --coverage.reporter=json-summary
+          pnpm exec vitest run --root . --coverage --coverage.include=server/index.ts --coverage.reporter=json-summary
           coverage_file="$(find . -type f -path '*/coverage/coverage-summary.json' -print -quit)"
           if [ -z "$coverage_file" ]; then
             echo "coverage-summary.json was not generated"
@@ -52,9 +51,44 @@ jobs:
               key: total[key]["pct"]
               for key in required
           }
+          thresholds = {"lines": 80.0, "statements": 80.0, "functions": 60.0, "branches": 70.0}
+          failures = [
+              f"{metric}: {summary[metric]}% < {minimum}%"
+              for metric, minimum in thresholds.items()
+              if not isinstance(summary[metric], (int, float))
+              or summary[metric] < minimum
+          ]
+          if failures:
+              raise SystemExit("Server coverage gate failed: " + "; ".join(failures))
+          evidence = {
+              "scope": "server/index.ts",
+              "frontend_coverage_verified": False,
+              "metrics": summary,
+          }
           Path("artifacts/coverage-evidence.json").write_text(
-              json.dumps(summary, indent=2, sort_keys=True) + "\n",
+              json.dumps(evidence, indent=2, sort_keys=True) + "\n",
               encoding="utf-8",
+          )
+          print(summary)
+          PY
+      - name: Measure frontend publishing contract
+        run: |
+          pnpm exec vitest run --root . client/src/lib/publishPost.test.ts --coverage --coverage.include=client/src/lib/publishPost.ts --coverage.reporter=json-summary
+          coverage_file="$(find . -type f -path '*/coverage/coverage-summary.json' -print -quit)"
+          test -n "$coverage_file"
+          cp "$coverage_file" artifacts/frontend-publishing-coverage-summary.json
+      - name: Validate scoped frontend coverage evidence
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          data = json.loads(Path("artifacts/frontend-publishing-coverage-summary.json").read_text())
+          summary = {metric: data["total"][metric]["pct"] for metric in ("lines", "functions", "branches")}
+          if any(not isinstance(value, (int, float)) or value < 70 for value in summary.values()):
+              raise SystemExit(f"frontend publishing coverage below 70%: {summary}")
+          Path("artifacts/frontend-publishing-evidence.json").write_text(
+              json.dumps({"scope": "client/src/lib/publishPost.ts", "metrics": summary,
+                          "full_frontend_verified": False}, indent=2) + "\n"
           )
           print(summary)
           PY
