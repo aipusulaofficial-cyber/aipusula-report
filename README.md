@@ -1,5 +1,10 @@
 # AIPUSULA Report
 
+[![CI](https://github.com/aipusulaofficial-cyber/aipusula-report/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/aipusulaofficial-cyber/aipusula-report/actions/workflows/ci.yml)
+[![Production Tests](https://github.com/aipusulaofficial-cyber/aipusula-report/actions/workflows/production-tests.yml/badge.svg?branch=main)](https://github.com/aipusulaofficial-cyber/aipusula-report/actions/workflows/production-tests.yml)
+[![Security / SBOM](https://github.com/aipusulaofficial-cyber/aipusula-report/actions/workflows/security-sbom.yml/badge.svg?branch=main)](https://github.com/aipusulaofficial-cyber/aipusula-report/actions/workflows/security-sbom.yml)
+
+
 A production reporting surface for turning AI engineering results and evidence into a reviewable report artifact.
 
 ## What this project does
