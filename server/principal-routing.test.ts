@@ -35,14 +35,14 @@ describe("HTTP API routing", () => {
         "x-request-id": "test-request-id",
         "x-correlation-id": "test-correlation-id",
       },
-      body: JSON.stringify({ title: "evidence" }),
+      body: JSON.stringify({ title: "Evidence", category: "yapay-zeka", summary: "Summary", content: "Content" }),
     });
     expect(response.status).toBe(200);
     expect(response.headers.get("x-request-id")).toBe("test-request-id");
     expect(response.headers.get("x-correlation-id")).toBe("test-correlation-id");
     const body = await response.json();
     expect(body.success).toBe(true);
-    expect(body.data).toEqual({ title: "evidence" });
+    expect(body.data).toEqual({ title: "Evidence", category: "yapay-zeka", summary: "Summary", content: "Content" });
   });
 
   it("rejects unsupported content types with HTTP 415", async () => {
