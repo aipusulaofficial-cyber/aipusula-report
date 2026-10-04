@@ -12,7 +12,7 @@
     "format": "prettier --write .",
     "pages:build": "DEPLOY_TARGET=cloudflare NODE_ENV=production npx vite build",
     "pages:preview": "wrangler pages dev dist/public",
-    "test": "vitest run"
+    "test": "vitest run --root ."
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
@@ -92,7 +92,8 @@
     "vite": "^7.1.7",
     "vite-bundle-visualizer": "^1.2.1",
     "vite-plugin-manus-runtime": "^0.0.58",
-    "vitest": "^2.1.4"
+    "vitest": "^2.1.4",
+    "@vitest/coverage-v8": "2.1.9"
   },
   "packageManager": "pnpm@10.18.1",
   "pnpm": {

@@ -8,6 +8,20 @@ import { fileURLToPath } from "url";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+function safeRequestId(value: string | undefined, fallback: string): string {
+  return value && /^[A-Za-z0-9][A-Za-z0-9._:/-]{0,127}$/.test(value)
+    ? value
+    : fallback;
+}
+
+export function normalizeHttpError(err: unknown): { status: number; message: string } {
+  const incomingStatus =
+    typeof err === "object" && err !== null && "status" in err ? err.status : undefined;
+  if (incomingStatus === 400) return { status: 400, message: "Invalid request body" };
+  if (incomingStatus === 413) return { status: 413, message: "Request body too large" };
+  return { status: 500, message: "Internal server error" };
+}
+
 export function createApp() {
   const app = express();
 
@@ -15,14 +29,21 @@ export function createApp() {
   app.use(express.json({ limit: "1mb" }));
 
   app.use((req, res, next) => {
-    const requestId = req.header("x-request-id") || crypto.randomUUID();
-    const correlationId = req.header("x-correlation-id") || requestId;
+    const requestId = safeRequestId(req.header("x-request-id"), crypto.randomUUID());
+    const correlationId = safeRequestId(req.header("x-correlation-id"), requestId);
     const started = process.hrtime.bigint();
     res.setHeader("x-request-id", requestId);
     res.setHeader("x-correlation-id", correlationId);
     res.on("finish", () => {
       const latencyMs = Number(process.hrtime.bigint() - started) / 1_000_000;
-      res.setHeader("x-latency-ms", latencyMs.toFixed(3));
+      console.info(JSON.stringify({
+        event: "http_request",
+        request_id: requestId,
+        method: req.method,
+        path: req.path,
+        status: res.statusCode,
+        latency_ms: Number(latencyMs.toFixed(3)),
+      }));
     });
     next();
   });
@@ -64,15 +85,6 @@ export function createApp() {
   // Diğer statik dosyalar
   app.use(express.static(staticPath, { maxAge: "1d" }));
 
-  // Request correlation and safe API boundary
-  app.use((req, res, next) => {
-    const requestId = req.header("x-request-id") || crypto.randomUUID();
-    const correlationId = req.header("x-correlation-id") || requestId;
-    res.setHeader("x-request-id", requestId);
-    res.setHeader("x-correlation-id", correlationId);
-    next();
-  });
-
   app.post("/api/posts", (req, res) => {
     if (!req.is("application/json")) {
       res.status(415).json({ success: false, message: "application/json required" });
@@ -88,19 +100,20 @@ export function createApp() {
     });
   });
 
+  app.use("/api", (_req, res) => {
+    res.status(404).json({ success: false, message: "API route not found" });
+  });
+
   // React Router
   app.get("*", (_req, res) => {
     res.set("Cache-Control", "public, max-age=0, must-revalidate");
     res.sendFile(path.join(staticPath, "index.html"));
   });
 
-  app.use("/api", (_req, res) => {
-    res.status(404).json({ success: false, message: "API route not found" });
-  });
-
   app.use((err: unknown, _req: express.Request, res: express.Response, _next: express.NextFunction) => {
-    console.error("Unhandled request error", err);
-    res.status(500).json({ success: false, message: "Internal server error" });
+    const error = normalizeHttpError(err);
+    if (error.status === 500) console.error("Unhandled request error", err);
+    res.status(error.status).json({ success: false, message: error.message });
   });
 
   return app;
