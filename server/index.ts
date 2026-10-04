@@ -8,6 +8,33 @@ import { fileURLToPath } from "url";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+
+const allowedCategories = new Set([
+  "yapay-zeka",
+  "ai-araclari",
+  "ai-ile-kazanc",
+  "dijital-dunya",
+  "siber-guvenlik",
+]);
+
+export function validatePostPayload(value: unknown): { title: string; category: string; summary: string; content: string } {
+  if (typeof value !== "object" || value === null || Array.isArray(value)) {
+    throw new Error("invalid post payload");
+  }
+  const raw = value as Record<string, unknown>;
+  const title = typeof raw.title === "string" ? raw.title.trim() : "";
+  const category = typeof raw.category === "string" ? raw.category.trim() : "";
+  const summary = typeof raw.summary === "string" ? raw.summary.trim() : "";
+  const content = typeof raw.content === "string" ? raw.content.trim() : "";
+  if (!title || !summary || !content || !allowedCategories.has(category)) {
+    throw new Error("invalid post payload");
+  }
+  if (title.length > 200 || summary.length > 2_000 || content.length > 200_000) {
+    throw new Error("post payload fields exceed limits");
+  }
+  return { title, category, summary, content };
+}
+
 function safeRequestId(value: string | undefined, fallback: string): string {
   return value && /^[A-Za-z0-9][A-Za-z0-9._:/-]{0,127}$/.test(value)
     ? value
@@ -91,12 +118,18 @@ export function createApp() {
       return;
     }
 
-    const payload = req.body;
+    let payload;
+    try {
+      payload = validatePostPayload(req.body);
+    } catch (error) {
+      res.status(422).json({ success: false, message: error instanceof Error ? error.message : "invalid post payload" });
+      return;
+    }
 
     res.json({
       success: true,
       message: "API çalışıyor",
-      data: req.body,
+      data: payload,
     });
   });
 
