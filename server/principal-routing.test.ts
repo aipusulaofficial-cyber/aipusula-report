@@ -45,7 +45,17 @@ describe("HTTP API routing", () => {
     expect(body.data).toEqual({ title: "Evidence", category: "yapay-zeka", summary: "Summary", content: "Content" });
   });
 
-  it("rejects incomplete report payloads with HTTP 422", async () => {\n    const response = await fetch(base + "/api/posts", {\n      method: "POST",\n      headers: { "content-type": "application/json" },\n      body: JSON.stringify({ title: "Only title" }),\n    });\n    expect(response.status).toBe(422);\n    expect((await response.json()).success).toBe(false);\n  });\n\n  it("rejects unsupported content types with HTTP 415", async () => {
+  it("rejects incomplete report payloads with HTTP 422", async () => {
+    const response = await fetch(base + "/api/posts", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ title: "Only title" }),
+    });
+    expect(response.status).toBe(422);
+    expect((await response.json()).success).toBe(false);
+  });
+
+  it("rejects unsupported content types with HTTP 415", async () => {
     const response = await fetch(`${base}/api/posts`, {
       method: "POST",
       headers: { "content-type": "text/plain" },
