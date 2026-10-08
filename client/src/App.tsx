@@ -6,6 +6,7 @@ import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
 
 import Home from "./pages/Home";
+import EnterpriseHome from "./pages/EnterpriseHome";
 import AIWorld from "./pages/AIWorld";
 import AITools from "./pages/AITools";
 import AIEarnings from "./pages/AIEarnings";
@@ -18,7 +19,8 @@ import NotFound from "./pages/NotFound";
 function Router() {
   return (
     <Switch>
-      <Route path="/" component={Home} />
+      <Route path="/" component={EnterpriseHome} />
+      <Route path="/insights" component={Home} />
       <Route path="/yapay-zeka" component={AIWorld} />
       <Route path="/ai-araclari" component={AITools} />
       <Route path="/ai-ile-kazanc" component={AIEarnings} />
