@@ -1,0 +1,22 @@
+{
+  "name": "AIPUSULA Enterprise",
+  "short_name": "AIPUSULA",
+  "description": "Industrial AI Governance technical prototype",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#07111e",
+  "theme_color": "#07111e",
+  "icons": [
+    {
+      "src": "/android-chrome-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/android-chrome-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
