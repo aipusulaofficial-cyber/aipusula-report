@@ -1,4 +1,5 @@
-import { ArrowUpRight, ShieldCheck, Workflow, Fingerprint, FileCheck2, Network, LockKeyhole, ChevronRight, Factory, Zap, Building2, Shield, Mail, CheckCircle2 } from "lucide-react";
+import { useState } from "react";
+import { Menu, X, ArrowUpRight, ShieldCheck, Workflow, Fingerprint, FileCheck2, Network, LockKeyhole, ChevronRight, Factory, Zap, Building2, Shield, Mail, CheckCircle2 } from "lucide-react";
 import { Link } from "wouter";
 
 const demo = "https://demo.aipusula.net/";
@@ -30,17 +31,27 @@ const sectors = [
   { icon: Shield, title: "Enterprise Security", description: "Evaluate identity-aware recommendations, review gates and audit evidence." },
 ];
 export default function EnterpriseHome() {
+  const [menuOpen, setMenuOpen] = useState(false);
+  const closeMenu = () => setMenuOpen(false);
   return (
     <main className="min-h-screen overflow-x-hidden bg-[#07111e] text-white">
-      <header className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-5 px-5 py-6 sm:px-8">
+      <header className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-4 px-5 py-5 sm:px-8">
         <a href="/" aria-label="AIPUSULA Enterprise home" className="text-lg font-bold tracking-widest text-teal-300 sm:text-xl">AIPUSULA <span className="text-xs font-medium tracking-wider text-slate-400">ENTERPRISE</span></a>
-        <nav aria-label="Primary navigation" className="flex flex-wrap items-center gap-x-5 gap-y-3 text-sm text-slate-300">
+        <button type="button" aria-label={menuOpen ? "Close navigation menu" : "Open navigation menu"} aria-expanded={menuOpen} aria-controls="enterprise-mobile-nav" onClick={() => setMenuOpen(v => !v)} className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-lg border border-white/20 text-teal-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-300 md:hidden">{menuOpen ? <X size={23}/> : <Menu size={23}/>}</button>
+        <nav aria-label="Desktop navigation" className="hidden items-center gap-6 text-sm text-slate-300 md:flex">
           <a href="#platform" className="hover:text-white">Platform</a>
           <a href="#evidence" className="hover:text-white">Evidence</a>
           <a href="#industries" className="hover:text-white">Industries</a>
           <Link href="/insights" className="hover:text-white">Insights</Link>
           <a href="#contact" className="hover:text-white">Contact</a>
         </nav>
+        {menuOpen && <nav id="enterprise-mobile-nav" aria-label="Mobile navigation" className="flex w-full flex-col gap-1 border-t border-white/10 pt-4 text-sm text-slate-200 md:hidden">
+          <a href="#platform" onClick={closeMenu} className="rounded-lg px-3 py-3 hover:bg-white/10">Platform</a>
+          <a href="#evidence" onClick={closeMenu} className="rounded-lg px-3 py-3 hover:bg-white/10">Evidence</a>
+          <a href="#industries" onClick={closeMenu} className="rounded-lg px-3 py-3 hover:bg-white/10">Industries</a>
+          <Link href="/insights" onClick={closeMenu} className="rounded-lg px-3 py-3 hover:bg-white/10">Insights</Link>
+          <a href="#contact" onClick={closeMenu} className="rounded-lg px-3 py-3 hover:bg-white/10">Contact</a>
+        </nav>}
       </header>
       <section className="border-y border-white/10 bg-[radial-gradient(ellipse_at_75%_30%,rgba(20,184,166,.14),transparent_60%)]">
         <div className="mx-auto grid max-w-7xl items-center gap-12 px-5 py-16 sm:px-8 md:py-24 lg:grid-cols-[1.12fr_.88fr] lg:gap-16">
